@@ -17,8 +17,22 @@ module.exports = {
 
     // "quotes": [2, ["backtick", "single"]],
     "quotes": ["error", "single"],
+    "jsx-quotes": ["error", "prefer-double"],
     // "indent": ["error", 2],
-    "semi": [2, "never"]
+    "semi": [2, "never"],
+
+    // "react/jsx-boolean-value": "error",
+    "react/jsx-curly-spacing": ["error", "never"],
+    "react/jsx-equals-spacing": ["error", "never"],
+    "react/jsx-indent": ["error", 2],
+    "react/jsx-indent-props": ["error", 2],
+    "react/jsx-no-duplicate-props": "error",
+    "react/jsx-no-undef": "error",
+    "react/jsx-space-before-closing": "error",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/self-closing-comp": "error"
+
   },
   "plugins": [
     "react"

@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import "./App.css";
+import React, { Component } from 'react'
+import './App.css'
 
 import {
   Button,
@@ -11,65 +11,65 @@ import {
   Nav,
   NavItem,
   Image
-} from "react-bootstrap";
-import InfiniteScroll from "react-infinite-scroller";
+} from 'react-bootstrap'
+import InfiniteScroll from 'react-infinite-scroller'
 import {
   BrowserRouter as Router,
   Route,
   Link,
   Redirect
-} from "react-router-dom";
-import { LinkContainer } from "react-router-bootstrap";
-import MangaInfo from "./manga-info"; // ./必须写，不然找不到，可能去node_moudle里
-import ReadPage from "./read-page";
-import ReactDOM from "react-dom";
-import Radium from "radium";
+} from 'react-router-dom'
+import { LinkContainer } from 'react-router-bootstrap'
+import MangaInfo from './manga-info' // ./必须写，不然找不到，可能去node_moudle里
+import ReadPage from './read-page'
+import ReactDOM from 'react-dom'
+import Radium from 'radium'
 
 export const STYLES = {
   border: {
-    border: "3px solid aqua"
+    border: '3px solid aqua'
   },
   searchBar: {
-    margin: "100 auto",
-    border: "3px solid aqua",
-    padding: "10px"
+    margin: '100 auto',
+    border: '3px solid aqua',
+    padding: '10px'
   },
   input: {
     fontSize: 16
     // color:'red'
   },
   categoryBar: {
-    margin: "auto",
+    margin: 'auto',
     height: 50,
-    border: "3px solid cyan",
+    border: '3px solid cyan',
     top: 20
   },
   navItem: {
     fontSize: 16
   },
-  mangaItem: { border: "3px solid blue", margin: "100 auto", top: 50 },
-  info: { top: 50, border: "3px solid blue" },
+  mangaItem: { border: '3px solid blue', margin: '100 auto', top: 50 },
+  info: { top: 50, border: '3px solid blue' },
   mangaView: {
-    position: "relative",
+    position: 'relative',
     top: 0,
-    fontColor: "blue",
-    border: "3px solid darkblue",
+    fontColor: 'blue',
+    border: '3px solid darkblue',
     height: 300
   }
-};
+}
 
 export const SERVER_SETTING = {
-  url: "http://localhost:5000",
-  image: "http://localhost:5000/static/image"
-};
+  url: 'http://localhost:5000',
+  image: 'http://localhost:5000/static/image'
+}
 
 class SearchBar extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   handleInput(e) {
-    this.props.handleInput(e.target.value);
+    this.props.handleInput(e.target.value)
   }
 
   render() {
@@ -80,7 +80,7 @@ class SearchBar extends React.Component {
             <Col md={3} mdOffset={4}>
               <FormControl
                 type="text"
-                placeholder="search here"
+                placeholder="search here"  
                 value={this.props.searchKey}
                 style={STYLES.input}
                 onChange={this.handleInput.bind(this)}
@@ -94,13 +94,13 @@ class SearchBar extends React.Component {
           </Row>
         </Form>
       </Router>
-    );
+    )
   }
 }
 
 class CategoryBar extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
@@ -130,13 +130,13 @@ class CategoryBar extends React.Component {
           <Route path="/category/:id" component={MangaView} />
         </div>
       </Router>
-    );
+    )
   }
 }
 
 class MangaItem extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
@@ -144,9 +144,9 @@ class MangaItem extends React.Component {
     return (
       <Router>
         <Col md={2}>
-          <Link to={`/info/${this.props.data.id}`} target='_self'>
+          <Link to={`/info/${this.props.data.id}`} target="_self">
             <Image
-              src={SERVER_SETTING.image + "/" + this.props.data.cover_image}
+              src={SERVER_SETTING.image + '/' + this.props.data.cover_image}
               thumbnail
               responsive
             />
@@ -154,18 +154,18 @@ class MangaItem extends React.Component {
           </Link>
         </Col>
       </Router>
-    );
+    )
   }
 }
 
 class MangaView extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       hasMoreItems: true,
       items: [],
       category: 1
-    };
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -175,23 +175,23 @@ class MangaView extends React.Component {
   }
 
   loadItems(page) {
-    const url = `${SERVER_SETTING.url}/category/${this.props.match.params.id}`;
+    const url = `${SERVER_SETTING.url}/category/${this.props.match.params.id}`
     fetch(url).then(resp => resp.json()).then(json => {
       for (let i = 0; i < json.length; i++) {
-        this.loadItemsDetail(page, json[i]);
+        this.loadItemsDetail(page, json[i])
       }
       if (json.length === 0) {
-        this.setState({ hasMoreItems: false });
+        this.setState({ hasMoreItems: false })
       }
-    });
+    })
     // test
-    this.setState({ hasMoreItems: false });
+    this.setState({ hasMoreItems: false })
   }
 
   loadItemsDetail(page, detail) {
-    let res = this.state.items;
-    res.push(<MangaItem key={detail.id} data={detail} />);
-    this.setState({ items: res });
+    let res = this.state.items
+    res.push(<MangaItem key={detail.id} data={detail} />)
+    this.setState({ items: res })
   }
 
   render() {
@@ -203,27 +203,26 @@ class MangaView extends React.Component {
           hasMore={this.state.hasMoreItems}
           loader={<div className="loader">Loading ...</div>}
           threshold={250}
-          initialLoad={true}
-        >
+          initialLoad={true}> 
           {this.state.items}
         </InfiniteScroll>
       </Col>
-    );
+    )
   }
 }
 
 class Home extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      searchKey: ""
-    };
+      searchKey: ''
+    }
   }
 
   handleSearch() {}
 
   handleInput(searchKey) {
-    this.setState({ searchKey: searchKey });
+    this.setState({ searchKey: searchKey })
   }
 
   render() {
@@ -236,7 +235,7 @@ class Home extends React.Component {
         />
         <CategoryBar />
       </div>
-    );
+    )
   }
 }
 
@@ -246,12 +245,12 @@ export default class SoulManga extends React.Component {
       <Router>
         <div>
           <Route exact path="/" component={Home} />
-          <Route path='/category/*' component={Home} ></Route>
+          <Route path="/category/*" component={Home} />
           <Route path="/info/:id" component={MangaInfo} />
           <Route path="/read/:id/page/:page" component={ReadPage} />
         </div>
       </Router>
-    );
+    )
   }
 }
 
