@@ -52,7 +52,7 @@ CORS(app)
 
 @app.route('/')
 @crossdomain(origin='*')
-def index():
+def home():
     # resp = {
     #     "res":
     #     [ 
@@ -68,14 +68,15 @@ def index():
     #         },
     #     ]
     # }
-    res = query_db("select * from manga_main")
+    res = query_db("select * from soul_manga")
     # print(res)
     return jsonify(res)
 
 @app.route('/category')
 @app.route('/category/<int:mid>')
-def manga_main(mid=1):
-    res = query_db('select * from manga_main where category = ?', [mid])
+def soul_manga(mid=1):
+    mid = "競技系列"
+    res = query_db('select * from soul_manga where category = ?', [mid])
     return jsonify(res)
 
 
@@ -83,24 +84,27 @@ def manga_main(mid=1):
 @app.route('/info/<int:mid>')
 def info(mid=1):
     print("fuck id " + str(mid))
-    res = query_db("select * from manga_detail where manga_id = ?", [mid], True)
+    res = query_db("select * from soul_manga where mid = ?", [mid], True)
     print(res)
     return jsonify(res)
 
 # @app.route('/read/<int:mid>')
-@app.route('/read/<int:mid>/page/<int:page>')
-def read(mid, page=1):
-    print('read id {0} page {1}'.format(mid, page))
-    chapter_images = query_db("select chapter_images from manga_detail where manga_id = ?", [mid], True)
+@app.route('/read/<int:mid>/chapter/<int:chapter>')
+def read(mid, chapter=1):
+    print('read id {0} chapter {1}'.format(mid, chapter))
+    chapter_images = query_db("select image_base_url, all_chapters_pages from soul_manga where mid = ?", [mid], True)
+    # print(chapter_images)
     if chapter_images:
         # todo check
-        res = chapter_images.get('chapter_images').split("|")[page-1]
+        res = {}
+        res["image_base_url"] = chapter_images.get("image_base_url")
+        res["cur_ch_pages"] = chapter_images.get('all_chapters_pages').split(",")[chapter-1]
         print(res)
         return jsonify(res)
     else:
         return {}
 
-DATABASE = './database.db'
+DATABASE = './soul_manga.db'
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -130,7 +134,7 @@ def query_db(query, args=(), one=False):
 def init_db():
     with app.app_context():
         db = get_db()
-        with app.open_resource('schema.sql', mode='r') as f:
+        with app.open_resource('soul_manga.sql', mode='r') as f:
             db.cursor().executescript(f.read())
         db.commit()
 

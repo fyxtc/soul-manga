@@ -35,6 +35,9 @@ create table manga_detail(
     foreign key (manga_id) references manga_main(id),
     foreign key (cover_image) references manga_main(cover_image),    
     foreign key (category) references manga_main(category)
+
+    -- vol
+    vol_or_ch not null,
 );
 -- 事实证明可以一次性插入。。http://www.sqlitetutorial.net/sqlite-replace-statement/,
 -- 那这个就好玩了，我可以先把所有的item数据存在内存在完成的时候插入？
@@ -55,7 +58,8 @@ insert into manga_detail values(
     'c1.png,c2.png|c3.png,c4.png',
     1,
     'c1.png',
-    '1'
+    '1',
+    0
     ),
     (null, 
     'this is summary 2',
@@ -67,7 +71,8 @@ insert into manga_detail values(
     'c1.png,c2.png',
     2,
     'c2.png',
-    '2'
+    '2',
+    0
     ),
 
     (null, 
@@ -80,7 +85,8 @@ insert into manga_detail values(
     'c1.png,c2.png',
     3,
     'c3.png',
-    '3'
+    '3',
+    0
     ),
 
     (null, 
@@ -93,7 +99,8 @@ insert into manga_detail values(
     'c1.png,c2.png',
     4,
     'c4.png',
-    '4'
+    '4',
+    0
     ),
 
     (null, 

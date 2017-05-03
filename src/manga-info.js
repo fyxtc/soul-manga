@@ -12,7 +12,7 @@ class Cover extends React.Component {
     return (
       <Col md={6} style={{ border: '3px solid red' }}>
         <Image
-          src={`${SERVER_SETTING.image}/${this.props.cover_image}`}
+          src={`${this.props.cover_image}`}
           thumbnail
           responsive
         />
@@ -37,10 +37,7 @@ class Info extends React.Component {
         <p>{'category: ' + info.category}</p>
         <p>{'tags: ' + info.tags}</p>
         <p>
-          {'chapters: ' +
-            info.chapters[0] +
-            ' - ' +
-            info.chapters[info.chapters.length - 1]}
+          {'chapters: ' + info.cover_update_info}
         </p>
       </Col>
     )
@@ -58,14 +55,10 @@ class Summary extends React.Component {
         md={12}
         mdOffset={0}
         style={{ border: '3px solid black', padding: 20, textAlign: 'center' }}>
-        {this.props.summary}
+        {this.props.name + '簡介'}
         <Row
           style={{ border: '3px solid black', padding: 20, textAlign: 'left' }}>
-          <p>
-            {
-              '不擅長運動與學習、做什麼事沒有恆心、一事無成的少年澤田綱吉，在他面前出現了一位自稱里包恩的殺手，是個要作他家庭教師的小嬰兒。目的是要培育阿綱成為義大利黑手黨彭哥列家族的第10代首領。里包恩利用被打中後會拚死完成臨終時後悔的事情的彭哥列秘彈「死氣彈」，讓阿綱成為適當首領的「教育」開始了。'
-            }
-          </p>
+          {this.props.summary}
         </Row>
       </Col>
     )
@@ -78,13 +71,19 @@ class Chapter extends React.Component {
   }
 
   render() {
-    const chapters = this.props.chapters.split(',')
-    const items = chapters.map(ch => (
-      <ChapterItem key={ch} ch={ch} id={this.props.id} />
-    ))
+    let chapters = []
+    for(let i = 1; i <= this.props.all_chapters_len; i++){
+      chapters.push(<ChapterItem key={this.props.mid+'-'+i} ch={i} mid={this.props.mid} />)
+    }
+
+
+    // const chapters = this.props.chapters.split(',')
+    // const items = chapters.map(ch => (
+    //   <ChapterItem key={ch} ch={ch} id={this.props.mid} />
+    // ))
     return (
       <Col md={12} mdOffset={0} style={{ padding: '5rem 1rem' }}>
-        {items}
+        {chapters}
       </Col>
     )
   }
@@ -102,7 +101,7 @@ class ChapterItem extends React.Component {
           md={3}
           style={{ top: 0, border: '3px solid red', textAlign: 'center' }}>
           <Link
-            to={`/read/${this.props.id}/page/${this.props.ch}`}
+            to={`/read/${this.props.mid}/chapter/${this.props.ch}`}
             target="_self">{`第 ${this.props.ch} 话`}</Link>
         </Col>
       </Router>
@@ -161,10 +160,10 @@ export default class MangaInfo extends React.Component {
             <Info info={info} />
           </Row>
           <Row>
-            <Summary summary={info.summary} />
+            <Summary summary={info.summary} name={info.name} />
           </Row>
           <Row>
-            <Chapter chapters={info.chapters} id={info.id} />
+            <Chapter all_chapters_len={info.all_chapters_len} mid={info.mid} />
           </Row>
           <Row>
             <Footer />

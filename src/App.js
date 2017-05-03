@@ -60,7 +60,8 @@ export const STYLES = {
 
 export const SERVER_SETTING = {
   url: 'http://localhost:5000',
-  image: 'http://localhost:5000/static/image'
+  // image: 'http://localhost:5000/static/image'
+  image: ''
 }
 
 class SearchBar extends React.Component {
@@ -144,9 +145,9 @@ class MangaItem extends React.Component {
     return (
       <Router>
         <Col md={2}>
-          <Link to={`/info/${this.props.data.id}`} target="_self">
+          <Link to={`/info/${this.props.data.mid}`} target="_self">
             <Image
-              src={SERVER_SETTING.image + '/' + this.props.data.cover_image}
+              src={this.props.data.cover_image}
               thumbnail
               responsive
             />
@@ -190,7 +191,7 @@ class MangaView extends React.Component {
 
   loadItemsDetail(page, detail) {
     let res = this.state.items
-    res.push(<MangaItem key={detail.id} data={detail} />)
+    res.push(<MangaItem key={detail.mid} data={detail} />)
     this.setState({ items: res })
   }
 
@@ -247,7 +248,7 @@ export default class SoulManga extends React.Component {
           <Route exact path="/" component={Home} />
           <Route path="/category/*" component={Home} />
           <Route path="/info/:id" component={MangaInfo} />
-          <Route path="/read/:id/page/:page" component={ReadPage} />
+          <Route path="/read/:id/chapter/:chapter" component={ReadPage} />
         </div>
       </Router>
     )
