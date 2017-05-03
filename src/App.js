@@ -102,9 +102,46 @@ class SearchBar extends React.Component {
 class CategoryBar extends React.Component {
   constructor(props) {
     super(props)
+    self.categorys = [
+      '格鬥',
+      '魔法',
+      '偵探',
+      '競技',
+      '恐怖',
+      '戰國',
+      '魔幻',
+      '冒險',
+      '校園',
+      '搞笑',
+      '少女',
+      '少男',
+      '科幻',
+      '港產',
+      '其他' 
+    ]
   }
 
   render() {
+    return (
+      <Router>
+        <div style={STYLES.categoryBar}>
+          <Col md={6} mdOffset={3}>
+            <Nav bsStyle="pills" onSelect={this.handleCatChange}>
+              {self.categorys.map((v, k) => (
+                <LinkContainer to={'/category/'+k}>
+                  <NavItem eventKey={k} style={STYLES.navItem}>{v}</NavItem>
+                </LinkContainer>
+              ))}
+            </Nav>
+          </Col>
+
+          <Route path="/category/:id" component={MangaView} />
+        </div>
+      </Router>
+    )
+  }
+
+  /*render() {
     return (
       <Router>
         <div style={STYLES.categoryBar}>
@@ -132,7 +169,7 @@ class CategoryBar extends React.Component {
         </div>
       </Router>
     )
-  }
+  }*/
 }
 
 class MangaItem extends React.Component {
@@ -144,7 +181,7 @@ class MangaItem extends React.Component {
     // target='_self'必须要。。为啥？
     return (
       <Router>
-        <Col md={2}>
+        <Col md={2} style={{textAlign:'center'}} >
           <Link to={`/info/${this.props.data.mid}`} target="_self">
             <Image
               src={this.props.data.cover_image}

@@ -9,6 +9,7 @@ import sqlite3
 class SoulMangaSpider(scrapy.Spider):
     name = "soul_manga"
     xpath = {
+        "index_url": ["http://www.cartoonmad.com/comic21.html"], # 
         "urls": ["http://www.cartoonmad.com/comic/1090.html"],
         "chapter": "//a[contains(., '話')]/@href",  # 默认下载话
         "vol": "//a[contains(., '卷')]/@href",  # 默认下载话
@@ -85,15 +86,32 @@ class SoulMangaSpider(scrapy.Spider):
     def start_requests(self):
         self.sqlite_file = self.settings.get("SQLITE_FILE")
         self.sqlite_table = self.settings.get("SQLITE_TABLE")
-        self.log("fuck " + self.sqlite_file + ", " + self.sqlite_table)
+        # self.log("fuck " + self.sqlite_file + ", " + self.sqlite_table)
         self.conn = sqlite3.connect(self.sqlite_file)
         self.cur = self.conn.cursor()
 
-        urls = self.xpath.get("urls")
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
+        yield scrapy.Request(url=self.xpath.get("index_url")[0], callback=self.parse_all)
+
+
+        # urls = self.xpath.get("urls")
+        # for url in urls:
+        #     yield scrapy.Request(url=url, callback=self.parse)
             # 这一步完成之后就把所有的基本信息取到，我能同时调用吗？好像不行，yield有return语义的，不能返两个return吧。。那就走parse吧，然后标记状态，完成一次之后就不再写入基本信息了
-            # yield scrapy.Request(url=url, callback=self.parse_sql_item)
+
+
+    def parse_all(self, response):
+        mangas = re.findall(r"comic/\d{4}.html", str(response.body))
+        if response.url.find("/comic") != 1:
+            mangas = [x[6:] for x in mangas]
+        # self.log(mangas)
+        # 集合推导使用{}
+        urls = {response.urljoin(x) for x in mangas}
+        self.log(len(urls))
+
+        # # 这样就把当前页(index_url)包含的所有漫画都爬了😯
+        # for url in urls:
+        #     yield scrapy.Request(url=url, callback=self.parse)
+
 
     def parse(self, response):
         # 其实这里本来每个漫画的url也就走一次吧。。。简直完美

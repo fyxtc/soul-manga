@@ -41,7 +41,7 @@ export default class ReadPage extends React.Component {
                 images_arr.push(url)
                 // test
                 if(i > 10){
-                    break;
+                    break
                 }
             }
             const images = images_arr.map(image => ({
@@ -49,11 +49,12 @@ export default class ReadPage extends React.Component {
             }))
             return (
                 <ImageGallery
-                    items={images}
-                    slideInterval={2000}
-                    showBullets={true}
-                    infinite={false}
-                    onImageLoad={null}
+                  items={images}
+                  slideInterval={2000}
+                  showBullets={true}
+                  infinite={false}
+                  lazyLoad={true}
+                  onImageLoad={null}
                 />
             )
         }
