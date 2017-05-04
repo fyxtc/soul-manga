@@ -47,7 +47,7 @@ export const STYLES = {
   navItem: {
     fontSize: 16
   },
-  mangaItem: { border: '3px solid blue', margin: '100 auto', top: 50 },
+  mangaItem: { border: '3px solid blue',  top: 20 },
   info: { top: 50, border: '3px solid blue' },
   mangaView: {
     position: 'relative',
@@ -135,8 +135,8 @@ class CategoryBar extends React.Component {
     return (
       <Router>
         <div style={STYLES.categoryBar}>
-          <Col md={6} mdOffset={3}>
-            <Nav bsStyle="pills" onSelect={this.handleCatChange}>
+          <Col md={8} mdOffset={2}>
+            <Nav bsStyle="pills" onSelect={this.handleCatChange} justified>
               {self.categorys.map((v, k) => (
                 <LinkContainer key={'cat' + k} to={'/category/' + k}>
                   <NavItem eventKey={'cat' + k} style={STYLES.navItem}>
@@ -146,6 +146,7 @@ class CategoryBar extends React.Component {
               ))}
             </Nav>
           </Col>
+          <Route exact path="/" component={MangaView} />
           <Route path="/category/:id" component={MangaView} />
           <Route path="/search/:key" component={MangaView} searchKey={this.searchKey} />
         </div>
@@ -209,15 +210,16 @@ class MangaItem extends React.Component {
       <Router>
         <Col md={2} style={{ textAlign: 'center'}}>
           <Link to={`/info/${this.props.data.mid}`} target="_self">
-            <div style={{height: '18rem', overflow:'hidden' ,textOverflow:'ellipsis'  }}>
+            <div style={{height: '18rem',  }}>
               <Image
                 src={this.props.data.cover_image}
-                width={'120rem'}
-                height={'160rem'}
+                width={'150rem'}
+                height={'190rem'}
+                style={{borderRadius:'10px'}}
                 // thumbnail
                 // responsive
               />
-              <p>{this.props.data.name}</p>
+              <p><span style={{fontFamily:'新細明體',  color:'blue'}}>{this.props.data.name}</span></p>
             </div>
           </Link>
         </Col>
@@ -241,20 +243,47 @@ class MangaView extends React.Component {
   componentWillReceiveProps(nextProps) {
     // 这个方法应该也不要了...路由对了直接在didmount加载才是正确的做法
     this.setState({ hasMoreItems: true, items: [], cat_page: 0})
-    const key = this.props.match.params.key
-    if(key){
-      // console.log('key: ' + key)
-      // query fetch
-
-    }
-    // this.setState
+    // const key = this.props.match.params.key
   }
 
   loadItems(page) {
     // console.log("load page " + page)
     const key = this.props.match.params.key
-    if(!key){
-      const url = `${SERVER_SETTING.url}/category/${this.props.match.params.id}/${this.state.cat_page++}`
+    // const cat = this.props.match.params.id
+    if(this.props.match.params.id){
+      if(!this.props.match.params.key){
+        const url = `${SERVER_SETTING.url}/category/${this.props.match.params.id}/${this.state.cat_page++}`
+        fetch(url).then(resp => resp.json()).then(json => {
+          // console.log("fetch data len " + json.data.length)
+          // todo 有可能延迟回来进入了其他tab，这里需要通过返回category和当前category(nav切换)来判断
+          for (let i = 0; i < json.data.length; i++) {
+            this.loadItemsDetail(page, json.data[i])
+          }
+          this.setState({ items: this.state.items })
+          // console.log("over " + json.over)
+          if (json.over === 1 || json.over === '1') {
+            this.setState({ hasMoreItems: false })
+          }
+        })
+        // test
+        // this.setState({ hasMoreItems: false })
+      }else{
+        // console.log('key: ' + key)
+        // search就先全部给了，不分页了
+        const url = `${SERVER_SETTING.url}/search/${key}`
+        fetch(url).then(resp => resp.json()).then(json => {
+          console.log(json)
+          this.setState({items: []})
+          for (let i = 0; i < json.length; i++) {
+            this.loadItemsDetail(page, json[i])
+          }
+          // 一次性返回全部的结果了
+          this.setState({ items: this.state.items, hasMoreItems:false })
+        })
+      }
+    }else{
+      // 根路径
+      const url = `${SERVER_SETTING.url}/category/1/${this.state.cat_page++}`
       fetch(url).then(resp => resp.json()).then(json => {
         // console.log("fetch data len " + json.data.length)
         // todo 有可能延迟回来进入了其他tab，这里需要通过返回category和当前category(nav切换)来判断
@@ -266,22 +295,7 @@ class MangaView extends React.Component {
         if (json.over === 1 || json.over === '1') {
           this.setState({ hasMoreItems: false })
         }
-      })
-      // test
-      // this.setState({ hasMoreItems: false })
-    }else{
-      // console.log('key: ' + key)
-      // search就先全部给了，不分页了
-      const url = `${SERVER_SETTING.url}/search/${key}`
-      fetch(url).then(resp => resp.json()).then(json => {
-        console.log(json)
-        this.setState({items: []})
-        for (let i = 0; i < json.length; i++) {
-          this.loadItemsDetail(page, json[i])
-        }
-        // 一次性返回全部的结果了
-        this.setState({ items: this.state.items, hasMoreItems:false })
-      })
+      })      
     }
   }
 
@@ -294,13 +308,14 @@ class MangaView extends React.Component {
   render() {
     // console.log('MangaView render ' + (tis.props.route ? this.props.route.searchKey : "null"))
     return (
-      <Col md={6} mdOffset={3} style={STYLES.mangaItem}>
+      <Col md={8} mdOffset={2} style={STYLES.mangaItem}>
         <InfiniteScroll
           pageStart={0}
           loadMore={this.loadItems.bind(this)}
           hasMore={this.state.hasMoreItems}
           loader={<div className="loader">Loading ...</div>}
           threshold={250}
+          style={{margin:'10px auto'}}
           initialLoad={true}>
           {this.state.items}
         </InfiniteScroll>
