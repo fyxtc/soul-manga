@@ -69,7 +69,9 @@ DEFAULT_REQUEST_HEADERS = {
 # ITEM_PIPELINES = {
 #    'manga.pipelines.MangaPipeline': 300,
 # }
+
 # LOG_LEVEL = 'DEBUG'
+LOG_LEVEL = 'INFO'
 # LOG_FILE = "manga.log"
 # ITEM_PIPELINES = {'scrapy.pipelines.images.MyImagesPipeline': 1}
 IMAGES_STORE = "/Users/fyxtc/work/py3_workspace/manga_download"

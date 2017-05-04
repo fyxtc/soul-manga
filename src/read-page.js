@@ -16,15 +16,18 @@ export default class ReadPage extends React.Component {
                 return resp.json()
             })
             .then(json => {
-                this.setState({image_base_url: json.image_base_url, cur_ch_pages: json.cur_ch_pages  })
+                this.setState({
+                    image_base_url: json.image_base_url,
+                    cur_ch_pages: json.cur_ch_pages
+                })
             })
     }
 
-    formatPage(i){
-        let res = i + '' 
-        if(i < 10){
+    formatPage(i) {
+        let res = i + ''
+        if (i < 10) {
             res = '00' + i
-        }else if(i < 99){
+        } else if (i < 99) {
             res = '0' + i
         }
         return res
@@ -35,26 +38,34 @@ export default class ReadPage extends React.Component {
             return <h1>Loading</h1>
         } else {
             const images_arr = []
-            for(let i = 1; i <= this.state.cur_ch_pages; i++){
-                const url = this.state.image_base_url + '/' + this.props.match.params.id + '/' + this.formatPage(this.props.match.params.chapter) + '/' + this.formatPage(i) + '.jpg'
+            for (let i = 1; i <= this.state.cur_ch_pages; i++) {
+                const url =
+                    this.state.image_base_url +
+                    '/' +
+                    this.props.match.params.id +
+                    '/' +
+                    this.formatPage(this.props.match.params.chapter) +
+                    '/' +
+                    this.formatPage(i) +
+                    '.jpg'
                 console.log(url)
                 images_arr.push(url)
                 // test
-                if(i > 10){
+                if (i > 10) {
                     break
                 }
             }
             const images = images_arr.map(image => ({
-                original: image 
+                original: image
             }))
             return (
                 <ImageGallery
-                  items={images}
-                  slideInterval={2000}
-                  showBullets={true}
-                  infinite={false}
-                  lazyLoad={true}
-                  onImageLoad={null}
+                    items={images}
+                    slideInterval={2000}
+                    showBullets={true}
+                    infinite={false}
+                    lazyLoad={true}
+                    onImageLoad={null}
                 />
             )
         }

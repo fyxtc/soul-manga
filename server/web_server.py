@@ -75,7 +75,6 @@ def home():
 @app.route('/category')
 @app.route('/category/<int:mid>')
 def soul_manga(mid=1):
-    mid = "競技系列"
     res = query_db('select * from soul_manga where category = ?', [mid])
     return jsonify(res)
 

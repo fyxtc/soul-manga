@@ -11,11 +11,7 @@ class Cover extends React.Component {
   render() {
     return (
       <Col md={6} style={{ border: '3px solid red' }}>
-        <Image
-          src={`${this.props.cover_image}`}
-          thumbnail
-          responsive
-        />
+        <Image src={`${this.props.cover_image}`} thumbnail responsive />
       </Col>
     )
   }
@@ -72,10 +68,15 @@ class Chapter extends React.Component {
 
   render() {
     let chapters = []
-    for(let i = 1; i <= this.props.all_chapters_len; i++){
-      chapters.push(<ChapterItem key={this.props.mid+'-'+i} ch={i} mid={this.props.mid} />)
+    for (let i = 1; i <= this.props.all_chapters_len; i++) {
+      chapters.push(
+        <ChapterItem
+          key={this.props.mid + '-' + i}
+          ch={i}
+          mid={this.props.mid}
+        />
+      )
     }
-
 
     // const chapters = this.props.chapters.split(',')
     // const items = chapters.map(ch => (

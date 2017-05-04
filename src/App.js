@@ -81,7 +81,7 @@ class SearchBar extends React.Component {
             <Col md={3} mdOffset={4}>
               <FormControl
                 type="text"
-                placeholder="search here"  
+                placeholder="search here"
                 value={this.props.searchKey}
                 style={STYLES.input}
                 onChange={this.handleInput.bind(this)}
@@ -117,7 +117,7 @@ class CategoryBar extends React.Component {
       '少男',
       '科幻',
       '港產',
-      '其他' 
+      '其他'
     ]
   }
 
@@ -128,8 +128,10 @@ class CategoryBar extends React.Component {
           <Col md={6} mdOffset={3}>
             <Nav bsStyle="pills" onSelect={this.handleCatChange}>
               {self.categorys.map((v, k) => (
-                <LinkContainer to={'/category/'+k}>
-                  <NavItem eventKey={k} style={STYLES.navItem}>{v}</NavItem>
+                <LinkContainer key={'cat' + k} to={'/category/' + k}>
+                  <NavItem eventKey={'cat' + k} style={STYLES.navItem}>
+                    {v}
+                  </NavItem>
                 </LinkContainer>
               ))}
             </Nav>
@@ -181,14 +183,18 @@ class MangaItem extends React.Component {
     // target='_self'必须要。。为啥？
     return (
       <Router>
-        <Col md={2} style={{textAlign:'center'}} >
+        <Col md={2} style={{ textAlign: 'center' }}>
           <Link to={`/info/${this.props.data.mid}`} target="_self">
-            <Image
-              src={this.props.data.cover_image}
-              thumbnail
-              responsive
-            />
-            <p>{this.props.data.name}</p>
+            <div style={{ height: '18rem' }}>
+              <Image
+                src={this.props.data.cover_image}
+                width={'120rem'}
+                height={'160rem'}
+                // thumbnail
+                // responsive
+              />
+              <p>{this.props.data.name}</p>
+            </div>
           </Link>
         </Col>
       </Router>
@@ -228,6 +234,7 @@ class MangaView extends React.Component {
 
   loadItemsDetail(page, detail) {
     let res = this.state.items
+    // console.log('load ' + detail.mid)
     res.push(<MangaItem key={detail.mid} data={detail} />)
     this.setState({ items: res })
   }
@@ -241,7 +248,7 @@ class MangaView extends React.Component {
           hasMore={this.state.hasMoreItems}
           loader={<div className="loader">Loading ...</div>}
           threshold={250}
-          initialLoad={true}> 
+          initialLoad={true}>
           {this.state.items}
         </InfiniteScroll>
       </Col>
