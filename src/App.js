@@ -88,9 +88,11 @@ class SearchBar extends React.Component {
               />
             </Col>
             <Col>
-              <Button bsStyle="primary" bsSize="lg">
+              <Link to={"/search/"+this.props.searchKey} target="_self">
+              <Button bsStyle="primary" bsSize="lg" onClick={this.props.handleSearch} >
                 <Glyphicon glyph="search" />
               </Button>
+              </Link>
             </Col>
           </Row>
         </Form>
@@ -122,6 +124,14 @@ class CategoryBar extends React.Component {
   }
 
   render() {
+    // let view = null
+    // if(!this.props.searchKey){
+    //   view = <Route path="/category/:id" component={MangaView} />
+    // }else{
+    //   view = <Route path="/search/:key" component={MangaView} />
+    // }
+    // 尼玛，那个LinkContainer的to如果是'/fuck'，是按钮样式的。。什么鬼，这还会影响啊
+    // console.log("categoryBar render")
     return (
       <Router>
         <div style={STYLES.categoryBar}>
@@ -136,11 +146,12 @@ class CategoryBar extends React.Component {
               ))}
             </Nav>
           </Col>
-
           <Route path="/category/:id" component={MangaView} />
+          <Route path="/search/:key" component={MangaView} searchKey={this.searchKey} />
         </div>
       </Router>
     )
+          // <Route path="/search/:key" component={MangaView} />
   }
 
   /*render() {
@@ -174,6 +185,19 @@ class CategoryBar extends React.Component {
   }*/
 }
 
+// 本来推荐如果comp里面没有动态的东西的话，应该用箭头格式而不是用类...像router例子里面一样，再说吧
+// 应该还是更新MangaView，只不过sql变了
+class SearchView extends React.Component{
+  constructor(props){
+    super(props)
+  }
+
+  render(){
+    const key = this.props.match.params.key
+
+  }
+}
+
 class MangaItem extends React.Component {
   constructor(props) {
     super(props)
@@ -183,9 +207,9 @@ class MangaItem extends React.Component {
     // target='_self'必须要。。为啥？
     return (
       <Router>
-        <Col md={2} style={{ textAlign: 'center' }}>
+        <Col md={2} style={{ textAlign: 'center'}}>
           <Link to={`/info/${this.props.data.mid}`} target="_self">
-            <div style={{ height: '18rem' }}>
+            <div style={{height: '18rem', overflow:'hidden' ,textOverflow:'ellipsis'  }}>
               <Image
                 src={this.props.data.cover_image}
                 width={'120rem'}
@@ -208,38 +232,67 @@ class MangaView extends React.Component {
     this.state = {
       hasMoreItems: true,
       items: [],
-      category: 1
+      category: 1,
+      cat_page: 0,
     }
+    console.log(this.props.route)
   }
 
   componentWillReceiveProps(nextProps) {
     // 这个方法应该也不要了...路由对了直接在didmount加载才是正确的做法
-    this.setState({ hasMoreItems: true, items: [] })
+    this.setState({ hasMoreItems: true, items: [], cat_page: 0})
+    const key = this.props.match.params.key
+    if(key){
+      // console.log('key: ' + key)
+      // query fetch
+
+    }
     // this.setState
   }
 
   loadItems(page) {
-    const url = `${SERVER_SETTING.url}/category/${this.props.match.params.id}`
-    fetch(url).then(resp => resp.json()).then(json => {
-      for (let i = 0; i < json.length; i++) {
-        this.loadItemsDetail(page, json[i])
-      }
-      if (json.length === 0) {
-        this.setState({ hasMoreItems: false })
-      }
-    })
-    // test
-    this.setState({ hasMoreItems: false })
+    // console.log("load page " + page)
+    const key = this.props.match.params.key
+    if(!key){
+      const url = `${SERVER_SETTING.url}/category/${this.props.match.params.id}/${this.state.cat_page++}`
+      fetch(url).then(resp => resp.json()).then(json => {
+        // console.log("fetch data len " + json.data.length)
+        // todo 有可能延迟回来进入了其他tab，这里需要通过返回category和当前category(nav切换)来判断
+        for (let i = 0; i < json.data.length; i++) {
+          this.loadItemsDetail(page, json.data[i])
+        }
+        this.setState({ items: this.state.items })
+        // console.log("over " + json.over)
+        if (json.over === 1 || json.over === '1') {
+          this.setState({ hasMoreItems: false })
+        }
+      })
+      // test
+      // this.setState({ hasMoreItems: false })
+    }else{
+      // console.log('key: ' + key)
+      // search就先全部给了，不分页了
+      const url = `${SERVER_SETTING.url}/search/${key}`
+      fetch(url).then(resp => resp.json()).then(json => {
+        console.log(json)
+        this.setState({items: []})
+        for (let i = 0; i < json.length; i++) {
+          this.loadItemsDetail(page, json[i])
+        }
+        // 一次性返回全部的结果了
+        this.setState({ items: this.state.items, hasMoreItems:false })
+      })
+    }
   }
 
   loadItemsDetail(page, detail) {
     let res = this.state.items
     // console.log('load ' + detail.mid)
     res.push(<MangaItem key={detail.mid} data={detail} />)
-    this.setState({ items: res })
   }
 
   render() {
+    // console.log('MangaView render ' + (tis.props.route ? this.props.route.searchKey : "null"))
     return (
       <Col md={6} mdOffset={3} style={STYLES.mangaItem}>
         <InfiniteScroll
@@ -264,7 +317,10 @@ class Home extends React.Component {
     }
   }
 
-  handleSearch() {}
+  handleSearch() {
+    // console.log('search: ' + this.state.searchKey)
+    this.setState({ searchKey: this.state.searchKey })
+  }
 
   handleInput(searchKey) {
     this.setState({ searchKey: searchKey })
@@ -286,11 +342,14 @@ class Home extends React.Component {
 
 export default class SoulManga extends React.Component {
   render() {
+    // 这就是说这里的出了category之外，其他都是通过target="_self"，来触发的，因为这些Route没有和Link写在一起
     return (
       <Router>
         <div>
           <Route exact path="/" component={Home} />
           <Route path="/category/*" component={Home} />
+          <Route path="/search/:key" component={Home} />
+          <Route path="/fuck" component={Home} />
           <Route path="/info/:id" component={MangaInfo} />
           <Route path="/read/:id/chapter/:chapter" component={ReadPage} />
         </div>

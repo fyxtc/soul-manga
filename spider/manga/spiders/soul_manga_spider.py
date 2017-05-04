@@ -11,23 +11,23 @@ class SoulMangaSpider(scrapy.Spider):
     xpath = {
         "index_url": [
             "http://www.cartoonmad.com/comic01.html",
-            "http://www.cartoonmad.com/comic02.html",
-            "http://www.cartoonmad.com/comic03.html",
-            "http://www.cartoonmad.com/comic04.html",
-            "http://www.cartoonmad.com/comic07.html",
-            "http://www.cartoonmad.com/comic08.html",
-            "http://www.cartoonmad.com/comic09.html",
-            "http://www.cartoonmad.com/comic10.html",
-            "http://www.cartoonmad.com/comic13.html",
-            "http://www.cartoonmad.com/comic14.html",
-            "http://www.cartoonmad.com/comic16.html",
-            "http://www.cartoonmad.com/comic17.html",
-            "http://www.cartoonmad.com/comic18.html",
-            "http://www.cartoonmad.com/comic21.html",
-            "http://www.cartoonmad.com/comic22.html",
+            # "http://www.cartoonmad.com/comic02.html",
+            # "http://www.cartoonmad.com/comic03.html",
+            # "http://www.cartoonmad.com/comic04.html",
+            # "http://www.cartoonmad.com/comic07.html",
+            # "http://www.cartoonmad.com/comic08.html",
+            # "http://www.cartoonmad.com/comic09.html",
+            # "http://www.cartoonmad.com/comic10.html",
+            # "http://www.cartoonmad.com/comic13.html",
+            # "http://www.cartoonmad.com/comic14.html",
+            # "http://www.cartoonmad.com/comic16.html",
+            # "http://www.cartoonmad.com/comic17.html",
+            # "http://www.cartoonmad.com/comic18.html",
+            # "http://www.cartoonmad.com/comic21.html",
+            # "http://www.cartoonmad.com/comic22.html",
         ],  
         "urls": ["http://www.cartoonmad.com/comic/1090.html"],
-        "chapter": "//a[contains(., '話')]/@href",  # 默认下载话
+        "chapter": "//a[contains(., '話') and contains(., '第')]/@href",  # 默认下载话
         "vol": "//a[contains(., '卷')]/@href",  # 默认下载话
         "image_page": "//option[contains(., '頁')]/@value", # 遍历这一话的所有img页的超链接  
         "image": "//img[contains(@src, 'cartoonmad.com')]/@src", #这一话的图片
@@ -39,9 +39,11 @@ class SoulMangaSpider(scrapy.Spider):
         "mid":"/html/body/table/tr[1]/td[2]/table/tr[3]/td[2]/a[3]/@href",
         "name":"/html/body/table/tr[1]/td[2]/table/tr[3]/td[2]/a[3]/text()",
         "author":"/html/body/table/tr[1]/td[2]/table/tr[4]/td/table/tr[2]/td[2]/table[1]/tr[5]/td/text()",
+        # todo: 还有动态封面卧槽其实这个不用爬，通过mid就能知道了，http://img.cartoonmad.com/ctimg/1490.jpg， http://img.cartoonmad.com/ctimg/1490.jpg,好像就这两个地方...上下午换的？interesting
         "cover_image":"//div[@class='cover']/../img/@src",
         "cover_update_info":"/html/body/table/tr[1]/td[2]/table/tr[4]/td/table/tr[2]/td[2]/table[1]/tr[7]/td/font/text()",
         "category":"/html/body/table/tr[1]/td[2]/table/tr[4]/td/table/tr[2]/td[2]/table[1]/tr[3]/td/a[1]/text()",
+        # todo: 嵌套的<p>没有实现，比如棋魂...
         "summary":"//legend[contains(., '簡介')]/../table/tr/td/text()",
 
         "last_update_date":"/html/body/table/tr[1]/td[2]/table/tr[4]/td/table/tr[1]/td[2]/b/font/text()",
@@ -53,7 +55,7 @@ class SoulMangaSpider(scrapy.Spider):
         "vol_or_ch":"", #通过chapter/vol设置，优先话
 
         "all_chapters": "//a[contains(., '話')]/../a/text()",
-        "all_chapters_pages": "//a[contains(., '話')]/../font/text()",
+        "all_chapters_pages": "//a[contains(., '話') and contains(., '第')]/../font/text()",
         "all_vols": "//a[contains(., '卷')]/../a/text()",
         "all_vols_pages": "//a[contains(., '卷')]/../font/text()",
         "image_base_url": "/html/body/table/tr[5]/td/a/img/@src"
@@ -146,13 +148,13 @@ class SoulMangaSpider(scrapy.Spider):
 
 
     def parse_all(self, response):
-        mangas = re.findall(r"comic/\d{4}.html", str(response.body))[:15]
+        mangas = re.findall(r"comic/\d{4}.html", str(response.body))#[:20]
         if response.url.find("/comic/") != -1:
             mangas = [x[6:] for x in mangas]
         # self.log(mangas)
         # 集合推导使用{}
         urls = {response.urljoin(x) for x in mangas}
-        self.log(urls)
+        # self.log(urls)
 
         # # 这样就把当前页(index_url)包含的所有漫画都爬了😯
         for url in urls:
@@ -162,16 +164,22 @@ class SoulMangaSpider(scrapy.Spider):
     def parse(self, response):
         # 其实这里本来每个漫画的url也就走一次吧。。。简直完美
         item = self.get_sql_item(response)
+        mid = item.get("mid")
+        if self.is_mid_exist(mid):
+            # logging.info("mid {0} is exist, skip ".format(mid))
+            return
         url = response.xpath(self.xpath.get("chapter")).extract_first()
         if not url:
             url = response.xpath(self.xpath.get("vol")).extract_first()
         assert url 
+        # logging.info(url)
         first_chapter_url = response.urljoin(url)
         # self.log("fuck " + first_chapter_url)
         yield scrapy.Request(url=first_chapter_url, callback=self.parse_image_base_url, meta={"item": item})
 
     def parse_image_base_url(self, response):
         url = response.xpath(self.xpath.get("image_base_url")).extract_first()
+        # logging.info(response.url + ", " + str(url))
         item = response.meta.get("item")
         assert item != None
         mid = item.get("mid")
@@ -188,6 +196,14 @@ class SoulMangaSpider(scrapy.Spider):
         # self.log(values)
         self.cur.execute(sql, values)
         self.conn.commit()
+
+    def is_mid_exist(self, mid):
+        sql = "select mid from {0} where mid = ? ".format(self.sqlite_table)
+        # 逗号是必须的，不然会被解析成括号，而不是tunple
+        cursor = self.cur.execute(sql, (mid, ))
+        return cursor.fetchone() != None
+        # 查询应该不用commit，save的操作才需要
+        # self.conn.commit()
 
     def closed(self, reason):
         if self.conn:

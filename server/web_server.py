@@ -5,6 +5,8 @@ from functools import update_wrapper
 from flask_cors import CORS, cross_origin
 import sqlite3
 
+PAGE_SIZE = 2 * 6 # 一行6个现在
+FIRST_PAGE_SIZE = 2 * PAGE_SIZE # 首页给四行
 
 def crossdomain(origin=None, methods=None, headers=None,
                 max_age=21600, attach_to_all=True,
@@ -73,9 +75,23 @@ def home():
     return jsonify(res)
 
 @app.route('/category')
-@app.route('/category/<int:mid>')
-def soul_manga(mid=1):
-    res = query_db('select * from soul_manga where category = ?', [mid])
+@app.route('/category/<int:cid>')
+@app.route('/category/<int:cid>/<int:page>')
+def soul_manga(cid=1, page=0):
+    # todo ，数据可以少传，只传主页显示的就可以了，现在就是用Offset的少数据了，但是还可以压缩json
+    print("category {0}, page {1}, limit {2} ".format(cid, page, FIRST_PAGE_SIZE + page * PAGE_SIZE))
+    sql = "select * from soul_manga where category = ? limit ? offset ?"
+    target_count = FIRST_PAGE_SIZE + page * PAGE_SIZE
+    if page > 0:
+        offset = FIRST_PAGE_SIZE + (page-1) * PAGE_SIZE
+    else:
+        offset = 0
+    params = [cid, target_count, offset]
+    res = {}
+    res["data"] = query_db(sql, params)
+    res["over"] = 1 if len(res) < target_count else 0
+    # print(res.get("data"))
+    print("over: " + str(res.get("over")))
     return jsonify(res)
 
 
@@ -98,10 +114,20 @@ def read(mid, chapter=1):
         res = {}
         res["image_base_url"] = chapter_images.get("image_base_url")
         res["cur_ch_pages"] = chapter_images.get('all_chapters_pages').split(",")[chapter-1]
-        print(res)
+        # print(res)
         return jsonify(res)
     else:
-        return {}
+        return jsonify({})
+
+@app.route("/search/<string:key>")
+def search(key):
+    if key:
+        sql = "select * from soul_manga where name like '%{0}%'".format(key) 
+        print("search key: " + key + ", sql: " + sql)
+        res = query_db(sql)
+        return jsonify(res)
+    else:
+        return jsonify({})
 
 DATABASE = './soul_manga.db'
 
