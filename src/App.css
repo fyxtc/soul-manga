@@ -97,8 +97,15 @@ label {
 .app, .image-gallery,
 .app-sandbox {
   margin: 0 auto;
-  width: 65%;
-  transition: all 1s ease;
+  /*width: 65%;*/
+  /*width: 98%; */
+  /*height: 100%;*/
+  transition: all 1s easeo;
+  /*text-align:'center';*/
+}
+
+.image-gallery-content{
+  text-align:'center';
 }
 
 

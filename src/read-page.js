@@ -33,7 +33,18 @@ export default class ReadPage extends React.Component {
         return res
     }
 
+    rendImage(image){
+        // 使用自动的render方法
+        return (
+            <div style={{textAlign:'center', /*border: '2px solid red'*/}} >
+                <img src={image.original} />
+            </div>
+        )
+    }
+
     render() {
+        // 左右箭头翻页，上下箭头滚动
+        // todo: 两个问题，一个是翻页之后滚动条没有重置，还一个是图片应该显示源大小即可，不要缩放
         if (!this.state.image_base_url) {
             return <h1>Loading</h1>
         } else {
@@ -48,7 +59,7 @@ export default class ReadPage extends React.Component {
                     '/' +
                     this.formatPage(i) +
                     '.jpg'
-                console.log(url)
+                console.log(url + ', ' + this.state.cur_ch_pages)
                 images_arr.push(url)
                 // test
                 if (i > 10) {
@@ -56,16 +67,25 @@ export default class ReadPage extends React.Component {
                 }
             }
             const images = images_arr.map(image => ({
-                original: image
+                original: image,
+                renderItem: this.rendImage
             }))
+            let show = true
+            if(this.state.cur_ch_pages > 30){
+                show = false
+            }
             return (
                 <ImageGallery
                     items={images}
                     slideInterval={2000}
-                    showBullets={true}
+                    showBullets={show}
                     infinite={false}
                     lazyLoad={true}
                     onImageLoad={null}
+                    /*showFullscreenButton={false}*/
+                    showPlayButton={false}
+                    // showIndex={false}
+                    showThumbnails={false}
                 />
             )
         }
