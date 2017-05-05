@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "chinese-s2t": "0.0.6",
+    "jquery": "^3.2.1",
     "radium": "^0.18.2",
     "react": "^15.5.4",
     "react-bootstrap": "^0.31.0",

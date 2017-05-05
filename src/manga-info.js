@@ -20,6 +20,24 @@ class Cover extends React.Component {
 class Info extends React.Component {
   constructor(props) {
     super(props)
+    self.categorys = [
+      '格斗',
+      '魔法',
+      '侦探',
+      '竞技',
+      '恐怖',
+      '战国',
+      '魔幻',
+      '冒险',
+      '校园',
+      '搞笑',
+      '少女',
+      '少男',
+      '科幻',
+      '港产',
+      '其他',
+      '全部' 
+    ]
   }
 
   render() {
@@ -30,7 +48,7 @@ class Info extends React.Component {
         <p>{'原创作者: ' + info.author}</p>
         <p>{'连载状态: ' + info.status}</p>
         <p>{'人气指数: ' + info.pop}</p>
-        <p>{'漫画分类: ' + info.category}</p>
+        <p>{'漫画分类: ' + self.categorys[info.category]}</p>
         <p>{'漫画标签: ' + info.tags}</p>
         <p>
           {'收录漫画: ' + info.cover_update_info}

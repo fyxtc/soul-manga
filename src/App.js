@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
-// todo: 要放到爬虫层
-import Chinese from 'chinese-s2t'
+// import Chinese from 'chinese-s2t'
 import {
   Button,
   FormControl,
@@ -25,6 +24,8 @@ import MangaInfo from './manga-info' // ./必须写，不然找不到，可能�
 import ReadPage from './read-page'
 import ReactDOM from 'react-dom'
 import Radium from 'radium'
+import $ from 'jquery'
+import jQuery from 'jquery'
 
 export const STYLES = {
   border: {
@@ -370,6 +371,11 @@ export class Footer extends React.Component {
 }
 
 class Home extends React.Component {
+
+  componentDidMount(){
+
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -401,11 +407,16 @@ class Home extends React.Component {
 }
 
 export default class SoulManga extends React.Component {
+  // render(){
+  //   return <LogoText1 />
+  // }
+
   render() {
     // 这就是说这里的出了category之外，其他都是通过target="_self"，来触发的，因为这些Route没有和Link写在一起
     return (
       <Router>
         <div>
+          <LogoText />
           <Route exact path="/" component={Home} />
           <Route path="/category/*" component={Home} />
           <Route path="/search/:key" component={Home} />
@@ -417,6 +428,92 @@ export default class SoulManga extends React.Component {
     )
   }
 }
+
+
+class LogoText1 extends React.Component{
+  render(){
+    return (
+      <div style={{position:"relative", width:'50%', height:'20vh', float:'left'}}>
+      <svg className="logoText1" viewBox="0 0 100 20"  >
+        <defs>
+          <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="5%" stopColor="#326384"/>
+            <stop offset="95%" stopColor="#123752"/>
+          </linearGradient>
+          <pattern id="wave" x="0" y="0" width="120" height="20" patternUnits="userSpaceOnUse">
+            <path id="wavePath" d="M-40 9 Q-30 7 -20 9 T0 9 T20 9 T40 9 T60 9 T80 9 T100 9 T120 9 V20 H-40z" mask="url(#mask)" fill="url(#gradient)"> 
+              <animateTransform
+                  attributeName="transform"
+                  begin="0s"
+                  dur="1.5s"
+                  type="translate"
+                  from="0,0"
+                  to="40,0"
+                  repeatCount="indefinite" />
+            </path>
+          </pattern>
+        </defs>
+        <text textAnchor="middle" x="50" y="15" fontSize="17" fill="url(#wave)"  fillOpacity="0.6">Soul Comic</text>
+        <text textAnchor="middle" x="50" y="15" fontSize="17" fill="url(#gradient)" fillOpacity="0.1">Soul Comic</text>
+      </svg>
+      </div>
+    )
+  }
+}
+
+
+class LogoText2 extends React.Component {
+  componentDidMount() {
+    (function($) {
+      var s,
+        spanizeLetters = {
+          settings: {
+            letters: $('.js-spanize')
+          },
+          init: function() {
+            s = this.settings
+            this.bindEvents()
+          },
+          bindEvents: function() {
+            s.letters.html(function(i, el) {
+              //spanizeLetters.joinChars();
+              var spanizer = $.trim(el).split('')
+              return '<span>' + spanizer.join('</span><span>') + '</span>'
+            })
+          }
+        }
+      spanizeLetters.init()
+    })(jQuery)
+  }
+
+  render() {
+    return (
+      // <main>
+        <div className="mast">
+          <figure className="mast__bg" />
+          <header className="mast__header">
+            <h1 className="mast__title js-spanize">我们的童年  一直都在</h1>
+            <hr className="sep" />
+            <p className="mast__text js-spanize">僕たちの笑顔、ずっとここにいる </p>
+
+          </header>
+        </div>
+      // </main>
+    )
+  }
+}
+
+class LogoText extends React.Component{
+  render(){
+    return(
+      <div style={{margin:'1.5rem auto', border:'2px solid red', height:'20vh'}} >
+        <LogoText1 />
+        <LogoText2 />
+      </div>
+    )
+  }
+}
+
 
 // class App extends Component {
 //   render() {
