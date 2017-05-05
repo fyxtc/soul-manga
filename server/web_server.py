@@ -87,11 +87,15 @@ def soul_manga(cid=1, page=0):
     else:
         offset = 0
     params = [cid, target_count, offset]
+    if cid == 15: # 全部
+        sql = "select * from soul_manga limit ? offset ?"
+        params = params[1:]
+
     res = {}
     res["data"] = query_db(sql, params)
-    res["over"] = 1 if len(res) < target_count else 0
+    res["over"] = len(res.get("data")) < target_count 
     # print(res.get("data"))
-    print("over: " + str(res.get("over")))
+    print("over: " + str(res.get("over")) + " " + str(len(res.get("data"))) + " & " + str(target_count))
     return jsonify(res)
 
 

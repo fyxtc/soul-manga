@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './App.css'
-
+// todo: 要放到爬虫层
+import Chinese from 'chinese-s2t'
 import {
   Button,
   FormControl,
@@ -45,7 +46,13 @@ export const STYLES = {
     top: 20
   },
   navItem: {
-    fontSize: 16
+    // fontSize: 26,
+    // padding: '1rem 2rem',
+    fontSize: '1.4rem',
+    fontWeight: 500,
+    // color: '#ffe484',
+    color:'blue',
+    borderColor: '#ffe484'
   },
   mangaItem: { border: '3px solid blue',  top: 20 },
   info: { top: 50, border: '3px solid blue' },
@@ -67,13 +74,30 @@ export const SERVER_SETTING = {
 class SearchBar extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      searchKey: '',
+      redirect: false
+    }
   }
 
   handleInput(e) {
-    this.props.handleInput(e.target.value)
+    // this.props.handleInput(e.target.value)
+    // 自己重绘自己
+    this.setState({searchKey: e.target.value})
+  }
+
+  handleKeyPress(e){
+    if(e.key === 'Enter'){
+      console.log('enter')
+      this.setState({redirect: true})
+    }
   }
 
   render() {
+    if(this.state.redirect){
+      console.log('redirect')
+      return <Redirect push to={'/search/'+this.state.searchKey} />
+    }
     return (
       <Router>
         <Form style={STYLES.searchBar}>
@@ -82,13 +106,14 @@ class SearchBar extends React.Component {
               <FormControl
                 type="text"
                 placeholder="search here"
-                value={this.props.searchKey}
+                value={this.state.searchKey}
                 style={STYLES.input}
                 onChange={this.handleInput.bind(this)}
+                onKeyPress={this.handleKeyPress.bind(this)}
               />
             </Col>
             <Col>
-              <Link to={"/search/"+this.props.searchKey} target="_self">
+              <Link to={"/search/"+this.state.searchKey} target="_self">
               <Button bsStyle="primary" bsSize="lg" onClick={this.props.handleSearch} >
                 <Glyphicon glyph="search" />
               </Button>
@@ -105,21 +130,22 @@ class CategoryBar extends React.Component {
   constructor(props) {
     super(props)
     self.categorys = [
-      '格鬥',
+      '格斗',
       '魔法',
-      '偵探',
-      '競技',
+      '侦探',
+      '竞技',
       '恐怖',
-      '戰國',
+      '战国',
       '魔幻',
-      '冒險',
-      '校園',
+      '冒险',
+      '校园',
       '搞笑',
       '少女',
       '少男',
       '科幻',
-      '港產',
-      '其他'
+      '港产',
+      '其他',
+      '全部' 
     ]
   }
 
@@ -208,9 +234,9 @@ class MangaItem extends React.Component {
     // target='_self'必须要。。为啥？
     return (
       <Router>
-        <Col md={2} style={{ textAlign: 'center'}}>
+        <Col md={2} style={{ textAlign: 'center', }}>
           <Link to={`/info/${this.props.data.mid}`} target="_self">
-            <div style={{height: '18rem',  }}>
+            <div style={{height: '19rem',  }}>
               <Image
                 src={this.props.data.cover_image}
                 width={'150rem'}
@@ -219,7 +245,7 @@ class MangaItem extends React.Component {
                 // thumbnail
                 // responsive
               />
-              <p><span style={{fontFamily:'新細明體',  color:'blue'}}>{this.props.data.name}</span></p>
+              <div ><p><span style={STYLES.navItem}>{this.props.data.name}</span></p></div>
             </div>
           </Link>
         </Col>
@@ -247,10 +273,11 @@ class MangaView extends React.Component {
   }
 
   loadItems(page) {
+    console.log(this.props)
     // console.log("load page " + page)
     const key = this.props.match.params.key
     // const cat = this.props.match.params.id
-    if(this.props.match.params.id){
+    if(this.props.match.params.id || key){
       if(!this.props.match.params.key){
         const url = `${SERVER_SETTING.url}/category/${this.props.match.params.id}/${this.state.cat_page++}`
         fetch(url).then(resp => resp.json()).then(json => {
@@ -261,7 +288,7 @@ class MangaView extends React.Component {
           }
           this.setState({ items: this.state.items })
           // console.log("over " + json.over)
-          if (json.over === 1 || json.over === '1') {
+          if (json.over) {
             this.setState({ hasMoreItems: false })
           }
         })
@@ -282,8 +309,8 @@ class MangaView extends React.Component {
         })
       }
     }else{
-      // 根路径
-      const url = `${SERVER_SETTING.url}/category/1/${this.state.cat_page++}`
+      // 根路径,用棋魂还是全部呢...
+      const url = `${SERVER_SETTING.url}/category/15/${this.state.cat_page++}`
       fetch(url).then(resp => resp.json()).then(json => {
         // console.log("fetch data len " + json.data.length)
         // todo 有可能延迟回来进入了其他tab，这里需要通过返回category和当前category(nav切换)来判断
@@ -319,6 +346,24 @@ class MangaView extends React.Component {
           initialLoad={true}>
           {this.state.items}
         </InfiniteScroll>
+      </Col>
+    )
+  }
+}
+
+
+export class Footer extends React.Component {
+  render() {
+    return (
+      <Col
+        md={12}
+        mdOffset={0}
+        style={{
+          padding: '2rem',
+          border: '3px solid red',
+          textAlign: 'center'
+        }}>
+        <span> ShindouHikaru Copyright </span>
       </Col>
     )
   }

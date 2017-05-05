@@ -5,11 +5,14 @@ import re
 from manga.items import MangaItem
 from manga.items import SqliteItem
 import sqlite3
+from hanziconv import HanziConv
 
 class SoulMangaSpider(scrapy.Spider):
     name = "soul_manga"
     xpath = {
-        "index_url": [
+        "index_urls": ["http://www.cartoonmad.com/comic99.html"],
+        "next_page": "//a[contains(., '下一頁')]/@href",
+        "page_urls": [
             "http://www.cartoonmad.com/comic01.html",
             # "http://www.cartoonmad.com/comic02.html",
             # "http://www.cartoonmad.com/comic03.html",
@@ -87,45 +90,52 @@ class SoulMangaSpider(scrapy.Spider):
             sql_item["all_chapters_pages"] = response.xpath(self.xpath.get("all_vols_pages")).extract()
             sql_item["vol_or_ch"] = 1
 
-        # print(sql_item.get("summary"))
         for k, v in sql_item.items():
-            if k == 'last_update_date':
-                sql_item[k] = str.strip(v)
-            elif k == "mid":
-                sql_item[k] = int(v[v.rfind("/")+1:v.rfind(".")])
-                # logging.info("parse sql item >>>>>>>>>>>>>>>>>> " + str(sql_item.get("mid")))
+            if isinstance(v, str) and k != "last_update_date":
+                v = re.sub(r"\s+", "", v, flags=re.UNICODE)
+            if isinstance(v, str):
+                v = HanziConv.toSimplified(v)
+
+            if k == "mid":
+                v = int(v[v.rfind("/")+1:v.rfind(".")])
+            elif k in ["author", "tags", "pop"]:
+                v = v[v.find("：")+1:]
+            elif k == "category":
+                v = self.get_category(v) # remove 系列
+            elif k == 'last_update_date':
+                temp = str.strip(v)
+                v = temp[temp.find(" ")+1:]
+            elif k == "status":
+                v = "已完结" if v.find("chap9.gif") != -1 else "连载中"
             elif k == "all_chapters_pages":
                 temp = [re.findall(r"\d+", x)[0] for x in v]
-                sql_item[k] = ','.join(temp)
-            elif k == "all_chapters":
-                pass
-            elif k in ["name", "author", "cover_update_info", "pop", "summary", "tags"] :
-                sql_item[k] = re.sub(r"\s+", "", v, flags=re.UNICODE)
-            elif k == "category":
-                sql_item[k] = self.get_category(v) # remove 系列
-        # print(sql_item)
+                v = ','.join(temp)
+            sql_item[k] = v
+
+        # for k, v in sql_item.items():
+        #     print(k + ": " + str(v))
         return sql_item
 
     def get_category(self, ori):
         category_map = [
-            '格鬥',
+            '格斗',
             '魔法',
-            '偵探',
-            '競技',
+            '侦探',
+            '竞技',
             '恐怖',
-            '戰國',
+            '战国',
             '魔幻',
-            '冒險',
-            '校園',
+            '冒险',
+            '校园',
             '搞笑',
             '少女',
             '少男',
             '科幻',
-            '港產',
+            '港产',
             '其他' 
         ]
         cat = ori[:2]
-        assert (cat in category_map)
+        assert (cat in category_map), cat+" wtf?"
         return category_map.index(cat)
 
     def start_requests(self):
@@ -135,19 +145,31 @@ class SoulMangaSpider(scrapy.Spider):
         self.conn = sqlite3.connect(self.sqlite_file)
         self.cur = self.conn.cursor()
 
-        # 获取全页漫画
-        urls = self.xpath.get("index_url")
+        # 获取全部漫画
+        urls = self.xpath.get("index_urls")
         for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse_all)
+            yield scrapy.Request(url=url, callback=self.parse_index)
+
+        # 获取全页漫画
+        # urls = self.xpath.get("page_urls")
+        # for url in urls:
+        #     yield scrapy.Request(url=url, callback=self.parse_page)
 
         # 获取单个漫画
         # urls = self.xpath.get("urls")
         # for url in urls:
         #     yield scrapy.Request(url=url, callback=self.parse)
-            # 这一步完成之后就把所有的基本信息取到，我能同时调用吗？好像不行，yield有return语义的，不能返两个return吧。。那就走parse吧，然后标记状态，完成一次之后就不再写入基本信息了
+
+    def parse_index(self, response):
+        next_url = response.xpath(self.xpath.get("next_page")).extract_first()
+        next_url = response.urljoin(next_url) 
+        # # for url in urls:
+        # #     logging.info("fuck next ")
+        # #     yield scrapy.Request(url=url, callback=self.parse_page)
+        return self.parse_page(response, next_url)
 
 
-    def parse_all(self, response):
+    def parse_page(self, response, next_url):
         mangas = re.findall(r"comic/\d{4}.html", str(response.body))#[:20]
         if response.url.find("/comic/") != -1:
             mangas = [x[6:] for x in mangas]
@@ -156,9 +178,9 @@ class SoulMangaSpider(scrapy.Spider):
         urls = {response.urljoin(x) for x in mangas}
         # self.log(urls)
 
-        # # 这样就把当前页(index_url)包含的所有漫画都爬了😯
+        # # 这样就把当前页(page_urls)包含的所有漫画都爬了😯
         for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
+            yield scrapy.Request(url=url, callback=self.parse, meta={"next_url": next_url})
 
 
     def parse(self, response):
@@ -171,11 +193,9 @@ class SoulMangaSpider(scrapy.Spider):
         url = response.xpath(self.xpath.get("chapter")).extract_first()
         if not url:
             url = response.xpath(self.xpath.get("vol")).extract_first()
-        assert url 
-        # logging.info(url)
+        assert url, response.url +" is fuck" 
         first_chapter_url = response.urljoin(url)
-        # self.log("fuck " + first_chapter_url)
-        yield scrapy.Request(url=first_chapter_url, callback=self.parse_image_base_url, meta={"item": item})
+        yield scrapy.Request(url=first_chapter_url, callback=self.parse_image_base_url, meta={"item": item, "next_url": response.meta.get("next_url")})
 
     def parse_image_base_url(self, response):
         url = response.xpath(self.xpath.get("image_base_url")).extract_first()
@@ -187,6 +207,11 @@ class SoulMangaSpider(scrapy.Spider):
         item["image_base_url"] = image_base_url
         # self.log(image_base_url)
         self.write_database(item)
+        next_url = response.meta.get("next_url")
+        logging.info("next url: " + next_url)
+        yield scrapy.Request(url=next_url, callback=self.parse_index)
+
+        # 解析一个完成了之后，加入next_page_url，可以这样每一个item解析完都会请求这个，虽然scrapy自己去重了，但是毕竟多一步判断，先这样写吧
 
     def write_database(self, item):
         # 这个写法确实吊，但是要注意.values()2/3表现好像不一样，3会有dictvalue之类的字符串，所以和keys一样用join连接吧，但是。。。int就跪了握草，这怎么整，转tunple就好了

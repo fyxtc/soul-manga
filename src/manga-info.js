@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Row, Image } from 'react-bootstrap'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import { SERVER_SETTING, STYLES } from './App.js'
+import { SERVER_SETTING, STYLES, Footer } from './App.js'
 
 class Cover extends React.Component {
   constructor(props) {
@@ -10,7 +10,7 @@ class Cover extends React.Component {
 
   render() {
     return (
-      <Col md={6} style={{ border: '3px solid red' }}>
+      <Col md={5}  style={{ border: '3px solid red',  paddingLeft:'5rem' }}>
         <Image src={`${this.props.cover_image}`} thumbnail responsive />
       </Col>
     )
@@ -25,15 +25,15 @@ class Info extends React.Component {
   render() {
     const info = this.props.info
     return (
-      <Col md={6} mdOffset={0} style={STYLES.border}>
-        <br /><br /><br />
-        <p>{'last update: ' + info.last_update_date}</p>
-        <p>{'status: ' + info.status}</p>
-        <p>{'pop: ' + info.pop}</p>
-        <p>{'category: ' + info.category}</p>
-        <p>{'tags: ' + info.tags}</p>
+      <Col md={6} mdOffset={0} style={{border:'2px solid black', padding:'5rem', }}>
+        <p>{'最后更新: ' + info.last_update_date}</p>
+        <p>{'原创作者: ' + info.author}</p>
+        <p>{'连载状态: ' + info.status}</p>
+        <p>{'人气指数: ' + info.pop}</p>
+        <p>{'漫画分类: ' + info.category}</p>
+        <p>{'漫画标签: ' + info.tags}</p>
         <p>
-          {'chapters: ' + info.cover_update_info}
+          {'收录漫画: ' + info.cover_update_info}
         </p>
       </Col>
     )
@@ -51,7 +51,7 @@ class Summary extends React.Component {
         md={12}
         mdOffset={0}
         style={{ border: '3px solid black', padding: 20, textAlign: 'center' }}>
-        {this.props.name + '簡介'}
+        {this.props.name + '简介'}
         <Row
           style={{ border: '3px solid black', padding: 20, textAlign: 'left' }}>
           {this.props.summary}
@@ -110,22 +110,6 @@ class ChapterItem extends React.Component {
   }
 }
 
-class Footer extends React.Component {
-  render() {
-    return (
-      <Col
-        md={12}
-        mdOffset={0}
-        style={{
-          padding: '2rem',
-          border: '3px solid red',
-          textAlign: 'center'
-        }}>
-        <span> ShindouHikaru Copyright </span>
-      </Col>
-    )
-  }
-}
 
 export default class MangaInfo extends React.Component {
   constructor(props) {
@@ -156,7 +140,7 @@ export default class MangaInfo extends React.Component {
       const info = this.state.info
       return (
         <Col md={6} mdOffset={3} style={STYLES.info}>
-          <Row>
+          <Row style={{border:'2px solid yellow', }} >
             <Cover cover_image={info.cover_image} />
             <Info info={info} />
           </Row>
