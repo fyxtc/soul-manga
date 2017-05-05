@@ -433,7 +433,7 @@ export default class SoulManga extends React.Component {
 class LogoText1 extends React.Component{
   render(){
     return (
-      <div style={{position:"relative", width:'50%', height:'20vh', float:'left'}}>
+      <div style={{position:"relative", width:'40%', height:'10vh', float:'left', textAlign:'right'}}>
       <svg className="logoText1" viewBox="0 0 100 20"  >
         <defs>
           <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="1">
@@ -506,7 +506,7 @@ class LogoText2 extends React.Component {
 class LogoText extends React.Component{
   render(){
     return(
-      <div style={{margin:'1.5rem auto', border:'2px solid red', height:'20vh'}} >
+      <div style={{margin:'1.5rem auto', border:'2px solid red', height:'10vh'}} >
         <LogoText1 />
         <LogoText2 />
       </div>

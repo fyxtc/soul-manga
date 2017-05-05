@@ -45,9 +45,9 @@ body {
           align-items: center;
   width: 50%;
   /*height: 100vh; hikaru*/
-  height: 20vh;
-  color: #fff;
-  float: right;
+  height: 10vh;
+  /*color: #fff;*/
+  float: left;
   /*background-color: #111;*/
 }
 .mast:after {
@@ -58,7 +58,7 @@ body {
   left: 0;
   height: 100%;
   width: 100%;
-  background: rgba(17, 17, 17, 0.9);
+  /*background: rgba(17, 17, 17, 0.9);*/
 }
 .mast > header {
   z-index: 2;
@@ -71,7 +71,7 @@ body {
   left: 0;
   width: 100%;
   /*height: 100vh;hikaru*/
-  height: 20vh;
+  height: 10vh;
   margin: 0;
   padding: 0;
   background-size: cover;
@@ -972,7 +972,8 @@ body{
   align-items:center;
 }
 */
-svg{font-weight:bold;max-width:30rem;height:auto;}
+/*原来height用的auto是符合文字大小的高度*/
+svg{font-weight:bold;max-width:30rem;height:10vh;}
 
 /* anim*/
 
