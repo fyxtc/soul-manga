@@ -29,11 +29,11 @@ import jQuery from 'jquery'
 
 export const STYLES = {
   border: {
-    border: '3px solid aqua'
+    // border: '3px solid aqua'
   },
   searchBar: {
-    margin: 'auto',
-    border: '3px solid aqua'
+    margin: '1rem',
+    // border: '3px solid aqua'
     // padding: '10px'
   },
   input: {
@@ -44,7 +44,7 @@ export const STYLES = {
   categoryBar: {
     margin: 'auto',
     height: '5rem',
-    border: '3px solid cyan'
+    // border: '3px solid cyan'
     // top: 20
   },
   navItem: {
@@ -67,7 +67,7 @@ export const STYLES = {
     position: 'relative',
     top: 0,
     fontColor: 'blue',
-    border: '3px solid darkblue',
+    // border: '3px solid darkblue',
     height: 300
   }
 }
@@ -172,7 +172,7 @@ class CategoryBar extends React.Component {
     return (
       <Router>
         <div style={STYLES.categoryBar}>
-          <Col md={8} mdOffset={2}>
+          <Col md={8} mdOffset={2} style={{backgroundColor: 'lightblue'}}>
             <Nav bsStyle="pills" onSelect={this.handleCatChange} justified>
               {self.categorys.map((v, k) => (
                 <LinkContainer key={'cat' + k} to={'/category/' + k}>
@@ -561,6 +561,7 @@ class LogoText extends React.Component {
         style={{
           margin: '1.5rem auto',
           border: '2px solid red',
+          // backgroundColor: '#42f4b9',
           height: '8rem'
         }}>
         <LogoText1 />
@@ -642,7 +643,7 @@ class RandomImage extends React.Component {
   }
 
   componentDidMount() {
-    setInterval(this.moveImage.bind(this), changeInterval)
+    setInterval(this.moveImage.bind(this), 3000)
   }
 
   moveImage() {
