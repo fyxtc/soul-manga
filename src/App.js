@@ -32,19 +32,20 @@ export const STYLES = {
     border: '3px solid aqua'
   },
   searchBar: {
-    margin: '100 auto',
-    border: '3px solid aqua',
-    padding: '10px'
+    margin: 'auto',
+    border: '3px solid aqua'
+    // padding: '10px'
   },
   input: {
-    fontSize: 16
+    fontSize: 16,
+    height: '3rem'
     // color:'red'
   },
   categoryBar: {
     margin: 'auto',
-    height: 50,
-    border: '3px solid cyan',
-    top: 20
+    height: '5rem',
+    border: '3px solid cyan'
+    // top: 20
   },
   navItem: {
     // fontSize: 26,
@@ -52,10 +53,15 @@ export const STYLES = {
     fontSize: '1.4rem',
     fontWeight: 500,
     // color: '#ffe484',
-    color:'blue',
+    color: 'blue',
     borderColor: '#ffe484'
   },
-  mangaItem: { border: '3px solid blue',  top: 20 },
+  mangaItem: {
+    border: '3px solid blue',
+    borderImage: 'url(../public/border1.jpg)',
+    top: '3rem'
+  },
+
   info: { top: 50, border: '3px solid blue' },
   mangaView: {
     position: 'relative',
@@ -84,26 +90,26 @@ class SearchBar extends React.Component {
   handleInput(e) {
     // this.props.handleInput(e.target.value)
     // 自己重绘自己
-    this.setState({searchKey: e.target.value})
+    this.setState({ searchKey: e.target.value })
   }
 
-  handleKeyPress(e){
-    if(e.key === 'Enter'){
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
       console.log('enter')
-      this.setState({redirect: true})
+      this.setState({ redirect: true })
     }
   }
 
   render() {
-    if(this.state.redirect){
+    if (this.state.redirect) {
       console.log('redirect')
-      return <Redirect push to={'/search/'+this.state.searchKey} />
+      return <Redirect push to={'/search/' + this.state.searchKey} />
     }
     return (
       <Router>
         <Form style={STYLES.searchBar}>
           <Row>
-            <Col md={3} mdOffset={4}>
+            <Col md={3} mdOffset={5}>
               <FormControl
                 type="text"
                 placeholder="search here"
@@ -114,10 +120,14 @@ class SearchBar extends React.Component {
               />
             </Col>
             <Col>
-              <Link to={"/search/"+this.state.searchKey} target="_self">
-              <Button bsStyle="primary" bsSize="lg" onClick={this.props.handleSearch} >
-                <Glyphicon glyph="search" />
-              </Button>
+              <Link to={'/search/' + this.state.searchKey} target="_self">
+                <Button
+                  bsStyle="primary"
+                  /*bsSize="lg"*/ onClick={this.props.handleSearch}
+                  style={{ height: '3rem', width: '8rem', float: 'left' }}>
+                  <Glyphicon glyph="search" />
+                  <span> 来一发</span>
+                </Button>
               </Link>
             </Col>
           </Row>
@@ -146,7 +156,7 @@ class CategoryBar extends React.Component {
       '科幻',
       '港产',
       '其他',
-      '全部' 
+      '全部'
     ]
   }
 
@@ -175,11 +185,14 @@ class CategoryBar extends React.Component {
           </Col>
           <Route exact path="/" component={MangaView} />
           <Route path="/category/:id" component={MangaView} />
-          <Route path="/search/:key" component={MangaView} searchKey={this.searchKey} />
+          <Route
+            path="/search/:key"
+            component={MangaView}
+            searchKey={this.searchKey}
+          />
         </div>
       </Router>
     )
-          // <Route path="/search/:key" component={MangaView} />
   }
 
   /*render() {
@@ -215,14 +228,13 @@ class CategoryBar extends React.Component {
 
 // 本来推荐如果comp里面没有动态的东西的话，应该用箭头格式而不是用类...像router例子里面一样，再说吧
 // 应该还是更新MangaView，只不过sql变了
-class SearchView extends React.Component{
-  constructor(props){
+class SearchView extends React.Component {
+  constructor(props) {
     super(props)
   }
 
-  render(){
+  render() {
     const key = this.props.match.params.key
-
   }
 }
 
@@ -235,18 +247,22 @@ class MangaItem extends React.Component {
     // target='_self'必须要。。为啥？
     return (
       <Router>
-        <Col md={2} style={{ textAlign: 'center', }}>
+        <Col md={2} style={{ textAlign: 'center' }}>
           <Link to={`/info/${this.props.data.mid}`} target="_self">
-            <div style={{height: '19rem',  }}>
+            <div style={{ height: '19rem' }}>
               <Image
                 src={this.props.data.cover_image}
                 width={'150rem'}
                 height={'190rem'}
-                style={{borderRadius:'10px'}}
+                style={{ borderRadius: '10px' }}
                 // thumbnail
                 // responsive
               />
-              <div ><p><span style={STYLES.navItem}>{this.props.data.name}</span></p></div>
+              <div>
+                <p>
+                  <span style={STYLES.navItem}>{this.props.data.name}</span>
+                </p>
+              </div>
             </div>
           </Link>
         </Col>
@@ -262,14 +278,14 @@ class MangaView extends React.Component {
       hasMoreItems: true,
       items: [],
       category: 1,
-      cat_page: 0,
+      cat_page: 0
     }
     console.log(this.props.route)
   }
 
   componentWillReceiveProps(nextProps) {
     // 这个方法应该也不要了...路由对了直接在didmount加载才是正确的做法
-    this.setState({ hasMoreItems: true, items: [], cat_page: 0})
+    this.setState({ hasMoreItems: true, items: [], cat_page: 0 })
     // const key = this.props.match.params.key
   }
 
@@ -278,8 +294,8 @@ class MangaView extends React.Component {
     // console.log("load page " + page)
     const key = this.props.match.params.key
     // const cat = this.props.match.params.id
-    if(this.props.match.params.id || key){
-      if(!this.props.match.params.key){
+    if (this.props.match.params.id || key) {
+      if (!this.props.match.params.key) {
         const url = `${SERVER_SETTING.url}/category/${this.props.match.params.id}/${this.state.cat_page++}`
         fetch(url).then(resp => resp.json()).then(json => {
           // console.log("fetch data len " + json.data.length)
@@ -295,21 +311,21 @@ class MangaView extends React.Component {
         })
         // test
         // this.setState({ hasMoreItems: false })
-      }else{
+      } else {
         // console.log('key: ' + key)
         // search就先全部给了，不分页了
         const url = `${SERVER_SETTING.url}/search/${key}`
         fetch(url).then(resp => resp.json()).then(json => {
           console.log(json)
-          this.setState({items: []})
+          this.setState({ items: [] })
           for (let i = 0; i < json.length; i++) {
             this.loadItemsDetail(page, json[i])
           }
           // 一次性返回全部的结果了
-          this.setState({ items: this.state.items, hasMoreItems:false })
+          this.setState({ items: this.state.items, hasMoreItems: false })
         })
       }
-    }else{
+    } else {
       // 根路径,用棋魂还是全部呢...
       const url = `${SERVER_SETTING.url}/category/15/${this.state.cat_page++}`
       fetch(url).then(resp => resp.json()).then(json => {
@@ -323,7 +339,7 @@ class MangaView extends React.Component {
         if (json.over === 1 || json.over === '1') {
           this.setState({ hasMoreItems: false })
         }
-      })      
+      })
     }
   }
 
@@ -343,7 +359,7 @@ class MangaView extends React.Component {
           hasMore={this.state.hasMoreItems}
           loader={<div className="loader">Loading ...</div>}
           threshold={250}
-          style={{margin:'10px auto'}}
+          style={{ margin: '10px auto' }}
           initialLoad={true}>
           {this.state.items}
         </InfiniteScroll>
@@ -351,7 +367,6 @@ class MangaView extends React.Component {
     )
   }
 }
-
 
 export class Footer extends React.Component {
   render() {
@@ -371,10 +386,7 @@ export class Footer extends React.Component {
 }
 
 class Home extends React.Component {
-
-  componentDidMount(){
-
-  }
+  componentDidMount() {}
 
   constructor(props) {
     super(props)
@@ -395,11 +407,13 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        <SearchBar
-          handleSearch={this.handleSearch.bind(this)}
-          handleInput={this.handleInput.bind(this)}
-          searchKey={this.state.searchKey}
-        />
+        <Col>
+          <SearchBar
+            handleSearch={this.handleSearch.bind(this)}
+            handleInput={this.handleInput.bind(this)}
+            searchKey={this.state.searchKey}
+          />
+        </Col>
         <CategoryBar />
       </div>
     )
@@ -408,7 +422,7 @@ class Home extends React.Component {
 
 export default class SoulManga extends React.Component {
   // render(){
-  //   return <LogoText1 />
+  //   return <RandomImage />
   // }
 
   render() {
@@ -417,6 +431,7 @@ export default class SoulManga extends React.Component {
       <Router>
         <div>
           <LogoText />
+          <SearchTips />
           <Route exact path="/" component={Home} />
           <Route path="/category/*" component={Home} />
           <Route path="/search/:key" component={Home} />
@@ -429,42 +444,77 @@ export default class SoulManga extends React.Component {
   }
 }
 
-
-class LogoText1 extends React.Component{
-  render(){
+class LogoText1 extends React.Component {
+  render() {
     return (
-      <div style={{position:"relative", width:'40%', height:'10vh', float:'left', textAlign:'right'}}>
-      <svg className="logoText1" viewBox="0 0 100 20"  >
-        <defs>
-          <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="5%" stopColor="#326384"/>
-            <stop offset="95%" stopColor="#123752"/>
-          </linearGradient>
-          <pattern id="wave" x="0" y="0" width="120" height="20" patternUnits="userSpaceOnUse">
-            <path id="wavePath" d="M-40 9 Q-30 7 -20 9 T0 9 T20 9 T40 9 T60 9 T80 9 T100 9 T120 9 V20 H-40z" mask="url(#mask)" fill="url(#gradient)"> 
-              <animateTransform
+      <div
+        style={{
+          position: 'relative',
+          width: '37%',
+          height: '8rem',
+          float: 'left',
+          textAlign: 'right',
+          display: 'flex',
+          alignItems: 'center',
+          left: '20rem'
+        }}>
+        <svg className="logoText1" viewBox="0 0 100 20">
+          <defs>
+            <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="5%" stopColor="#326384" />
+              <stop offset="95%" stopColor="#123752" />
+            </linearGradient>
+            <pattern
+              id="wave"
+              x="0"
+              y="0"
+              width="120"
+              height="20"
+              patternUnits="userSpaceOnUse">
+              <path
+                id="wavePath"
+                d="M-40 9 Q-30 7 -20 9 T0 9 T20 9 T40 9 T60 9 T80 9 T100 9 T120 9 V20 H-40z"
+                mask="url(#mask)"
+                fill="url(#gradient)">
+                <animateTransform
                   attributeName="transform"
                   begin="0s"
                   dur="1.5s"
                   type="translate"
                   from="0,0"
                   to="40,0"
-                  repeatCount="indefinite" />
-            </path>
-          </pattern>
-        </defs>
-        <text textAnchor="middle" x="50" y="15" fontSize="17" fill="url(#wave)"  fillOpacity="0.6">Soul Comic</text>
-        <text textAnchor="middle" x="50" y="15" fontSize="17" fill="url(#gradient)" fillOpacity="0.1">Soul Comic</text>
-      </svg>
+                  repeatCount="indefinite"
+                />
+              </path>
+            </pattern>
+          </defs>
+          <text
+            textAnchor="middle"
+            x="50"
+            y="15"
+            fontSize="17"
+            fill="url(#wave)"
+            fillOpacity="0.6">
+            Soul Comic
+          </text>
+          <text
+            textAnchor="middle"
+            x="50"
+            y="15"
+            fontSize="17"
+            fill="url(#gradient)"
+            fillOpacity="0.1">
+            Soul Comic
+          </text>
+        </svg>
       </div>
     )
   }
 }
 
-
 class LogoText2 extends React.Component {
   componentDidMount() {
-    (function($) {
+    ;(function($) {
       var s,
         spanizeLetters = {
           settings: {
@@ -489,24 +539,30 @@ class LogoText2 extends React.Component {
   render() {
     return (
       // <main>
+      (
         <div className="mast">
-          <figure className="mast__bg" />
-          <header className="mast__header">
+          <div className="mast__header">
             <h1 className="mast__title js-spanize">我们的童年  一直都在</h1>
             <hr className="sep" />
             <p className="mast__text js-spanize">僕たちの笑顔、ずっとここにいる </p>
 
-          </header>
+          </div>
         </div>
+      )
       // </main>
     )
   }
 }
 
-class LogoText extends React.Component{
-  render(){
-    return(
-      <div style={{margin:'1.5rem auto', border:'2px solid red', height:'10vh'}} >
+class LogoText extends React.Component {
+  render() {
+    return (
+      <div
+        style={{
+          margin: '1.5rem auto',
+          border: '2px solid red',
+          height: '8rem'
+        }}>
         <LogoText1 />
         <LogoText2 />
       </div>
@@ -514,6 +570,98 @@ class LogoText extends React.Component{
   }
 }
 
+class SearchTips extends React.Component {
+  componentDidMount() {
+    var words = ['hey I like SASS', 'I used to like LESS', 'I also heart Jade'],
+      // words = ['我需要来一发了','这里合适吗。。。','这个，容我三思一下', '！@#￥@#！￥@#$@', '那就来一发吧', '那么问题来了', '你也需要来一发吗？'],
+      part,
+      i = 0,
+      offset = 0,
+      len = words.length,
+      forwards = true,
+      skip_count = 0,
+      skip_delay = 5,
+      is_over = false,
+      speed = 100
+
+    var wordflick = function() {
+      setInterval(function() {
+        if (is_over) {
+          return
+        }
+        if (forwards) {
+          if (offset >= words[i].length) {
+            ++skip_count
+            if (skip_count == skip_delay) {
+              forwards = false
+              skip_count = 0
+            }
+          }
+        } else {
+          // if(i === len){
+          //   is_over = true
+          //   return
+          // }
+          if (offset == 0) {
+            forwards = true
+            i++
+            offset = 0
+            if (i >= len) {
+              i = 0
+            }
+          }
+        }
+        part = words[i].substr(0, offset)
+        if (skip_count == 0) {
+          if (forwards) {
+            offset++
+          } else {
+            offset--
+          }
+        }
+        $('.search-tips').text(part)
+      }, speed)
+    }
+    $(document).ready(function() {
+      wordflick()
+    })
+  }
+  render() {
+    return <div className="search-tips" />
+  }
+}
+
+class RandomImage extends React.Component {
+  constructor(props) {
+    super(props)
+    // left/top 就是html里面元素的x/y
+    this.state = {
+      left: 0,
+      top: 0
+    }
+  }
+
+  componentDidMount() {
+    setInterval(this.moveImage.bind(this), changeInterval)
+  }
+
+  moveImage() {
+    const newLeft = Math.random() * 1080
+    const newRight = Math.random() * 720
+    this.setState({ left: newLeft, right: newRight })
+  }
+
+  render() {
+    const l = this.state.left + 'px'
+    const t = this.state.right + 'px'
+    return (
+      <Image
+        src="./luffy.jpeg"
+        style={{ /*width:'100px',*/ position: 'absolute', left: l, top: t }}
+      />
+    )
+  }
+}
 
 // class App extends Component {
 //   render() {

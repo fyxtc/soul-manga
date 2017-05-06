@@ -33,10 +33,10 @@ export default class ReadPage extends React.Component {
         return res
     }
 
-    rendImage(image){
+    rendImage(image) {
         // 使用自动的render方法
         return (
-            <div style={{textAlign:'center', /*border: '2px solid red'*/}} >
+            <div style={{ textAlign: 'center' /*border: '2px solid red'*/ }}>
                 <img src={image.original} />
             </div>
         )
@@ -71,7 +71,7 @@ export default class ReadPage extends React.Component {
                 renderItem: this.rendImage
             }))
             let show = true
-            if(this.state.cur_ch_pages > 30){
+            if (this.state.cur_ch_pages > 30) {
                 show = false
             }
             return (

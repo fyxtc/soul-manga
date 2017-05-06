@@ -24,3 +24,4 @@ server/templates
 server/.python-version
 *.pyc
 .python-version
+/public
