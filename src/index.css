@@ -30,6 +30,8 @@ body {
   background-size: cover;
   background-attachment: fixed;
   background-blend-mode: multiply;
+  /*background-color: #3498db;*/
+
 }
 
 .sep {
@@ -302,4 +304,50 @@ svg{
   text-shadow: longshadow(10,darken($key,10%));
   font-size: 10rem
 }
+
+
+
+/*冒泡效果，主要依赖individual-bubble，bubbles我在Bubble Comp里面换成了category-nav了*/
+.bubbles {
+  display: inline-block;
+  font-family: arial;
+  position: relative;
+}
+
+/*css 选择器 空格，表示是找所有的子孙节点， >是找第一代子节点而已，*/
+.bubbles h1 {
+  position: relative;
+  margin: 1em 0 0;
+  font-family: 'Luckiest Guy', cursive;
+  z-index: 2;
+}
+
+.individual-bubble {
+  position: absolute;
+  border-radius: 100%;
+  bottom: 10px;
+  background-color: #fff;
+  z-index: 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

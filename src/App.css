@@ -20,11 +20,22 @@ body {
 
 .category-nav{
   background-color: lightblue; 
+  height: 5rem;
   /*border: 10px solid blue;*/
   /*border-image: url('../public/op1.jpeg') 50% round;*/
-  background-image: url('../public/fire.jpeg');
+  /*background-image: url('../public/ice2.jpeg');*/
   background-size: 100% 100%;
   background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+}
+
+.category-item{
+  width: 50%; /*必须设置一个宽度，上面的align-items才有效。。什么鬼 */
+  font-size: 1.5rem;
+  /*font-weight: 500;*/
+  color: blue;
+  border-color: #ffe484;
 }
 
 .manga-view{

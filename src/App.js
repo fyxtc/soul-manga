@@ -42,15 +42,15 @@ export const STYLES = {
     // color:'red'
   },
 
-  navItem: {
-    // fontSize: 26,
-    // padding: '1rem 2rem',
-    fontSize: '1.4rem',
-    fontWeight: 500,
-    // color: '#ffe484',
-    color: 'blue',
-    borderColor: '#ffe484'
-  },
+  // navItem: {
+  //   // fontSize: 26,
+  //   // padding: '1rem 2rem',
+  //   fontSize: '1.4rem',
+  //   fontWeight: 500,
+  //   // color: '#ffe484',
+  //   color: 'blue',
+  //   borderColor: '#ffe484'
+  // },
   info: { top: 50, border: '3px solid blue' },
   mangaView: {
     position: 'relative',
@@ -149,15 +149,80 @@ class CategoryBar extends React.Component {
     ]
   }
 
+  componentDidMount(){
+    jQuery(document).ready(function($){
+      // Define a blank array for the effect positions. This will be populated based on width of the title.
+      var bArray = []
+      // Define a size array, this will be used to vary bubble sizes
+      var sArray = [4, 6, 8, 10]
+
+      // Push the header width values to bArray
+      for (var i = 0; i < $('.category-nav').width(); i++) {
+        bArray.push(i)
+      }
+
+      // Function to select random array element
+      // Used within the setInterval a few times
+      function randomValue(arr) {
+        return arr[Math.floor(Math.random() * arr.length)]
+      }     
+      // setInterval function used to create new bubble every 350 milliseconds
+      setInterval(function() {
+        // Get a random size, defined as variable so it can be used for both width and height
+        var size = randomValue(sArray)
+        // New bubble appeneded to div with it's size and left position being set inline
+        // Left value is set through getting a random value from bArray
+        $('.category-nav').append(
+          '<div class="individual-bubble" style="left: ' +
+            randomValue(bArray) +
+            'px; width: ' +
+            size +
+            'px; height:' +
+            size +
+            'px;"></div>'
+        )
+
+        // Animate each bubble to the top (bottom 100%) and reduce opacity as it moves
+        // Callback function used to remove finsihed animations from the page
+        $('.individual-bubble').animate(
+          {
+            bottom: '100%',
+            opacity: '-=0.7'
+          },
+          3000,
+          function() {
+            $(this).remove()
+          }
+        )
+      }, 350) 
+    })
+  }
+
+
   render() {
-    // let view = null
-    // if(!this.props.searchKey){
-    //   view = <Route path="/category/:id" component={MangaView} />
-    // }else{
-    //   view = <Route path="/search/:key" component={MangaView} />
-    // }
-    // 尼玛，那个LinkContainer的to如果是'/fuck'，是按钮样式的。。什么鬼，这还会影响啊
-    // console.log("categoryBar render")
+    return (
+      <Router>
+        <div className="category-bar" >
+          <Col md={8} mdOffset={2} className='category-nav' >
+            {
+              self.categorys.map((v, k) => (
+                <Link key={'cat'+k} to={'/category/'+k} className="category-item" >{v}</Link>
+              ))
+            }   
+          </Col>
+          <Route exact path="/" component={MangaView} />
+          <Route path="/category/:id" component={MangaView} />
+          <Route
+            path="/search/:key"
+            component={MangaView}
+            searchKey={this.searchKey}
+          />
+        </div>
+      </Router>
+    )
+  }
+
+  /*render() {
     return (
       <Router>
         <div className="category-bar" >
@@ -179,36 +244,6 @@ class CategoryBar extends React.Component {
             component={MangaView}
             searchKey={this.searchKey}
           />
-        </div>
-      </Router>
-    )
-  }
-
-  /*render() {
-    return (
-      <Router>
-        <div style={STYLES.categoryBar}>
-          <Col md={4} mdOffset={4}>
-            <Nav bsStyle="pills" onSelect={this.handleCatChange}>
-              <LinkContainer to="/category/1">
-                <NavItem eventKey={1} style={STYLES.navItem}>category1</NavItem>
-              </LinkContainer>
-              <LinkContainer to="/category/2">
-                <NavItem eventKey={2} style={STYLES.navItem}>category2</NavItem>
-              </LinkContainer>
-              <LinkContainer to="/category/3">
-                <NavItem eventKey={3} style={STYLES.navItem}>category3</NavItem>
-              </LinkContainer>
-              <LinkContainer to="/category/4">
-                <NavItem eventKey={4} style={STYLES.navItem}>category4</NavItem>
-              </LinkContainer>
-              <LinkContainer to="/category/5">
-                <NavItem eventKey={5} style={STYLES.navItem}>category5</NavItem>
-              </LinkContainer>
-            </Nav>
-          </Col>
-
-          <Route path="/category/:id" component={MangaView} />
         </div>
       </Router>
     )
@@ -411,7 +446,7 @@ class Home extends React.Component {
 
 export default class SoulManga extends React.Component {
   // render(){
-  //   return <RandomImage />
+  //   return <Bubble />
   // }
 
   render() {
@@ -650,6 +685,67 @@ class RandomImage extends React.Component {
         src="./luffy.jpeg"
         style={{ /*width:'100px',*/ position: 'absolute', left: l, top: t }}
       />
+    )
+  }
+}
+
+
+class Bubble extends React.Component{
+  componentDidMount(){
+    jQuery(document).ready(function($){
+      // Define a blank array for the effect positions. This will be populated based on width of the title.
+      var bArray = []
+      // Define a size array, this will be used to vary bubble sizes
+      var sArray = [4, 6, 8, 10]
+
+      // Push the header width values to bArray
+      for (var i = 0; i < $('.category-nav').width(); i++) {
+        bArray.push(i)
+      }
+
+      // Function to select random array element
+      // Used within the setInterval a few times
+      function randomValue(arr) {
+        return arr[Math.floor(Math.random() * arr.length)]
+      }     
+      // setInterval function used to create new bubble every 350 milliseconds
+      setInterval(function() {
+        // Get a random size, defined as variable so it can be used for both width and height
+        var size = randomValue(sArray)
+        // New bubble appeneded to div with it's size and left position being set inline
+        // Left value is set through getting a random value from bArray
+        $('.category-nav').append(
+          '<div class="individual-bubble" style="left: ' +
+            randomValue(bArray) +
+            'px; width: ' +
+            size +
+            'px; height:' +
+            size +
+            'px;"></div>'
+        )
+
+        // Animate each bubble to the top (bottom 100%) and reduce opacity as it moves
+        // Callback function used to remove finsihed animations from the page
+        $('.individual-bubble').animate(
+          {
+            bottom: '100%',
+            opacity: '-=0.7'
+          },
+          3000,
+          function() {
+            $(this).remove()
+          }
+        )
+      }, 350) 
+    })
+  }
+
+
+  render(){
+    return(
+      <div className="bubbles">
+        <h1>Bubbling Header</h1>
+      </div>
     )
   }
 }
