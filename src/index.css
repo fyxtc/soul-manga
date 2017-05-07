@@ -26,8 +26,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  /*background-image: url('../public/ace.jpg');*/
+  background-image: url('../public/luffy_naruto_ps1.jpg');
+  background-size: cover;
   background-attachment: fixed;
+  background-blend-mode: multiply;
 }
 
 .sep {
@@ -68,6 +70,10 @@ body {
   position: relative;
   margin: 0 auto; /*hikaru*/
   height: 8rem;
+
+  /*single line center*/
+  display: flex;
+  align-items: center;
 }
 .mast__bg {
   position: absolute;
@@ -88,7 +94,7 @@ body {
   font-family: "Cutive Mono", monospace;
   font-size: 1.5em;
   font-weight: 400;
-  letter-spacing: 2em;
+  letter-spacing: 1em;
   text-transform: uppercase;
 }
 .mast__title span {
@@ -284,7 +290,7 @@ svg{
   /*background-color: #55A4E9;*/
   font-size: 2rem;
   position: absolute;
-  top: 11.5rem;
+  top: 9.5rem;
   left: 35rem;
   /*padding: 10px */
   color: #55A4E9;;

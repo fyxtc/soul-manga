@@ -5,10 +5,36 @@
 body {
   margin: 0;
   padding: 0;
-  background: #f4f6f9;
+  /*background: #f4f6f9;*/
   color: #222;
   font-family: 'Raleway', sans-serif;
   /*background-image: url('../public/ace.jpg');*/
+}
+
+.category-bar{
+  margin: auto;
+  height: 5rem;
+  /*border: 10px solid blue;*/
+  /*border-image: url('../public/op1.jpeg') 50% round;*/
+}
+
+.category-nav{
+  background-color: lightblue; 
+  /*border: 10px solid blue;*/
+  /*border-image: url('../public/op1.jpeg') 50% round;*/
+  background-image: url('../public/fire.jpeg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.manga-view{
+  /*background-image: url('../public/ice2.jpg');*/
+  border: 20px solid blue;
+  top: 3rem;
+  border-image: url('../public/op1.jpeg') 50% repeat;
+  /*border-image: url('../public/fire.jpeg') 50% round;*/
+  /*background-image: url('../public/fire.jpeg'); */
+  /*background-size: cover;*/
 }
 
 ul, li {

@@ -41,12 +41,7 @@ export const STYLES = {
     height: '3rem'
     // color:'red'
   },
-  categoryBar: {
-    margin: 'auto',
-    height: '5rem',
-    // border: '3px solid cyan'
-    // top: 20
-  },
+
   navItem: {
     // fontSize: 26,
     // padding: '1rem 2rem',
@@ -56,12 +51,6 @@ export const STYLES = {
     color: 'blue',
     borderColor: '#ffe484'
   },
-  mangaItem: {
-    border: '3px solid blue',
-    borderImage: 'url(../public/border1.jpg)',
-    top: '3rem'
-  },
-
   info: { top: 50, border: '3px solid blue' },
   mangaView: {
     position: 'relative',
@@ -171,8 +160,8 @@ class CategoryBar extends React.Component {
     // console.log("categoryBar render")
     return (
       <Router>
-        <div style={STYLES.categoryBar}>
-          <Col md={8} mdOffset={2} style={{backgroundColor: 'lightblue'}}>
+        <div className="category-bar" >
+          <Col md={8} mdOffset={2} className='category-nav' >
             <Nav bsStyle="pills" onSelect={this.handleCatChange} justified>
               {self.categorys.map((v, k) => (
                 <LinkContainer key={'cat' + k} to={'/category/' + k}>
@@ -352,7 +341,7 @@ class MangaView extends React.Component {
   render() {
     // console.log('MangaView render ' + (tis.props.route ? this.props.route.searchKey : "null"))
     return (
-      <Col md={8} mdOffset={2} style={STYLES.mangaItem}>
+      <Col md={8} mdOffset={2} /*style={STYLES.mangaItem}*/ className="manga-view">
         <InfiniteScroll
           pageStart={0}
           loadMore={this.loadItems.bind(this)}
@@ -544,7 +533,7 @@ class LogoText2 extends React.Component {
           <div className="mast__header">
             <h1 className="mast__title js-spanize">我们的童年  一直都在</h1>
             <hr className="sep" />
-            <p className="mast__text js-spanize">僕たちの笑顔、ずっとここにいる </p>
+            {/*<p className="mast__text js-spanize">僕たちの笑顔、ずっとここにいる </p>*/}
 
           </div>
         </div>
@@ -559,7 +548,7 @@ class LogoText extends React.Component {
     return (
       <div
         style={{
-          margin: '1.5rem auto',
+          // margin: '1.5rem auto',
           border: '2px solid red',
           // backgroundColor: '#42f4b9',
           height: '8rem'
@@ -643,7 +632,7 @@ class RandomImage extends React.Component {
   }
 
   componentDidMount() {
-    setInterval(this.moveImage.bind(this), 3000)
+    // setInterval(this.moveImage.bind(this), 3000)
   }
 
   moveImage() {
@@ -656,6 +645,7 @@ class RandomImage extends React.Component {
     const l = this.state.left + 'px'
     const t = this.state.right + 'px'
     return (
+      // <div style={{backgroundImage:'./luffy.jpeg'}} > </div>
       <Image
         src="./luffy.jpeg"
         style={{ /*width:'100px',*/ position: 'absolute', left: l, top: t }}
