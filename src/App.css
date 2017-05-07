@@ -48,6 +48,32 @@ body {
   /*background-size: cover;*/
 }
 
+.logo{
+  /*border: 2px solid red;*/
+  background-color: currentColor;
+  height: 10rem;
+}
+
+.logo img{
+  height: 9rem
+}
+
+.logo-text1{
+  position: relative;
+  width: 37%;
+  height: 8rem;
+  float: left;
+  /*textAlign: right;*/
+  display: flex;
+  alignItems: center;
+  left: 20rem;
+
+}
+
+.logo-text2{
+
+}
+
 ul, li {
   padding: 0;
   margin: 0;

@@ -149,7 +149,8 @@ class CategoryBar extends React.Component {
     ]
   }
 
-  componentDidMount(){
+  // 风扇呼呼的啊卧槽。。。
+  /*componentDidMount(){
     jQuery(document).ready(function($){
       // Define a blank array for the effect positions. This will be populated based on width of the title.
       var bArray = []
@@ -196,7 +197,7 @@ class CategoryBar extends React.Component {
         )
       }, 350) 
     })
-  }
+  }*/
 
 
   render() {
@@ -454,7 +455,7 @@ export default class SoulManga extends React.Component {
     return (
       <Router>
         <div>
-          <LogoText />
+          <Logo />
           <SearchTips />
           <Route exact path="/" component={Home} />
           <Route path="/category/*" component={Home} />
@@ -468,20 +469,11 @@ export default class SoulManga extends React.Component {
   }
 }
 
-class LogoText1 extends React.Component {
+/*class LogoText1 extends React.Component {
   render() {
+    const text = '魂 漫'
     return (
-      <div
-        style={{
-          position: 'relative',
-          width: '37%',
-          height: '8rem',
-          float: 'left',
-          textAlign: 'right',
-          display: 'flex',
-          alignItems: 'center',
-          left: '20rem'
-        }}>
+      <div className="logo-text1">
         <svg className="logoText1" viewBox="0 0 100 20">
           <defs>
             <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="1">
@@ -519,7 +511,7 @@ class LogoText1 extends React.Component {
             fontSize="17"
             fill="url(#wave)"
             fillOpacity="0.6">
-            Soul Comic
+            {text}
           </text>
           <text
             textAnchor="middle"
@@ -528,10 +520,50 @@ class LogoText1 extends React.Component {
             fontSize="17"
             fill="url(#gradient)"
             fillOpacity="0.1">
-            Soul Comic
+            {text}
           </text>
         </svg>
       </div>
+    )
+  }
+}*/
+
+
+class LogoText1 extends React.Component {
+  componentDidMount() {
+    ;(function($) {
+      var s,
+        spanizeLetters = {
+          settings: {
+            letters: $('.js-spanize1')
+          },
+          init: function() {
+            s = this.settings
+            this.bindEvents()
+          },
+          bindEvents: function() {
+            s.letters.html(function(i, el) {
+              //spanizeLetters.joinChars();
+              var spanizer = $.trim(el).split('')
+              return '<span>' + spanizer.join('</span><span>') + '</span>'
+            })
+          }
+        }
+      spanizeLetters.init()
+    })(jQuery)
+  }
+
+  render() {
+    return (
+      // <main>
+      (
+        <div className="mast">
+          <div className="mast__header">
+            <p className="mast__title js-spanize1">我们的童年  一直都在</p>
+          </div>
+        </div>
+      )
+      // </main>
     )
   }
 }
@@ -566,9 +598,9 @@ class LogoText2 extends React.Component {
       (
         <div className="mast">
           <div className="mast__header">
-            <h1 className="mast__title js-spanize">我们的童年  一直都在</h1>
+            {/*<h1 className="mast__title js-spanize">我们的童年  一直都在</h1>*/}
             <hr className="sep" />
-            {/*<p className="mast__text js-spanize">僕たちの笑顔、ずっとここにいる </p>*/}
+            <h1 className="mast__text js-spanize">僕たちの笑顔、ずっとここにいる </h1>
 
           </div>
         </div>
@@ -578,19 +610,20 @@ class LogoText2 extends React.Component {
   }
 }
 
-class LogoText extends React.Component {
+class Logo extends React.Component {
   render() {
     return (
-      <div
-        style={{
-          // margin: '1.5rem auto',
-          border: '2px solid red',
-          // backgroundColor: '#42f4b9',
-          height: '8rem'
-        }}>
+      <Col className="logo" >
+        <Col md={3} mdOffset={0}>
         <LogoText1 />
+        </Col>
+        <Col md={6} mdOffset={0}>
+        <Image src="../logo.jpg" />
+        </Col>
+        <Col md={3} mdOffset={0}>
         <LogoText2 />
-      </div>
+        </Col>
+      </Col>
     )
   }
 }
