@@ -447,7 +447,7 @@ class Home extends React.Component {
 
 export default class SoulManga extends React.Component {
   // render(){
-  //   return <Bubble />
+  //   return <Logo />
   // }
 
   render() {
@@ -469,19 +469,19 @@ export default class SoulManga extends React.Component {
   }
 }
 
-/*class LogoText1 extends React.Component {
+class LogoFluid  extends React.Component {
   render() {
-    const text = '魂 漫'
+    const text = '魂'
     return (
-      <div className="logo-text1">
-        <svg className="logoText1" viewBox="0 0 100 20">
+      <div className="logo-fluid">
+        <svg viewBox="0 0 100 20">
           <defs>
-            <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="5%" stopColor="#326384" />
-              <stop offset="95%" stopColor="#123752" />
+            <linearGradient id="gradient1" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="5%" stopColor="#F0F8FF" />
+              <stop offset="95%" stopColor="#7b68ee" />
             </linearGradient>
             <pattern
-              id="wave"
+              id="wave1"
               x="0"
               y="0"
               width="120"
@@ -491,7 +491,7 @@ export default class SoulManga extends React.Component {
                 id="wavePath"
                 d="M-40 9 Q-30 7 -20 9 T0 9 T20 9 T40 9 T60 9 T80 9 T100 9 T120 9 V20 H-40z"
                 mask="url(#mask)"
-                fill="url(#gradient)">
+                fill="url(#gradient1)">
                 <animateTransform
                   attributeName="transform"
                   begin="0s"
@@ -505,29 +505,96 @@ export default class SoulManga extends React.Component {
             </pattern>
           </defs>
           <text
-            textAnchor="middle"
+            textAnchor="start"
             x="50"
-            y="15"
-            fontSize="17"
-            fill="url(#wave)"
-            fillOpacity="0.6">
+            y="20"
+            fontSize="36"
+            // fontFamily="Microsoft YaHei" 
+            fontFamily='"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif'
+            fill="url(#wave1)"
+            fillOpacity="1.9">
             {text}
           </text>
           <text
-            textAnchor="middle"
+            textAnchor="start"
             x="50"
-            y="15"
-            fontSize="17"
-            fill="url(#gradient)"
-            fillOpacity="0.1">
+            y="20"
+            fontSize="36"
+            // fontFamily="Microsoft YaHei" 
+            fontFamily='"Hiragino Sans GB", "Microsoft YaHei",
+             "WenQuanYi Micro Hei", sans-serif'
+            fill="url(#gradient1)"
+            fillOpacity="0.6">
+            {text}
+          </text>
+        </svg>
+        <Image className="mix-blend" src="../images/sasuke_left.png" />
+      </div>
+    )
+  }
+}
+
+class LogoFluid2  extends React.Component {
+  render() {
+    const text = '漫'
+    return (
+      <div className="logo-fluid">
+        <Image src="../images/naruto_right.png" />
+        <svg viewBox="0 0 100 20">
+          {/*<defs>
+            <linearGradient id="gradient2" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="5%" stopColor="F0F8FF" />
+              <stop offset="95%" stopColor="#7b68ee" />
+            </linearGradient>
+            <pattern
+              id="wave2"
+              x="0"
+              y="0"
+              width="120"
+              height="20"
+              patternUnits="userSpaceOnUse">
+              <path
+                id="wavePath"
+                d="M-40 9 Q-30 7 -20 9 T0 9 T20 9 T40 9 T60 9 T80 9 T100 9 T120 9 V20 H-40z"
+                mask="url(#mask)"
+                fill="url(#gradient2)">
+                <animateTransform
+                  attributeName="transform"
+                  begin="0s"
+                  dur="1.5s"
+                  type="translate"
+                  from="0,0"
+                  to="40,0"
+                  repeatCount="indefinite"
+                />
+              </path>
+            </pattern>
+          </defs>*/}
+          <text
+            textAnchor="end"
+            x="50"
+            y="20"
+            fontSize="36"
+            fontFamily='"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif'
+            fill="url(#wave1)"
+            fillOpacity="1.9">
+            {text}
+          </text>
+          <text
+            textAnchor="end"
+            x="50"
+            y="20"
+            fontSize="36"
+            fontFamily='"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif'
+            fill="url(#gradient1)"
+            fillOpacity="0.6">
             {text}
           </text>
         </svg>
       </div>
     )
   }
-}*/
-
+}
 
 class LogoText1 extends React.Component {
   componentDidMount() {
@@ -611,19 +678,33 @@ class LogoText2 extends React.Component {
 }
 
 class Logo extends React.Component {
+  // render() {
+  //   return (
+  //     <Col className="logo" >
+  //       <LogoFluid />
+  //       <Image src="../images/logo.jpg" />
+  //       <LogoFluid2 />
+  //     </Col>
+  //   )
+  // }
+
   render() {
+    // 原来Col还可以指定left，这个好啊。。。小数问题就解决了，一般可以用嵌套。。但有的真的嵌套也算不出来。。。
     return (
-      <Col className="logo" >
-        <Col md={3} mdOffset={0}>
-        <LogoText1 />
-        </Col>
-        <Col md={6} mdOffset={0}>
-        <Image src="../logo.jpg" />
-        </Col>
-        <Col md={3} mdOffset={0}>
-        <LogoText2 />
-        </Col>
+    <Col className="logo" >
+      <Col md={12} style={{left:'6.4rem'}} >
+      <Col md={2} mdOffset={1}>
+        <LogoFluid />
       </Col>
+      <Col className="logo-soul" md={5} mdOffset={0}>
+        <Image src="../images/logo.png" />
+      </Col>
+      {/* 微调0.1rem，视觉差....鸣人头发太亮了，看着高一些*/}
+      <Col md={2} mdOffset={0} style={{top:'0.1rem'}} >
+        <LogoFluid2 />
+      </Col>
+      </Col>
+    </Col>
     )
   }
 }

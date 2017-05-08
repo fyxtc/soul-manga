@@ -24,4 +24,5 @@ server/templates
 server/.python-version
 *.pyc
 .python-version
-/public
+/public/temp-images
+!/public/images

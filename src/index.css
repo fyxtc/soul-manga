@@ -26,7 +26,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  background-image: url('../public/luffy_naruto_ps1.jpg');
+  background-image: url('../public/images/luffy_naruto_ps1.jpg');
   background-size: cover;
   background-attachment: fixed;
   background-blend-mode: multiply;
@@ -276,15 +276,7 @@ body{
   align-items:center;
 }
 */
-/*原来height用的auto是符合文字大小的高度*/
-.logo-text1 svg{
-  font-weight:bold;
-  max-width:30rem;
-  height:5rem;
-  top:50%;
-  display: block;
-  margin: 0 auto;
-}
+
 
 /* auto type:; search tips */
 /*修改css之后网页自动应用了。。。真尼玛6，都不要刷新..*/
@@ -295,7 +287,7 @@ body{
   /*background-color: #55A4E9;*/
   font-size: 2rem;
   position: absolute;
-  top: 9.5rem;
+  top: 11.5rem;
   left: 35rem;
   /*padding: 10px */
   color: #55A4E9;;

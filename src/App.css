@@ -42,7 +42,7 @@ body {
   /*background-image: url('../public/ice2.jpg');*/
   border: 20px solid blue;
   top: 3rem;
-  border-image: url('../public/op1.jpeg') 50% repeat;
+  border-image: url('../public/images/op1.jpeg') 50% repeat;
   /*border-image: url('../public/fire.jpeg') 50% round;*/
   /*background-image: url('../public/fire.jpeg'); */
   /*background-size: cover;*/
@@ -51,28 +51,55 @@ body {
 .logo{
   /*border: 2px solid red;*/
   background-color: currentColor;
+  background-color: #3d3d3d;
   height: 10rem;
 }
 
+/*这里还有其他的naruto&sasuke图片*/
 .logo img{
-  height: 9rem
+  height: 9rem;
+  /*width: 100%;*/
 }
 
-.logo-text1{
+.logo-soul img{
+  height: 10rem
+  /*height: 50%*/
+  /*width: 100%;*/
+}
+
+.logo-fluid{
   position: relative;
-  width: 37%;
-  height: 8rem;
+  width: 100%;
+  height: 10rem;
   float: left;
   /*textAlign: right;*/
   display: flex;
-  alignItems: center;
-  left: 20rem;
+  /*用了反而svg不居中了。。。什么鬼）*/
+  /*align-items: center;*/
+  /*left: 20rem;*/
+}
 
+/*原来height用的auto是符合文字大小的高度*/
+.logo-fluid svg{
+  font-weight:bold;
+  max-width:30rem;
+  height:10rem;
+  top:50%;
+  display: block;
+  margin: 0 auto;
+  font-family: "Hiragino Sans GB", "Microsoft YaHei",
+             "WenQuanYi Micro Hei", sans-serif;
 }
 
 .logo-text2{
 
 }
+
+.mix-blend{
+  mix-blend-mode: screen;
+}
+
+circle { mix-blend-mode: multiply; }
 
 ul, li {
   padding: 0;
