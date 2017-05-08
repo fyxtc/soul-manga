@@ -32,7 +32,7 @@ export const STYLES = {
     // border: '3px solid aqua'
   },
   searchBar: {
-    margin: '1rem',
+    margin: '1rem'
     // border: '3px solid aqua'
     // padding: '10px'
   },
@@ -199,17 +199,19 @@ class CategoryBar extends React.Component {
     })
   }*/
 
-
   render() {
     return (
       <Router>
-        <div className="category-bar" >
-          <Col md={8} mdOffset={2} className='category-nav' >
-            {
-              self.categorys.map((v, k) => (
-                <Link key={'cat'+k} to={'/category/'+k} className="category-item" >{v}</Link>
-              ))
-            }   
+        <div className="category-bar">
+          <Col md={8} mdOffset={2} className="category-nav">
+            {self.categorys.map((v, k) => (
+              <Link
+                key={'cat' + k}
+                to={'/category/' + k}
+                className="category-item">
+                {v}
+              </Link>
+            ))}
           </Col>
           <Route exact path="/" component={MangaView} />
           <Route path="/category/:id" component={MangaView} />
@@ -377,7 +379,10 @@ class MangaView extends React.Component {
   render() {
     // console.log('MangaView render ' + (tis.props.route ? this.props.route.searchKey : "null"))
     return (
-      <Col md={8} mdOffset={2} /*style={STYLES.mangaItem}*/ className="manga-view">
+      <Col
+        md={8}
+        mdOffset={2}
+        /*style={STYLES.mangaItem}*/ className="manga-view">
         <InfiniteScroll
           pageStart={0}
           loadMore={this.loadItems.bind(this)}
@@ -469,7 +474,7 @@ export default class SoulManga extends React.Component {
   }
 }
 
-class LogoFluid  extends React.Component {
+class LogoFluid extends React.Component {
   render() {
     const text = '魂'
     return (
@@ -509,8 +514,8 @@ class LogoFluid  extends React.Component {
             x="50"
             y="20"
             fontSize="36"
-            // fontFamily="Microsoft YaHei" 
-            fontFamily='"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif'
+            // fontFamily="Microsoft YaHei"
+            fontFamily="&quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif"
             fill="url(#wave1)"
             fillOpacity="1.9">
             {text}
@@ -520,9 +525,9 @@ class LogoFluid  extends React.Component {
             x="50"
             y="20"
             fontSize="36"
-            // fontFamily="Microsoft YaHei" 
-            fontFamily='"Hiragino Sans GB", "Microsoft YaHei",
-             "WenQuanYi Micro Hei", sans-serif'
+            // fontFamily="Microsoft YaHei"
+            fontFamily="&quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;,
+             &quot;WenQuanYi Micro Hei&quot;, sans-serif"
             fill="url(#gradient1)"
             fillOpacity="0.6">
             {text}
@@ -534,7 +539,7 @@ class LogoFluid  extends React.Component {
   }
 }
 
-class LogoFluid2  extends React.Component {
+class LogoFluid2 extends React.Component {
   render() {
     const text = '漫'
     return (
@@ -575,7 +580,7 @@ class LogoFluid2  extends React.Component {
             x="50"
             y="20"
             fontSize="36"
-            fontFamily='"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif'
+            fontFamily="&quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif"
             fill="url(#wave1)"
             fillOpacity="1.9">
             {text}
@@ -585,7 +590,7 @@ class LogoFluid2  extends React.Component {
             x="50"
             y="20"
             fontSize="36"
-            fontFamily='"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif'
+            fontFamily="&quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif"
             fill="url(#gradient1)"
             fillOpacity="0.6">
             {text}
@@ -691,20 +696,20 @@ class Logo extends React.Component {
   render() {
     // 原来Col还可以指定left，这个好啊。。。小数问题就解决了，一般可以用嵌套。。但有的真的嵌套也算不出来。。。
     return (
-    <Col className="logo" >
-      <Col md={12} style={{left:'6.4rem'}} >
-      <Col md={2} mdOffset={1}>
-        <LogoFluid />
+      <Col className="logo">
+        <Col md={12} style={{ left: '6.7rem' }}>
+          <Col md={2} mdOffset={1}>
+            <LogoFluid />
+          </Col>
+          <Col className="logo-soul" md={5} mdOffset={0}>
+            <Image src="../images/logo.png" />
+          </Col>
+          {/* 微调0.1rem，视觉差....鸣人头发太亮了，看着高一些*/}
+          <Col md={2} mdOffset={0} style={{ top: '0.1rem' }}>
+            <LogoFluid2 />
+          </Col>
+        </Col>
       </Col>
-      <Col className="logo-soul" md={5} mdOffset={0}>
-        <Image src="../images/logo.png" />
-      </Col>
-      {/* 微调0.1rem，视觉差....鸣人头发太亮了，看着高一些*/}
-      <Col md={2} mdOffset={0} style={{top:'0.1rem'}} >
-        <LogoFluid2 />
-      </Col>
-      </Col>
-    </Col>
     )
   }
 }
@@ -795,18 +800,19 @@ class RandomImage extends React.Component {
     const t = this.state.right + 'px'
     return (
       // <div style={{backgroundImage:'./luffy.jpeg'}} > </div>
-      <Image
-        src="./luffy.jpeg"
-        style={{ /*width:'100px',*/ position: 'absolute', left: l, top: t }}
-      />
+      (
+        <Image
+          src="./luffy.jpeg"
+          style={{ /*width:'100px',*/ position: 'absolute', left: l, top: t }}
+        />
+      )
     )
   }
 }
 
-
-class Bubble extends React.Component{
-  componentDidMount(){
-    jQuery(document).ready(function($){
+class Bubble extends React.Component {
+  componentDidMount() {
+    jQuery(document).ready(function($) {
       // Define a blank array for the effect positions. This will be populated based on width of the title.
       var bArray = []
       // Define a size array, this will be used to vary bubble sizes
@@ -821,7 +827,7 @@ class Bubble extends React.Component{
       // Used within the setInterval a few times
       function randomValue(arr) {
         return arr[Math.floor(Math.random() * arr.length)]
-      }     
+      }
       // setInterval function used to create new bubble every 350 milliseconds
       setInterval(function() {
         // Get a random size, defined as variable so it can be used for both width and height
@@ -850,13 +856,12 @@ class Bubble extends React.Component{
             $(this).remove()
           }
         )
-      }, 350) 
+      }, 350)
     })
   }
 
-
-  render(){
-    return(
+  render() {
+    return (
       <div className="bubbles">
         <h1>Bubbling Header</h1>
       </div>
