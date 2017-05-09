@@ -180,20 +180,30 @@ body {
   position: absolute;
   z-index: 1; 
   bottom:0px;
-  margin-left: 40px;
+  margin-left: 60px;
 }
 
-.pikachu{
+.mengbi{
+  position: absolute;
   width: 80px;
-  margin-top: 90px;
+  /*margin-top: 90px;*/
+  bottom: 2px;
+}
+
+.auto-type{
+  position: absolute;
+  color: black;
+  font-weight: 400;
+  bottom: 110px;
+  z-index: 3;
 }
 
 .buka{
   /*mix-blend-mode: multiply;*/
   width: 200px;
   left: 100px;
-  margin-left: 120px;
-  margin-bottom: 20px;
+  margin-left: 200px;
+  margin-bottom: 0px;
 }
 
 .cover{

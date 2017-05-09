@@ -57,7 +57,8 @@ class Info extends React.Component {
           </h5>
         </div>
         <div className="info-image" >
-          <Image src="/images/pikachu.png" className="pikachu" />
+          <AutoType />
+          <Image src="/images/mengbi.png" className="mengbi" />
           <Image src="/images/buka.gif" className="buka" />
         </div>
       </Col>
@@ -188,3 +189,95 @@ export default class MangaInfo extends React.Component {
     }
   }
 }
+
+class AutoType extends React.Component {
+  componentDidMount() {
+    var words = [
+       'Hey girl ~',
+       '.........',
+       '何者だこら',
+       '俺様のことを知ってるか',
+       '.........',
+       'あ の。。。。',
+       'も し も し',
+       'すみません。。。。',
+       '何をしているですか',
+       '一体。。。',
+       'あのさ、　お前、　これ上手ですよね',
+       '俺を教えていいですか',
+       '。。。。。。。。。。。。',
+       'おう、なぜ何も言わないよ',
+       '俺、こんなに可愛いなのに',
+       '不愉快ですよね',
+       'じゃ、俺も言わない',
+       '。。。。。。。。。。。。',
+       '。。。。。。。。。。。。',
+       'くそ、　お前の勝ちだ',
+       'よっし、　決めだ',
+       '静かにあなたを見てる',
+       '終 　わ　　る',
+       '最後まで見てた、　ありがとうございます',
+       'さあ、もう一回、　始まるよ'
+     ],
+      // words = ['我需要来一发了','这里合适吗。。。','这个，容我三思一下', '！@#￥@#！￥@#$@', '那就来一发吧', '那么问题来了', '你也需要来一发吗？'],
+      part,
+      i = 0,
+      offset = 0,
+      len = words.length,
+      forwards = true,
+      skip_count = 0,
+      skip_delay = 5,
+      is_over = false,
+      speed = 120;
+
+    var wordflick = function() {
+      setInterval(function() {
+        if (is_over) {
+          return
+        }
+        if (forwards) {
+          if (offset >= words[i].length) {
+            ++skip_count
+            if (skip_count == skip_delay) {
+              forwards = false
+              skip_count = 0
+            }
+          }
+        } else {
+          // if(i === len){
+          //   is_over = true
+          //   return
+          // }
+          if (offset == 0) {
+            forwards = true
+            i++
+            offset = 0
+            if (i >= len) {
+              i = 0
+            }
+          }
+        }
+        part = words[i].substr(0, offset)
+        if (skip_count == 0) {
+          if (forwards) {
+            offset++
+          } else {
+            offset--
+          }
+        }
+        $('.auto-type').text(part)
+      }, speed)
+    }
+    $(document).ready(function() {
+      wordflick()
+    })
+  }
+  render() {
+    return <div className="auto-type" />
+  }
+}
+
+
+
+
+

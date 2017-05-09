@@ -356,7 +356,7 @@ class MangaView extends React.Component {
           pageStart={0}
           loadMore={this.loadItems.bind(this)}
           hasMore={this.state.hasMoreItems}
-          loader={<div className="loader">Loading ...</div>}
+          loader={<div className="loader">待ってください、Loading.....</div>}
           threshold={250}
           style={{ margin: '10px auto' }}
           initialLoad={true}>
@@ -442,7 +442,7 @@ class LogoFluid extends React.Component {
     const text = '魂'
     return (
       <div className="logo-fluid">
-        <svg viewBox="0 0 100 20">
+        <svg viewBox="0 0 100 20" className="animated fadeInLeft" >
           <defs>
             <linearGradient id="gradient1" x1="0" x2="0" y1="0" y2="1">
               <stop offset="5%" stopColor="#F0F8FF" />
@@ -496,7 +496,7 @@ class LogoFluid extends React.Component {
             {text}
           </text>
         </svg>
-        <Image src="/images/sasuke_left.png" />
+        <Image src="/images/sasuke_left.png" className="animated fadeInLeft"  />
       </div>
     )
   }
@@ -507,8 +507,8 @@ class LogoFluid2 extends React.Component {
     const text = '漫'
     return (
       <div className="logo-fluid">
-        <Image src="/images/naruto_right.png" />
-        <svg viewBox="0 0 100 20">
+        <Image src="/images/naruto_right.png" className="animated fadeInRight"  />
+        <svg viewBox="0 0 100 20" className="animated fadeInRight"  >
           {/*<defs>
             <linearGradient id="gradient2" x1="0" x2="0" y1="0" y2="1">
               <stop offset="5%" stopColor="F0F8FF" />
@@ -653,8 +653,8 @@ class Logo extends React.Component {
           <Col md={3} mdOffset={0}>
             <LogoFluid />
           </Col>
-          <Col className="logo-soul" md={6} mdOffset={0}>
-            <Image src="/images/logo.png" />
+          <Col  md={6} mdOffset={0}>
+            <Image src="/images/logo.png" className="logo-soul "/>
           </Col>
           {/* 微调0.1rem，视觉差....鸣人头发太亮了，看着高一些*/}
           <Col md={3} mdOffset={0} style={{ top: '0.1rem' }}>
@@ -687,66 +687,7 @@ class Logo extends React.Component {
   // }
 }
 
-class SearchTips extends React.Component {
-  componentDidMount() {
-    var words = ['hey I like SASS', 'I used to like LESS', 'I also heart Jade'],
-      // words = ['我需要来一发了','这里合适吗。。。','这个，容我三思一下', '！@#￥@#！￥@#$@', '那就来一发吧', '那么问题来了', '你也需要来一发吗？'],
-      part,
-      i = 0,
-      offset = 0,
-      len = words.length,
-      forwards = true,
-      skip_count = 0,
-      skip_delay = 5,
-      is_over = false,
-      speed = 100
 
-    var wordflick = function() {
-      setInterval(function() {
-        if (is_over) {
-          return
-        }
-        if (forwards) {
-          if (offset >= words[i].length) {
-            ++skip_count
-            if (skip_count == skip_delay) {
-              forwards = false
-              skip_count = 0
-            }
-          }
-        } else {
-          // if(i === len){
-          //   is_over = true
-          //   return
-          // }
-          if (offset == 0) {
-            forwards = true
-            i++
-            offset = 0
-            if (i >= len) {
-              i = 0
-            }
-          }
-        }
-        part = words[i].substr(0, offset)
-        if (skip_count == 0) {
-          if (forwards) {
-            offset++
-          } else {
-            offset--
-          }
-        }
-        $('.search-tips').text(part)
-      }, speed)
-    }
-    $(document).ready(function() {
-      wordflick()
-    })
-  }
-  render() {
-    return <div className="search-tips" />
-  }
-}
 
 class RandomImage extends React.Component {
   constructor(props) {

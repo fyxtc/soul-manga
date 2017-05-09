@@ -285,26 +285,20 @@ body{
 
 /* auto type:; search tips */
 /*修改css之后网页自动应用了。。。真尼玛6，都不要刷新..*/
-.search-tips{
-  /*text-align: right;*/
+/*.search-tips{
   width: flex;
-  /*height: 5rem;*/
-  /*background-color: #55A4E9;*/
   font-size: 2rem;
   position: absolute;
   top: 11.5rem;
   left: 35rem;
-  /*padding: 10px */
   color: #55A4E9;;
 }
 .search-tips > p{
   margin: auto;
-  /*color: blue;*/
-  /*font: 700 normal 4rem 'Montserrat',sans-serif;*/
   text-shadow: longshadow(10,darken($key,10%));
   font-size: 10rem
 }
-
+*/
 
 
 /*冒泡效果，主要依赖individual-bubble，bubbles我在Bubble Comp里面换成了category-nav了*/

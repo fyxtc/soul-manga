@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "animate.css": "^3.5.2",
     "chinese-s2t": "0.0.6",
     "hover.css": "^2.2.0",
     "jquery": "^3.2.1",
