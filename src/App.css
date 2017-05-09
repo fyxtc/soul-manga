@@ -43,7 +43,7 @@ body {
   /*background-image: url('../public/ice2.jpg');*/
   border: 20px solid blue;
   top: .8rem;
-  border-image: url('../public/images/op1.jpeg') 50% repeat;
+  border-image: url('../public/images/op1.jpeg') 30% round;
   /*border-image: url('../public/fire.jpeg') 50% round;*/
   /*background-image: url('../public/fire.jpeg'); */
   /*background-size: cover;*/
@@ -167,7 +167,7 @@ body {
   padding: 10px 20px;
   margin-top: 1rem;
   /*padding: 5rem*/
-  /*background-color: ghostwhite;*/
+  border-color: darkmagenta;
 }
 
 .info div{
@@ -208,22 +208,32 @@ body {
 }
 
 .cover{
-  border: 3px solid black;  
+  /*border: 3px solid black;  */
   height: 360px;
   display: flex;
   align-items: center;
   margin-top: 1rem;
   background-color: azure;
 
+  border-style: outset;
+}
+
+.cover img{
+  /*width: 100%;*/
+  /*border: 1px solid #8a4419;*/
+  /*border-style: inset;*/
+  filter: drop-shadow(5px 5px 5px #222);
+  margin-left: 5px;
+  margin-bottom: 7px;
 }
 
 .summary{
- border: 3px solid black; 
- text-align: center; 
- /*注意不能用top，因为top会导致overflow，用margin，top能实现的，margin都能，甚至可以用margin-top直接替代*/
- /*top: 2rem;*/
- margin: 1.5rem auto;
- padding: 1.5rem;
+  border: 2px solid black; 
+  text-align: center; 
+  /*注意不能用top，因为top会导致overflow，用margin，top能实现的，margin都能，甚至可以用margin-top直接替代*/
+  /*top: 2rem;*/
+  margin: 1.5rem auto;
+  padding: 1.5rem;
 }
 
 .summary img{
@@ -234,6 +244,10 @@ body {
   color: blue;
   font-size: 13pt;
   font-weight: 400;
+  /*color: white;*/
+  text-shadow: 2px 2px 4px aqua;
+  /*text-shadow: 1px 1px 1px black, 0 0 2px white, 0 0 5px white;*/
+
 }
 
 .summary-content{
@@ -262,7 +276,7 @@ body {
 
 .chapter-item a{
   color: black;
-  text-decoration: underline;
+  /*text-decoration: underline;*/
 }
 
 .chapter-item a:hover{
