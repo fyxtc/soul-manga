@@ -244,7 +244,7 @@ class MangaItem extends React.Component {
     // target='_self'必须要。。为啥？
     return (
       <Router>
-        <Col className="manga-item" md={2} style={{ textAlign: 'center' }}>
+        <Col className="manga-item hvr-bounce-in " md={2} style={{ textAlign: 'center' }}>
           <Link to={`/info/${this.props.data.mid}`} target="_self">
             <div style={{ height: '19rem' }}>
               <Image
@@ -373,7 +373,7 @@ export class Footer extends React.Component {
       <Col
         md={12}
         mdOffset={0} className="footer">
-        <span> ShindouHikaru Copyright </span>
+        <span>Copyright By ShindouHikaru All Rights Reserve</span>
       </Col>
     )
   }

@@ -122,7 +122,7 @@ class ChapterItem extends React.Component {
     const suffix = this.props.vol_or_ch ? '卷' : '话'
     return (
       <Router>
-        <Col md={2} className="chapter-item" >
+        <Col md={2} className="chapter-item   hvr-shutter-in-horizontal" >
           <Link
             to={`/read/${this.props.mid}/chapter/${this.props.ch}`}
             target="_self">{`第 ${this.props.ch} ${suffix}`}</Link>
@@ -165,17 +165,21 @@ export default class MangaInfo extends React.Component {
     } else {
       const info = this.state.info
       return (
-        <Col md={6} mdOffset={3} className="info-page" >
-          <Col md={5} >
-            <Cover cover_image={info.cover_image} />
-          </Col>
-          <Col md={7} >
-            <Info info={info} />
-          </Col>
+        <div >
+          <Col md={6} mdOffset={3} className="info-page" >
+            <Col md={5} >
+              <Cover cover_image={info.cover_image} />
+            </Col>
+            <Col md={7} >
+              <Info info={info} />
+            </Col>
             <Summary summary={info.summary} name={info.name} />
             <Chapter all_chapters_len={info.all_chapters_len} mid={info.mid} vol_or_ch={info.vol_or_ch} />
-            {/*<Footer />*/}
-        </Col>
+          </Col>
+          <Col>
+              <Footer />
+          </Col>
+        </div>
       )
     }
   }

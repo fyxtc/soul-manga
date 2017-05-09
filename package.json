@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "chinese-s2t": "0.0.6",
+    "hover.css": "^2.2.0",
     "jquery": "^3.2.1",
     "radium": "^0.18.2",
     "react": "^15.5.4",

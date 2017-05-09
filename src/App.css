@@ -147,7 +147,7 @@ body {
   /*background-color: darkgray;*/
   background: rgba(240, 248, 255, 0.8);
   /*border-image: url('../public/images/fire_border.png') 50% repeat ;*/
-  /*min-height: 1080px;*/
+  min-height: 800px;
 }
 
 .info{
@@ -164,7 +164,7 @@ body {
 }
 
 .cover{
-  border: 3px solid red;  
+  border: 3px solid black;  
   height: 360px;
   display: flex;
   align-items: center;
@@ -220,12 +220,24 @@ body {
   text-decoration: underline;
 }
 
+.chapter-item a:hover{
+  /*background: white;*/
+  color:white;
+  font-weight: 500;
+}
+
 .footer{
   /*top: 6rem;*/
-  background-color: white;
-  padding: 1rem;
-  border: 3px solid red;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0);
+  /*border: 3px solid blue;*/
   text-align: center;
+  font-weight: 500;
+  font-size: 12pt;
+  position: fixed;
+  /*margin: 10px;*/
+  bottom: 0px;
+  padding: 12px ;
 }
 
 .clear{
