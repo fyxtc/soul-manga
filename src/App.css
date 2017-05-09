@@ -14,12 +14,13 @@ body {
 .category-bar{
   margin: auto;
   height: 5rem;
+  /*background-color: darkcyan;*/
   /*border: 10px solid blue;*/
   /*border-image: url('../public/op1.jpeg') 50% round;*/
 }
 
 .category-nav{
-  background-color: lightblue; 
+  background-color: darkcyan; 
   height: 5rem;
   /*border: 10px solid blue;*/
   /*border-image: url('../public/op1.jpeg') 50% round;*/
@@ -33,19 +34,33 @@ body {
 .category-item{
   width: 50%; /*必须设置一个宽度，上面的align-items才有效。。什么鬼 */
   font-size: 1.5rem;
-  /*font-weight: 500;*/
-  color: blue;
+  font-weight: 500;
+  color: lavender;
   border-color: #ffe484;
 }
 
 .manga-view{
   /*background-image: url('../public/ice2.jpg');*/
   border: 20px solid blue;
-  top: 3rem;
+  top: .8rem;
   border-image: url('../public/images/op1.jpeg') 50% repeat;
   /*border-image: url('../public/fire.jpeg') 50% round;*/
   /*background-image: url('../public/fire.jpeg'); */
   /*background-size: cover;*/
+}
+
+.manga-item{
+  /*border: 1px solid blue;*/
+  /*border-image: url('../public/images/op1.jpeg') 50% repeat;*/
+}
+
+.manga-item img{
+  border-radius: 10px;
+  border: 2px solid blue
+}
+
+.manga-item span{
+  color: black;
 }
 
 .logo{
@@ -95,9 +110,128 @@ body {
 
 }
 
+/*原来真的有用。。。，原来用在sasuke_left上，变白了。。。 ;*/
 .mix-blend{
   mix-blend-mode: screen;
 }
+
+.search-bar{
+  height: 5rem;
+}
+
+.search-pre{
+
+}
+
+.input-control{
+  top: 1rem;
+}
+
+.button-control{
+  top:1rem;
+  height: 5rem;
+  padding: 1rem;
+}
+
+.input-text{
+  font-size: 16;
+  height: 3rem;
+}
+
+/*  ------------------------------------ info page ---------------------------------*/
+
+.info-page{
+  height: auto;
+  top: 1rem;
+  border: 4px solid #3d3d3d;
+  /*background-color: darkgray;*/
+  background: rgba(240, 248, 255, 0.8);
+  /*border-image: url('../public/images/fire_border.png') 50% repeat ;*/
+  /*min-height: 1080px;*/
+}
+
+.info{
+  height: 360px; /*same with .cover*/
+  border: 2px solid black;
+  padding: 10px 20px;
+  margin-top: 1rem;
+  /*padding: 5rem*/
+}
+
+.info div{
+  text-align: left;
+  line-height: 2;
+}
+
+.cover{
+  border: 3px solid red;  
+  height: 360px;
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+
+}
+
+.summary{
+ border: 3px solid black; 
+ text-align: center; 
+ /*注意不能用top，因为top会导致overflow，用margin，top能实现的，margin都能，甚至可以用margin-top直接替代*/
+ /*top: 2rem;*/
+ margin: 1.5rem auto;
+ padding: 1.5rem;
+}
+
+.summary img{
+  width: 10rem;
+}
+
+.summary-title{
+  color: blue;
+  font-size: 13pt;
+  font-weight: 400;
+}
+
+.summary-content{
+ /*border: 3px solid black; */
+ padding: .5rem 0; 
+ text-align: left; 
+}
+
+.chapter{
+  padding: 1rem;
+  /*因为summary用了top，所以下面的所有div都要top至少2rem*/
+  /*top: 4rem;*/ 
+  border: 2px solid black;
+  margin: 2rem auto;
+}
+
+.chapter-item{
+  top: 0; 
+  border: 1px solid blue;
+  text-align: center;  
+  color: black;
+  margin: .1rem;
+  /*重写md，自己适应*/
+  width: 16.3%;
+}
+
+.chapter-item a{
+  color: black;
+  text-decoration: underline;
+}
+
+.footer{
+  /*top: 6rem;*/
+  background-color: white;
+  padding: 1rem;
+  border: 3px solid red;
+  text-align: center;
+}
+
+.clear{
+  clear: both;
+}
+
 
 circle { mix-blend-mode: multiply; }
 

@@ -34,6 +34,11 @@ body {
 
 }
 
+/*要重写bootstrap的p标签，他默认是0, 0, 10px。日你哥*/
+p{
+  margin: 0;
+}
+
 .sep {
   border: 0;
   /*width: 3em;*/
@@ -52,8 +57,8 @@ body {
           align-items: center;
   /*width: 50%;*/
   /*height: 100vh; hikaru*/
-  height: 8rem;
-  color: #fff;
+  height: 5rem; /*和search-bar一样高 还要和.mast>div值一样*/
+  /*color: #fff;*/
   float: left;
   /*background-color: #111;*/
 }
@@ -71,7 +76,7 @@ body {
   z-index: 2;
   position: relative;
   margin: 0 auto; /*hikaru*/
-  height: 8rem;
+  height: 5rem; /*和mast值一样*/
 
   /*single line center*/
   display: flex;

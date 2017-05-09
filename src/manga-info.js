@@ -2,6 +2,7 @@ import React from 'react'
 import { Col, Row, Image } from 'react-bootstrap'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import { SERVER_SETTING, STYLES, Footer } from './App.js'
+import $ from 'jquery'
 
 class Cover extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class Cover extends React.Component {
 
   render() {
     return (
-      <Col md={5}  style={{ border: '3px solid red',  paddingLeft:'5rem' }}>
+      <Col md={12} className="cover" >
         <Image src={`${this.props.cover_image}`} thumbnail responsive />
       </Col>
     )
@@ -43,16 +44,18 @@ class Info extends React.Component {
   render() {
     const info = this.props.info
     return (
-      <Col md={6} mdOffset={0} style={{border:'2px solid black', padding:'5rem', }}>
-        <p>{'最后更新: ' + info.last_update_date}</p>
-        <p>{'原创作者: ' + info.author}</p>
-        <p>{'连载状态: ' + info.status}</p>
-        <p>{'人气指数: ' + info.pop}</p>
-        <p>{'漫画分类: ' + self.categorys[info.category]}</p>
-        <p>{'漫画标签: ' + info.tags}</p>
-        <p>
+      <Col md={12} mdOffset={0} className="info" >
+      <div>
+        <h5>{'最后更新: ' + info.last_update_date}</h5>
+        <h5>{'原创作者: ' + info.author}</h5>
+        <h5>{'连载状态: ' + info.status}</h5>
+        <h5>{'人气指数: ' + info.pop}</h5>
+        <h5>{'漫画分类: ' + self.categorys[info.category]}</h5>
+        <h5>{'漫画标签: ' + info.tags}</h5>
+        <h5>
           {'收录漫画: ' + info.cover_update_info}
-        </p>
+        </h5>
+      </div>
       </Col>
     )
   }
@@ -68,12 +71,13 @@ class Summary extends React.Component {
       <Col
         md={12}
         mdOffset={0}
-        style={{ border: '3px solid black', padding: 20, textAlign: 'center' }}>
-        {this.props.name + '简介'}
-        <Row
-          style={{ border: '3px solid black', padding: 20, textAlign: 'left' }}>
+        className="summary">
+        <div className="summary-title" >
+          <span>{this.props.name + '简介'}</span>
+        </div>
+        <div className="summary-content">
           {this.props.summary}
-        </Row>
+        </div>
       </Col>
     )
   }
@@ -92,6 +96,7 @@ class Chapter extends React.Component {
           key={this.props.mid + '-' + i}
           ch={i}
           mid={this.props.mid}
+          vol_or_ch={this.props.vol_or_ch}
         />
       )
     }
@@ -101,7 +106,7 @@ class Chapter extends React.Component {
     //   <ChapterItem key={ch} ch={ch} id={this.props.mid} />
     // ))
     return (
-      <Col md={12} mdOffset={0} style={{ padding: '5rem 1rem' }}>
+      <Col md={12} mdOffset={0} className="chapter" >
         {chapters}
       </Col>
     )
@@ -114,14 +119,13 @@ class ChapterItem extends React.Component {
   }
 
   render() {
+    const suffix = this.props.vol_or_ch ? '卷' : '话'
     return (
       <Router>
-        <Col
-          md={3}
-          style={{ top: 0, border: '3px solid red', textAlign: 'center' }}>
+        <Col md={2} className="chapter-item" >
           <Link
             to={`/read/${this.props.mid}/chapter/${this.props.ch}`}
-            target="_self">{`第 ${this.props.ch} 话`}</Link>
+            target="_self">{`第 ${this.props.ch} ${suffix}`}</Link>
         </Col>
       </Router>
     )
@@ -149,6 +153,10 @@ export default class MangaInfo extends React.Component {
         console.log(json)
         this.setState({ info: json })
       })
+
+    $(document).ready(function() {
+        $('body').css('background-image', 'url(../images/op.png)')
+    })
   }
 
   render() {
@@ -157,20 +165,16 @@ export default class MangaInfo extends React.Component {
     } else {
       const info = this.state.info
       return (
-        <Col md={6} mdOffset={3} style={STYLES.info}>
-          <Row style={{border:'2px solid yellow', }} >
+        <Col md={6} mdOffset={3} className="info-page" >
+          <Col md={5} >
             <Cover cover_image={info.cover_image} />
+          </Col>
+          <Col md={7} >
             <Info info={info} />
-          </Row>
-          <Row>
+          </Col>
             <Summary summary={info.summary} name={info.name} />
-          </Row>
-          <Row>
-            <Chapter all_chapters_len={info.all_chapters_len} mid={info.mid} />
-          </Row>
-          <Row>
-            <Footer />
-          </Row>
+            <Chapter all_chapters_len={info.all_chapters_len} mid={info.mid} vol_or_ch={info.vol_or_ch} />
+            {/*<Footer />*/}
         </Col>
       )
     }

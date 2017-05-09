@@ -27,39 +27,6 @@ import Radium from 'radium'
 import $ from 'jquery'
 import jQuery from 'jquery'
 
-export const STYLES = {
-  border: {
-    // border: '3px solid aqua'
-  },
-  searchBar: {
-    margin: '1rem'
-    // border: '3px solid aqua'
-    // padding: '10px'
-  },
-  input: {
-    fontSize: 16,
-    height: '3rem'
-    // color:'red'
-  },
-
-  // navItem: {
-  //   // fontSize: 26,
-  //   // padding: '1rem 2rem',
-  //   fontSize: '1.4rem',
-  //   fontWeight: 500,
-  //   // color: '#ffe484',
-  //   color: 'blue',
-  //   borderColor: '#ffe484'
-  // },
-  info: { top: 50, border: '3px solid blue' },
-  mangaView: {
-    position: 'relative',
-    top: 0,
-    fontColor: 'blue',
-    // border: '3px solid darkblue',
-    height: 300
-  }
-}
 
 export const SERVER_SETTING = {
   url: 'http://localhost:5000',
@@ -96,19 +63,23 @@ class SearchBar extends React.Component {
     }
     return (
       <Router>
-        <Form style={STYLES.searchBar}>
-          <Row>
-            <Col md={3} mdOffset={5}>
+        <Form className="search-bar" >
+            <Col md={3} mdOffset={2} style={{left:'4.5rem', height:'5rem'}} >
+              <Col md={11} mdOffset={0}>
+              <LogoText1 />
+              </Col>
+            </Col>
+            <Col md={4} mdOffset={0} className="input-control" >
               <FormControl
+                className="input-text"
                 type="text"
                 placeholder="search here"
                 value={this.state.searchKey}
-                style={STYLES.input}
                 onChange={this.handleInput.bind(this)}
                 onKeyPress={this.handleKeyPress.bind(this)}
               />
             </Col>
-            <Col>
+            <Col className="button-control" >
               <Link to={'/search/' + this.state.searchKey} target="_self">
                 <Button
                   bsStyle="primary"
@@ -119,7 +90,6 @@ class SearchBar extends React.Component {
                 </Button>
               </Link>
             </Col>
-          </Row>
         </Form>
       </Router>
     )
@@ -274,20 +244,19 @@ class MangaItem extends React.Component {
     // target='_self'必须要。。为啥？
     return (
       <Router>
-        <Col md={2} style={{ textAlign: 'center' }}>
+        <Col className="manga-item" md={2} style={{ textAlign: 'center' }}>
           <Link to={`/info/${this.props.data.mid}`} target="_self">
             <div style={{ height: '19rem' }}>
               <Image
                 src={this.props.data.cover_image}
-                width={'150rem'}
-                height={'190rem'}
-                style={{ borderRadius: '10px' }}
+                width={'150px'}
+                height={'190px'}
                 // thumbnail
                 // responsive
               />
               <div>
                 <p>
-                  <span style={STYLES.navItem}>{this.props.data.name}</span>
+                  <span>{this.props.data.name}</span>
                 </p>
               </div>
             </div>
@@ -403,12 +372,7 @@ export class Footer extends React.Component {
     return (
       <Col
         md={12}
-        mdOffset={0}
-        style={{
-          padding: '2rem',
-          border: '3px solid red',
-          textAlign: 'center'
-        }}>
+        mdOffset={0} className="footer">
         <span> ShindouHikaru Copyright </span>
       </Col>
     )
@@ -452,7 +416,7 @@ class Home extends React.Component {
 
 export default class SoulManga extends React.Component {
   // render(){
-  //   return <Logo />
+  //   return <SearchTips />
   // }
 
   render() {
@@ -461,7 +425,6 @@ export default class SoulManga extends React.Component {
       <Router>
         <div>
           <Logo />
-          <SearchTips />
           <Route exact path="/" component={Home} />
           <Route path="/category/*" component={Home} />
           <Route path="/search/:key" component={Home} />
@@ -533,7 +496,7 @@ class LogoFluid extends React.Component {
             {text}
           </text>
         </svg>
-        <Image className="mix-blend" src="../images/sasuke_left.png" />
+        <Image src="../images/sasuke_left.png" />
       </div>
     )
   }
@@ -802,7 +765,7 @@ class RandomImage extends React.Component {
       // <div style={{backgroundImage:'./luffy.jpeg'}} > </div>
       (
         <Image
-          src="./luffy.jpeg"
+          src="./images/sasuke_left.png"
           style={{ /*width:'100px',*/ position: 'absolute', left: l, top: t }}
         />
       )
