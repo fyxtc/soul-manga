@@ -167,6 +167,7 @@ body {
   padding: 10px 20px;
   margin-top: 1rem;
   /*padding: 5rem*/
+  /*background-color: ghostwhite;*/
 }
 
 .info div{
@@ -212,6 +213,7 @@ body {
   display: flex;
   align-items: center;
   margin-top: 1rem;
+  background-color: azure;
 
 }
 

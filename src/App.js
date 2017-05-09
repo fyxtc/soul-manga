@@ -79,10 +79,11 @@ class SearchBar extends React.Component {
                 onKeyPress={this.handleKeyPress.bind(this)}
               />
             </Col>
-            <Col className="button-control" >
+            <Col className="button-control " >
               <Link to={'/search/' + this.state.searchKey} target="_self">
                 <Button
                   bsStyle="primary"
+                  className="hvr-buzz"
                   /*bsSize="lg"*/ onClick={this.props.handleSearch}
                   style={{ height: '3rem', width: '8rem', float: 'left' }}>
                   <Glyphicon glyph="search" />
@@ -178,7 +179,7 @@ class CategoryBar extends React.Component {
               <Link
                 key={'cat' + k}
                 to={'/category/' + k}
-                className="category-item">
+                className="category-item hvr-wobble-vertical ">
                 {v}
               </Link>
             ))}
@@ -244,7 +245,7 @@ class MangaItem extends React.Component {
     // target='_self'必须要。。为啥？
     return (
       <Router>
-        <Col className="manga-item hvr-buzz " md={2} style={{ textAlign: 'center' }}>
+        <Col className="manga-item hvr-pulse-grow " md={2} style={{ textAlign: 'center' }}>
           <Link to={`/info/${this.props.data.mid}`} target="_self">
             <div style={{ height: '19rem' }}>
               <Image
@@ -586,6 +587,11 @@ class LogoText1 extends React.Component {
         }
       spanizeLetters.init()
     })(jQuery)
+
+    // 只能一次有效。。。嘛，一次就一次吧
+    $('.mast').hover(function () {
+      $(this).addClass('magictime puffIn')
+    })
   }
 
   render() {

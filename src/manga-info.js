@@ -127,7 +127,7 @@ class ChapterItem extends React.Component {
     const suffix = this.props.vol_or_ch ? '卷' : '话'
     return (
       <Router>
-        <Col md={2} className="chapter-item   hvr-shutter-in-horizontal" >
+        <Col md={2} className="chapter-item   hvr-radial-out" >
           <Link
             to={`/read/${this.props.mid}/chapter/${this.props.ch}`}
             target="_self">{`第 ${this.props.ch} ${suffix}`}</Link>
