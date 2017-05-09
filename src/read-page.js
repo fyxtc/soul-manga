@@ -46,7 +46,7 @@ export default class ReadPage extends React.Component {
         // 左右箭头翻页，上下箭头滚动
         // todo: 两个问题，一个是翻页之后滚动条没有重置，还一个是图片应该显示源大小即可，不要缩放
         if (!this.state.image_base_url) {
-            return <h1>Loading</h1>
+            return <h1>待ってください、Loading.....</h1>
         } else {
             const images_arr = []
             for (let i = 1; i <= this.state.cur_ch_pages; i++) {

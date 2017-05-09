@@ -244,7 +244,7 @@ class MangaItem extends React.Component {
     // target='_self'必须要。。为啥？
     return (
       <Router>
-        <Col className="manga-item hvr-bounce-in " md={2} style={{ textAlign: 'center' }}>
+        <Col className="manga-item hvr-buzz " md={2} style={{ textAlign: 'center' }}>
           <Link to={`/info/${this.props.data.mid}`} target="_self">
             <div style={{ height: '19rem' }}>
               <Image
@@ -496,7 +496,7 @@ class LogoFluid extends React.Component {
             {text}
           </text>
         </svg>
-        <Image src="../images/sasuke_left.png" />
+        <Image src="/images/sasuke_left.png" />
       </div>
     )
   }
@@ -507,7 +507,7 @@ class LogoFluid2 extends React.Component {
     const text = '漫'
     return (
       <div className="logo-fluid">
-        <Image src="../images/naruto_right.png" />
+        <Image src="/images/naruto_right.png" />
         <svg viewBox="0 0 100 20">
           {/*<defs>
             <linearGradient id="gradient2" x1="0" x2="0" y1="0" y2="1">
@@ -650,22 +650,23 @@ class Logo extends React.Component {
   //   return (
   //     <Col className="logo" >
   //       <LogoFluid />
-  //       <Image src="../images/logo.jpg" />
+  //       <Image src="/images/logo.jpg" />
   //       <LogoFluid2 />
   //     </Col>
   //   )
   // }
 
   render() {
-    // 原来Col还可以指定left，这个好啊。。。小数问题就解决了，一般可以用嵌套。。但有的真的嵌套也算不出来。。。
+    // 原来Col还可以指定left，这个好啊并不好，top/left/bottom/right这样的操作就把整个html扩大了，用margin-left。。。这个情况也会寄出去小数问题就解决了，一般可以用嵌套。。但有的真的嵌套也算不出来。。。
+    // img src 使用/路径表示的就是public目录下的绝对路径，如果用./ ../之类的是相对当前url下的，这样在read-page就跪了
     return (
       <Col className="logo">
-        <Col md={12} style={{ left: '6.7rem' }}>
+        <Col md={12} style={{ }}>
           <Col md={2} mdOffset={1}>
             <LogoFluid />
           </Col>
           <Col className="logo-soul" md={5} mdOffset={0}>
-            <Image src="../images/logo.png" />
+            <Image src="/images/logo.png" />
           </Col>
           {/* 微调0.1rem，视觉差....鸣人头发太亮了，看着高一些*/}
           <Col md={2} mdOffset={0} style={{ top: '0.1rem' }}>

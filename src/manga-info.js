@@ -161,7 +161,7 @@ export default class MangaInfo extends React.Component {
 
   render() {
     if (!this.state.info) {
-      return <h1>Loading</h1>
+      return <h1>待ってください、Loading.....</h1>
     } else {
       const info = this.state.info
       return (
