@@ -45,17 +45,21 @@ class Info extends React.Component {
     const info = this.props.info
     return (
       <Col md={12} mdOffset={0} className="info" >
-      <div>
-        <h5>{'最后更新: ' + info.last_update_date}</h5>
-        <h5>{'原创作者: ' + info.author}</h5>
-        <h5>{'连载状态: ' + info.status}</h5>
-        <h5>{'人气指数: ' + info.pop}</h5>
-        <h5>{'漫画分类: ' + self.categorys[info.category]}</h5>
-        <h5>{'漫画标签: ' + info.tags}</h5>
-        <h5>
-          {'收录漫画: ' + info.cover_update_info}
-        </h5>
-      </div>
+        <div>
+          <h5>{'最后更新: ' + info.last_update_date}</h5>
+          <h5>{'原创作者: ' + info.author}</h5>
+          <h5>{'连载状态: ' + info.status}</h5>
+          <h5>{'人气指数: ' + info.pop}</h5>
+          <h5>{'漫画分类: ' + self.categorys[info.category]}</h5>
+          <h5>{'漫画标签: ' + info.tags}</h5>
+          <h5>
+            {'收录漫画: ' + info.cover_update_info}
+          </h5>
+        </div>
+        <div className="info-image" >
+          <Image src="/images/pikachu.png" className="pikachu" />
+          <Image src="/images/buka.gif" className="buka" />
+        </div>
       </Col>
     )
   }

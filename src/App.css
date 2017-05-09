@@ -70,6 +70,14 @@ body {
   height: 10rem;
 }
 
+.logo-center{
+  height: 10rem;
+  /*下面三行用于居中*/
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /*这里还有其他的naruto&sasuke图片*/
 .logo img{
   height: 9rem;
@@ -77,7 +85,10 @@ body {
 }
 
 .logo-soul img{
-  height: 10rem
+  height: 10rem;
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
   /*height: 50%*/
   /*width: 100%;*/
 }
@@ -161,6 +172,28 @@ body {
 .info div{
   text-align: left;
   line-height: 2;
+  position: absolute;
+  z-index: 0;
+}
+
+.info-image{
+  position: absolute;
+  z-index: 1; 
+  bottom:0px;
+  margin-left: 40px;
+}
+
+.pikachu{
+  width: 80px;
+  margin-top: 90px;
+}
+
+.buka{
+  /*mix-blend-mode: multiply;*/
+  width: 200px;
+  left: 100px;
+  margin-left: 120px;
+  margin-bottom: 20px;
 }
 
 .cover{

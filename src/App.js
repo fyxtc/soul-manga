@@ -476,7 +476,7 @@ class LogoFluid extends React.Component {
             textAnchor="start"
             x="50"
             y="20"
-            fontSize="36"
+            fontSize="26"
             // fontFamily="Microsoft YaHei"
             fontFamily="&quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif"
             fill="url(#wave1)"
@@ -487,7 +487,7 @@ class LogoFluid extends React.Component {
             textAnchor="start"
             x="50"
             y="20"
-            fontSize="36"
+            fontSize="26"
             // fontFamily="Microsoft YaHei"
             fontFamily="&quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;,
              &quot;WenQuanYi Micro Hei&quot;, sans-serif"
@@ -542,7 +542,7 @@ class LogoFluid2 extends React.Component {
             textAnchor="end"
             x="50"
             y="20"
-            fontSize="36"
+            fontSize="26"
             fontFamily="&quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif"
             fill="url(#wave1)"
             fillOpacity="1.9">
@@ -552,7 +552,7 @@ class LogoFluid2 extends React.Component {
             textAnchor="end"
             x="50"
             y="20"
-            fontSize="36"
+            fontSize="26"
             fontFamily="&quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif"
             fill="url(#gradient1)"
             fillOpacity="0.6">
@@ -646,36 +646,45 @@ class LogoText2 extends React.Component {
 }
 
 class Logo extends React.Component {
-  // render() {
-  //   return (
-  //     <Col className="logo" >
-  //       <LogoFluid />
-  //       <Image src="/images/logo.jpg" />
-  //       <LogoFluid2 />
-  //     </Col>
-  //   )
-  // }
-
   render() {
-    // 原来Col还可以指定left，这个好啊并不好，top/left/bottom/right这样的操作就把整个html扩大了，用margin-left。。。这个情况也会寄出去小数问题就解决了，一般可以用嵌套。。但有的真的嵌套也算不出来。。。
-    // img src 使用/路径表示的就是public目录下的绝对路径，如果用./ ../之类的是相对当前url下的，这样在read-page就跪了
     return (
       <Col className="logo">
-        <Col md={12} style={{ }}>
-          <Col md={2} mdOffset={1}>
+        <Col md={9} className="logo-center" >
+          <Col md={3} mdOffset={0}>
             <LogoFluid />
           </Col>
-          <Col className="logo-soul" md={5} mdOffset={0}>
+          <Col className="logo-soul" md={6} mdOffset={0}>
             <Image src="/images/logo.png" />
           </Col>
           {/* 微调0.1rem，视觉差....鸣人头发太亮了，看着高一些*/}
-          <Col md={2} mdOffset={0} style={{ top: '0.1rem' }}>
+          <Col md={3} mdOffset={0} style={{ top: '0.1rem' }}>
             <LogoFluid2 />
           </Col>
         </Col>
       </Col>
     )
   }
+
+  // render() {
+  //   // 原来Col还可以指定left，这个好啊并不好，top/left/bottom/right这样的操作就把整个html扩大了，用margin-left。。。这个情况也会寄出去小数问题就解决了，一般可以用嵌套。。但有的真的嵌套也算不出来。。。
+  //   // img src 使用/路径表示的就是public目录下的绝对路径，如果用./ ../之类的是相对当前url下的，这样在read-page就跪了
+  //   return (
+  //     <Col className="logo">
+  //       <Col md={12} style={{ }}>
+  //         <Col md={2} mdOffset={1}>
+  //           <LogoFluid />
+  //         </Col>
+  //         <Col className="logo-soul" md={5} mdOffset={0}>
+  //           <Image src="/images/logo.png" />
+  //         </Col>
+  //         {/* 微调0.1rem，视觉差....鸣人头发太亮了，看着高一些*/}
+  //         <Col md={2} mdOffset={0} style={{ top: '0.1rem' }}>
+  //           <LogoFluid2 />
+  //         </Col>
+  //       </Col>
+  //     </Col>
+  //   )
+  // }
 }
 
 class SearchTips extends React.Component {
