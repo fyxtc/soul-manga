@@ -518,6 +518,12 @@ export default class SoulManga extends React.Component {
 }
 
 class LogoFluid extends React.Component {
+  render(){
+    return(
+      <Image src="/images/sasuke_left.png" className="animated fadeInLeft"  />
+    )
+  }
+
   render() {
     const text = '魂'
     return (

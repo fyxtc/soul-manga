@@ -113,6 +113,7 @@ body {
   top:50%;
   display: block;
   margin: 0 auto;
+  shape-rendering: crispEdges;
   font-family: "Hiragino Sans GB", "Microsoft YaHei",
              "WenQuanYi Micro Hei", sans-serif;
 }
@@ -218,6 +219,14 @@ body {
   width: 80px;
   /*margin-top: 90px;*/
   bottom: 2px;
+  left: 15%;
+}
+
+.disco{
+  position: absolute;
+  width: 40%; 
+  bottom: 1px;
+  left:15px;
 }
 
 .auto-type{
@@ -226,14 +235,16 @@ body {
   font-weight: 400;
   bottom: 110px;
   z-index: 3;
+  left: 4rem;
+  /*width: 10rem;*/
 }
 
 .buka{
   /*mix-blend-mode: multiply;*/
-  width: 200px;
-  left: 100px;
-  margin-left: 200px;
-  margin-bottom: 0px;
+  width: 230px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
 }
 
 .cover{
@@ -244,7 +255,10 @@ body {
   margin-top: 1rem;
   background-color: azure;
 
-  border-style: outset;
+  border-top-style: inset;
+  border-left-style: inset;
+  border-bottom-style: outset;
+  border-right-style: outset;
 }
 
 .cover img{
@@ -252,8 +266,8 @@ body {
   /*border: 1px solid #8a4419;*/
   /*border-style: inset;*/
   filter: drop-shadow(5px 5px 5px #222);
-  margin-left: 5px;
-  margin-bottom: 7px;
+  margin-left: 2rem;
+  margin-bottom: 2%;
 }
 
 .summary{

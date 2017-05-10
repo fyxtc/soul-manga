@@ -56,11 +56,10 @@ class Info extends React.Component {
             {'收录漫画: ' + info.cover_update_info}
           </h5>
         </div>
-        <div className="info-image" >
-          <AutoType />
-          <Image src="/images/mengbi.png" className="mengbi" />
+          {/*<AutoType />*/}
+          {/*<Image src="/images/mengbi.png" className="mengbi" />*/}
+          <Image src="/images/disco.png" className="disco" />
           <Image src="/images/buka.gif" className="buka" />
-        </div>
       </Col>
     )
   }
