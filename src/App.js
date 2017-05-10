@@ -287,8 +287,7 @@ class MangaView extends React.Component {
   }
 
   loadItems(page) {
-    console.log(this.props)
-    // console.log("load page " + page)
+    // console.log(this.props)
     const key = this.props.match.params.key
     // const cat = this.props.match.params.id
     if (this.props.match.params.id || key) {
@@ -300,6 +299,7 @@ class MangaView extends React.Component {
           for (let i = 0; i < json.data.length; i++) {
             this.loadItemsDetail(page, json.data[i])
           }
+          // this.printCurAllItems()
           this.setState({ items: this.state.items })
           // console.log("over " + json.over)
           if (json.over) {
@@ -319,6 +319,7 @@ class MangaView extends React.Component {
             this.loadItemsDetail(page, json[i])
           }
           // 一次性返回全部的结果了
+          // this.printCurAllItems()
           this.setState({ items: this.state.items, hasMoreItems: false })
         })
       }
@@ -331,22 +332,35 @@ class MangaView extends React.Component {
         for (let i = 0; i < json.data.length; i++) {
           this.loadItemsDetail(page, json.data[i])
         }
+        // this.printCurAllItems()
         this.setState({ items: this.state.items })
         // console.log("over " + json.over)
-        if (json.over === 1 || json.over === '1') {
+        if (json.over) {
           this.setState({ hasMoreItems: false })
         }
       })
     }
+  console.log('load page ' + page + ': current item: ' + this.state.items.length)  
+}
+
+  printCurAllItems(){
+    let res = this.state.items
+    for(let i = 0; i < res.length; i++){
+      // console.log(res[i])
+      // console.log('fuck ' + res[i].key)
+    }
+    console.log('fuck length: ' + res.length)
   }
 
   loadItemsDetail(page, detail) {
     let res = this.state.items
     // console.log('load ' + detail.mid)
     res.push(<MangaItem key={detail.mid} data={detail} />)
+
   }
 
   render() {
+    // console.log('mangaview render')
     // console.log('MangaView render ' + (tis.props.route ? this.props.route.searchKey : "null"))
     return (
       <Col
@@ -357,6 +371,7 @@ class MangaView extends React.Component {
           pageStart={0}
           loadMore={this.loadItems.bind(this)}
           hasMore={this.state.hasMoreItems}
+          // loader={<Loader />}
           loader={<div className="loader">待ってください、Loading.....</div>}
           threshold={250}
           style={{ margin: '10px auto' }}
@@ -366,6 +381,70 @@ class MangaView extends React.Component {
       </Col>
     )
   }
+}
+
+var loaderTimeout = false
+export class Loader extends React.Component{
+  constructor(props){
+    super(props)
+    this.state = {timeout: false}
+    this.showText= false
+  }
+
+  changeState(){
+    console.log('change state')
+    setTimeout(() => { 
+      this.setState({timeout: true})
+      this.showText=true
+    }, 2000)
+  }
+
+  componentDidMount() {
+  }
+
+  componentWillUnmount(){
+    // console.log('loader unmount')
+  }
+
+  componentDidUpdate(){
+  }
+
+  componentWillUpdate(){
+    // console.log("will update")
+    // this.changeState()
+    // setTimeout(() => {timeout=true}, 2000)
+  }
+
+  render(){
+    if(this.showText){
+      return(
+        <span>
+          服务器君已经在加油了，请等一等，就等一ha，お願いします.....
+        </span>
+      )
+    }else{
+      return <div />
+    }
+  }
+
+  // render(){
+  //   if (this.showText){
+  //     this.showText = false
+  //     return(
+  //       <div className="loader">
+  //         <Image src="/images/loader.png" />
+  //         <span>
+  //           服务器君已经在加油了，请等一等，就等一哈，お願いします.....
+  //         </span>
+  //       </div>
+  //     )
+  //   }else{
+  //     this.changeState()
+  //     return(
+  //       <p>interesting</p>
+  //     )
+  //   }
+  // }
 }
 
 export class Footer extends React.Component {
@@ -416,9 +495,9 @@ class Home extends React.Component {
 }
 
 export default class SoulManga extends React.Component {
-  // render(){
-  //   return <SearchTips />
-  // }
+  render(){
+    return <Loader />
+  }
 
   render() {
     // 这就是说这里的出了category之外，其他都是通过target="_self"，来触发的，因为这些Route没有和Link写在一起

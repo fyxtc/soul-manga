@@ -29,6 +29,7 @@ body {
   background-repeat: no-repeat;
   display: flex;
   align-items: center;
+  border: 2px solid darkorchid;
 }
 
 .category-item{
@@ -43,9 +44,8 @@ body {
   /*background-image: url('../public/ice2.jpg');*/
   border: 20px solid blue;
   top: .8rem;
-  border-image: url('../public/images/op1.jpeg') 30% round;
-  /*border-image: url('../public/fire.jpeg') 50% round;*/
-  /*background-image: url('../public/fire.jpeg'); */
+  /*border-image: url('../public/images/op1.jpeg') 30% round;*/
+  border-image: url('../public/images/snow.png') 33% repeat;
   /*background-size: cover;*/
 }
 
@@ -149,6 +149,34 @@ body {
   height: 3rem;
 }
 
+.loader{
+  font-size: 16pt;
+}
+
+.loader img{
+  height: 18rem;
+}
+
+.loader span{
+  margin-left: 3rem;
+}
+
+/*.loader {
+    border: 16px solid #f3f3f3; 
+    border-top: 16px solid #3498db; 
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+*/
+
+
 /*  ------------------------------------ info page ---------------------------------*/
 
 .info-page{
@@ -159,6 +187,7 @@ body {
   background: rgba(240, 248, 255, 0.8);
   /*border-image: url('../public/images/fire_border.png') 50% repeat ;*/
   min-height: 800px;
+  /*border-image: url('../public/images/snow.png') 33% repeat;*/
 }
 
 .info{

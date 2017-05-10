@@ -81,7 +81,8 @@ def soul_manga(cid=1, page=0):
     # todo ，数据可以少传，只传主页显示的就可以了，现在就是用Offset的少数据了，但是还可以压缩json
     print("category {0}, page {1}, limit {2} ".format(cid, page, FIRST_PAGE_SIZE + page * PAGE_SIZE))
     sql = "select * from soul_manga where category = ? limit ? offset ?"
-    target_count = FIRST_PAGE_SIZE + page * PAGE_SIZE
+    # target_count = FIRST_PAGE_SIZE + page * PAGE_SIZE #这个计算不对吧。。这是全部了...
+    target_count = FIRST_PAGE_SIZE if page == 0 else PAGE_SIZE
     if page > 0:
         offset = FIRST_PAGE_SIZE + (page-1) * PAGE_SIZE
     else:
