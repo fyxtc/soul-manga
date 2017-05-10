@@ -247,7 +247,7 @@ class MangaItem extends React.Component {
       <Router>
         <Col className="manga-item hvr-pulse-grow " md={2} style={{ textAlign: 'center' }}>
           <Link to={`/info/${this.props.data.mid}`} target="_self">
-            <div style={{ height: '19rem' }}>
+            <div >
               <Image
                 src={this.props.data.cover_image}
                 width={'150px'}

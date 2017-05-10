@@ -52,11 +52,14 @@ body {
 .manga-item{
   /*border: 1px solid blue;*/
   /*border-image: url('../public/images/op1.jpeg') 50% repeat;*/
+  height: 250px;
 }
 
 .manga-item img{
   border-radius: 10px;
-  border: 2px solid blue
+  border: 2px solid blue;
+  height: 90%;
+  width: 90%;
 }
 
 .manga-item span{
