@@ -94,6 +94,8 @@ class Chapter extends React.Component {
 
   render() {
     let chapters = []
+    let chapterLine = []
+    const lineCount = 6
     for (let i = 1; i <= this.props.all_chapters_len; i++) {
       chapters.push(
         <ChapterItem
@@ -103,6 +105,10 @@ class Chapter extends React.Component {
           vol_or_ch={this.props.vol_or_ch}
         />
       )
+
+      // if(i % lineCount === 0){
+      //   chapterLine.push(<tr>{chapters.slice(i-lineCount, i)}</tr>)
+      // }
     }
 
     // const chapters = this.props.chapters.split(',')
@@ -163,9 +169,14 @@ export default class MangaInfo extends React.Component {
     })
   }
 
+  // render(){
+  //   return <Loader />
+  // }
+
   render() {
     if (!this.state.info) {
-      return <h1>待ってください、Loading.....</h1>
+      // return <h1>待ってください、Loading.....</h1>
+      return <loader />
     } else {
       const info = this.state.info
       return (
@@ -187,6 +198,79 @@ export default class MangaInfo extends React.Component {
       )
     }
   }
+}
+
+class Loader extends React.Component{
+  constructor(props){
+    super(props)
+    // this.state = {timeout: false}
+    this.showText= true
+  }
+
+  changeState(){
+    console.log('change state')
+    setTimeout(() => { 
+      // this.setState({timeout: true})
+      this.showText=true
+    }, 2000)
+  }
+
+  componentDidMount() {
+  }
+
+  componentWillUnmount(){
+    // console.log('loader unmount')
+  }
+
+  componentDidUpdate(){
+  }
+
+  componentWillUpdate(){
+    // console.log("will update")
+    // this.changeState()
+  }
+
+  // render(){
+  //   if(this.showText){
+  //     return(
+  //       <span>
+  //         服务器君已经在加油了，请等一等，就等一ha，お願いします.....
+  //       </span>
+  //     )
+  //   }else{
+  //     return <div />
+  //   }
+  // }
+
+  render(){
+    return(
+      <div className="loader">
+        <Image src="/images/loader.png" />
+        <span>
+          服务器君已经在加油了，请等一等，就等一哈，お願いします.....
+        </span>
+      </div>
+    )
+  }
+
+  // render(){
+  //   if (this.showText){
+  //     this.showText = false
+  //     return(
+  //       <div className="loader">
+  //         <Image src="/images/loader.png" />
+  //         <span>
+  //           服务器君已经在加油了，请等一等，就等一哈，お願いします.....
+  //         </span>
+  //       </div>
+  //     )
+  //   }else{
+  //     this.changeState()
+  //     return(
+  //       <p>interesting</p>
+  //     )
+  //   }
+  // }
 }
 
 class AutoType extends React.Component {

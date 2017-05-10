@@ -61,6 +61,7 @@ body {
 
 .manga-item-content{
   object-fit: fill;
+  margin-top: 1rem;
 }
 
 .manga-item-image{
@@ -102,7 +103,7 @@ body {
 /*这里还有其他的naruto&sasuke图片*/
 .logo img{
   height: 9rem;
-  /*width: 100%;*/
+  max-width: 100%; /*神器1*/
 }
 
 .logo-soul img{
@@ -172,32 +173,19 @@ body {
 }
 
 .loader{
-  /*font-size: 16pt;*/
+  margin-top: 20px;
+  font-size: 16pt;
   /*transform:scale(0.3)*/
 }
 
-/*.loader img{
+.loader img{
   height: 18rem;
 }
 
 .loader span{
   margin-left: 3rem;
 }
-*/
-/*.loader {
-    border: 16px solid #f3f3f3; 
-    border-top: 16px solid #3498db; 
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    animation: spin 2s linear infinite;
-}
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-*/
 
 
 /*  ------------------------------------ info page ---------------------------------*/
@@ -214,7 +202,7 @@ body {
 }
 
 .info{
-  height: 360px; /*same with .cover*/
+  height: 25rem; /*same with .cover*/
   border: 2px solid black;
   padding: 10px 20px;
   margin-top: 1rem;
@@ -246,9 +234,9 @@ body {
 
 .disco{
   position: absolute;
-  width: 40%; 
+  width: 30%; 
   bottom: 1px;
-  left:15px;
+  left: 10%;
 }
 
 .auto-type{
@@ -263,7 +251,7 @@ body {
 
 .buka{
   /*mix-blend-mode: multiply;*/
-  width: 230px;
+  width: 10rem;
   position: absolute;
   bottom: 0px;
   right: 0px;
@@ -271,7 +259,8 @@ body {
 
 .cover{
   /*border: 3px solid black;  */
-  height: 360px;
+  /*height: 360px;*/
+  height: 25rem;
   display: flex;
   align-items: center;
   margin-top: 1rem;
@@ -288,8 +277,8 @@ body {
   /*border: 1px solid #8a4419;*/
   /*border-style: inset;*/
   filter: drop-shadow(5px 5px 5px #222);
-  margin-left: 2rem;
-  margin-bottom: 2%;
+  height: 20rem;
+  margin: auto;
 }
 
 .summary{

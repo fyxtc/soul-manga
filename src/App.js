@@ -374,68 +374,7 @@ class MangaView extends React.Component {
   }
 }
 
-var loaderTimeout = false
-export class Loader extends React.Component{
-  constructor(props){
-    super(props)
-    // this.state = {timeout: false}
-    this.showText= false
-  }
 
-  changeState(){
-    console.log('change state')
-    setTimeout(() => { 
-      // this.setState({timeout: true})
-      this.showText=true
-    }, 2000)
-  }
-
-  componentDidMount() {
-  }
-
-  componentWillUnmount(){
-    // console.log('loader unmount')
-  }
-
-  componentDidUpdate(){
-  }
-
-  componentWillUpdate(){
-    // console.log("will update")
-    // this.changeState()
-  }
-
-  render(){
-    if(this.showText){
-      return(
-        <span>
-          服务器君已经在加油了，请等一等，就等一ha，お願いします.....
-        </span>
-      )
-    }else{
-      return <div />
-    }
-  }
-
-  // render(){
-  //   if (this.showText){
-  //     this.showText = false
-  //     return(
-  //       <div className="loader">
-  //         <Image src="/images/loader.png" />
-  //         <span>
-  //           服务器君已经在加油了，请等一等，就等一哈，お願いします.....
-  //         </span>
-  //       </div>
-  //     )
-  //   }else{
-  //     this.changeState()
-  //     return(
-  //       <p>interesting</p>
-  //     )
-  //   }
-  // }
-}
 
 export class Footer extends React.Component {
   render() {
