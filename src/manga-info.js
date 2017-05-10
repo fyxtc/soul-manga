@@ -9,11 +9,12 @@ class Cover extends React.Component {
     super(props)
   }
 
+  // todo 做成书的背框
   render() {
     return (
-      <Col md={12} className="cover" >
-        <Image src={`${this.props.cover_image}`} thumbnail responsive />
-      </Col>
+      <div className="cover">
+      <Image src={`${this.props.cover_image}`} thumbnail responsive />
+      </div>
     )
   }
 }
@@ -42,6 +43,11 @@ class Info extends React.Component {
   }
 
   render() {
+    // var cw = $('.cover').height()
+    // let infoHeight = $(document)[0].body.clientWidth / 2 * 0.33 * 4 / 3
+    // console.log("fuck " + infoHeight)
+    // $('.info').css('height',infoHeight+'px')
+    // console.log($('.info'))
     const info = this.props.info
     return (
       <Col md={12} mdOffset={0} className="info" >
@@ -107,7 +113,7 @@ class Chapter extends React.Component {
       )
 
       if(i % lineCount === 0){
-        chapterLine.push(<tr>{chapters.slice(i-lineCount, i)}</tr>)
+        chapterLine.push(<tr key={i}>{chapters.slice(i-lineCount, i)}</tr>)
       }
     }
 
@@ -181,7 +187,7 @@ export default class MangaInfo extends React.Component {
         this.setState({ info: json })
       })
 
-    $(document).ready(function() {
+    $($(document)).ready(function() {
         $('body').css('background-image', 'url(../images/op.png)')
     })
   }
@@ -199,11 +205,13 @@ export default class MangaInfo extends React.Component {
       return (
         <div >
           <Col md={6} mdOffset={3} className="info-page" >
-            <Col md={5} >
-              <Cover cover_image={info.cover_image} />
-            </Col>
-            <Col md={7} >
-              <Info info={info} />
+            <Col >
+              <Col md={5} >
+                <Cover cover_image={info.cover_image} />
+              </Col>
+              <Col md={7} >
+                <Info info={info} />
+              </Col>
             </Col>
             <Summary summary={info.summary} name={info.name} />
             <Chapter all_chapters_len={info.all_chapters_len} mid={info.mid} vol_or_ch={info.vol_or_ch} />

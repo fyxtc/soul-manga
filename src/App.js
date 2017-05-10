@@ -382,7 +382,7 @@ export class Footer extends React.Component {
       <Col
         md={12}
         mdOffset={0} className="footer">
-        <span>Copyright By ShindouHikaru All Rights Reserve</span>
+        <span>Copyright © 2017 By ShindouHikaru All Rights Reserve</span>
       </Col>
     )
   }

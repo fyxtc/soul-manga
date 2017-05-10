@@ -202,12 +202,15 @@ body {
 }
 
 .info{
-  height: 25rem; /*same with .cover*/
+  /*same with .cover*/
+  height: 28rem; 
   border: 2px solid black;
   padding: 10px 20px;
   margin-top: 1rem;
   /*padding: 5rem*/
   border-color: darkmagenta;
+  /*width: 50%;*/
+  /*float: right;*/
 }
 
 .info div{
@@ -251,7 +254,7 @@ body {
 
 .buka{
   /*mix-blend-mode: multiply;*/
-  width: 10rem;
+  width: 14rem;
   position: absolute;
   bottom: 0px;
   right: 0px;
@@ -260,9 +263,10 @@ body {
 .cover{
   /*border: 3px solid black;  */
   /*height: 360px;*/
-  height: 25rem;
+  /*height: 25rem;*/
   display: flex;
   align-items: center;
+  margin: auto;
   margin-top: 1rem;
   background-color: azure;
 
@@ -270,14 +274,19 @@ body {
   border-left-style: inset;
   border-bottom-style: outset;
   border-right-style: outset;
+  padding: .2rem;
+  padding-right:0.5rem;
+  padding-bottom: 1rem;
+  /*width: 80%;*/
+  height: 28rem;
 }
 
 .cover img{
-  /*width: 100%;*/
+  width: 87%;
+  height: 100%;
   /*border: 1px solid #8a4419;*/
   /*border-style: inset;*/
   filter: drop-shadow(5px 5px 5px #222);
-  height: 20rem;
   margin: auto;
 }
 
