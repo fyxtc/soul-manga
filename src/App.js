@@ -243,23 +243,14 @@ class MangaItem extends React.Component {
 
   render() {
     // target='_self'必须要。。为啥？
+    // todo 图片转换为320*240不然怎么办啊。。。我日，好他妈奇怪啊，为啥百分比就适配不了, overflow也失效了，你麻痹。。，用background解决了,nice 
     return (
       <Router>
         <Col className="manga-item hvr-pulse-grow " md={2} style={{ textAlign: 'center' }}>
           <Link to={`/info/${this.props.data.mid}`} target="_self">
-            <div >
-              <Image
-                src={this.props.data.cover_image}
-                width={'150px'}
-                height={'190px'}
-                // thumbnail
-                // responsive
-              />
-              <div>
-                <p>
-                  <span>{this.props.data.name}</span>
-                </p>
-              </div>
+            <div className="manga-item-content" >
+              <div className="manga-item-image" style={{backgroundImage: `url(${this.props.data.cover_image}`}} />
+              <span>{this.props.data.name}</span>
             </div>
           </Link>
         </Col>
@@ -372,7 +363,7 @@ class MangaView extends React.Component {
           loadMore={this.loadItems.bind(this)}
           hasMore={this.state.hasMoreItems}
           // loader={<Loader />} // 用自己的，特么直接进入载入所有数据。。。我服
-          loader={<div className="loader"><img src="/images/loading.gif" /></div>}
+          loader={<div className="loader"><img src="/images/loading3.gif" /></div>}
           threshold={250}
           style={{ margin: '10px auto' }}
           initialLoad={true}>
@@ -495,8 +486,7 @@ class Home extends React.Component {
 
 export default class SoulManga extends React.Component {
   // render(){
-  //   return <Loader />
-  //   return(<div className="loader"><img src="/images/loading.gif" /></div>)
+  //   return(<div className="loader"><img src="/images/loading3.gif" /></div>)
   // }
 
   render() {
