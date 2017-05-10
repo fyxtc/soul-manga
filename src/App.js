@@ -371,8 +371,8 @@ class MangaView extends React.Component {
           pageStart={0}
           loadMore={this.loadItems.bind(this)}
           hasMore={this.state.hasMoreItems}
-          // loader={<Loader />}
-          loader={<div className="loader">待ってください、Loading.....</div>}
+          // loader={<Loader />} // 用自己的，特么直接进入载入所有数据。。。我服
+          loader={<div className="loader"><img src="/images/loading.gif" /></div>}
           threshold={250}
           style={{ margin: '10px auto' }}
           initialLoad={true}>
@@ -387,14 +387,14 @@ var loaderTimeout = false
 export class Loader extends React.Component{
   constructor(props){
     super(props)
-    this.state = {timeout: false}
+    // this.state = {timeout: false}
     this.showText= false
   }
 
   changeState(){
     console.log('change state')
     setTimeout(() => { 
-      this.setState({timeout: true})
+      // this.setState({timeout: true})
       this.showText=true
     }, 2000)
   }
@@ -412,7 +412,6 @@ export class Loader extends React.Component{
   componentWillUpdate(){
     // console.log("will update")
     // this.changeState()
-    // setTimeout(() => {timeout=true}, 2000)
   }
 
   render(){
@@ -495,9 +494,10 @@ class Home extends React.Component {
 }
 
 export default class SoulManga extends React.Component {
-  render(){
-    return <Loader />
-  }
+  // render(){
+  //   return <Loader />
+  //   return(<div className="loader"><img src="/images/loading.gif" /></div>)
+  // }
 
   render() {
     // 这就是说这里的出了category之外，其他都是通过target="_self"，来触发的，因为这些Route没有和Link写在一起
