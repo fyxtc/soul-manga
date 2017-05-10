@@ -318,6 +318,15 @@ body {
   margin: 2rem auto;
 }
 
+.chapter table{
+  margin: auto;
+}
+
+.chapter td{
+  /*迷之1%....好像自适应了*/
+  width: 1%;
+}
+
 .chapter-item{
   top: 0; 
   border: 1px solid blue;
@@ -325,7 +334,7 @@ body {
   color: black;
   margin: .1rem;
   /*重写md，自己适应*/
-  width: 16.3%;
+  width: 98%;
 }
 
 .chapter-item a{

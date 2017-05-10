@@ -106,9 +106,9 @@ class Chapter extends React.Component {
         />
       )
 
-      // if(i % lineCount === 0){
-      //   chapterLine.push(<tr>{chapters.slice(i-lineCount, i)}</tr>)
-      // }
+      if(i % lineCount === 0){
+        chapterLine.push(<tr>{chapters.slice(i-lineCount, i)}</tr>)
+      }
     }
 
     // const chapters = this.props.chapters.split(',')
@@ -117,7 +117,11 @@ class Chapter extends React.Component {
     // ))
     return (
       <Col md={12} mdOffset={0} className="chapter" >
-        {chapters}
+        <table>
+          <tbody>
+            {chapterLine}
+          </tbody>
+        </table>
       </Col>
     )
   }
@@ -128,16 +132,29 @@ class ChapterItem extends React.Component {
     super(props)
   }
 
+  paddingZero(ch){
+    if(ch < 10){
+      return '00' + ch
+    }else if(ch < 100){
+      return '0' + ch
+    }else{
+      return ch
+    }
+  }
+
   render() {
     const suffix = this.props.vol_or_ch ? '卷' : '话'
+    const ch = this.paddingZero(this.props.ch)
     return (
+      <td>
       <Router>
         <Col md={2} className="chapter-item   hvr-radial-out" >
           <Link
             to={`/read/${this.props.mid}/chapter/${this.props.ch}`}
-            target="_self">{`第 ${this.props.ch} ${suffix}`}</Link>
+            target="_self">{`第 ${ch} ${suffix}`}</Link>
         </Col>
       </Router>
+      </td>
     )
   }
 }
