@@ -45,7 +45,7 @@ body {
   border: 20px solid blue;
   top: .8rem;
   /*border-image: url('../public/images/op1.jpeg') 30% round;*/
-  border-image: url('../public/images/snow.png') 33% repeat;
+  border-image: url('../public/images/snow.png') 33% round;
   /*background-size: cover;*/
 }
 
@@ -55,8 +55,12 @@ body {
 
   /*好像同时指定宽高是不行的，看你想用哪个当做标准了，一般是用width，毕竟横向捏着更难受*/
   /*height: 30%;*/
-  width: 16.6%;
+  /*width: 16.6%;*/
   white-space:nowrap; 
+  
+  /*重写col的padding*/
+  padding-left: .8%;
+  padding-right: .8%;
 }
 
 .manga-item-content{
@@ -67,10 +71,11 @@ body {
 .manga-item-image{
   /*如果height定义了具体数字那就是可以使用background，不然高度是0.。。但是这样就没有圆角了*/
   height: 17rem;
-  width: 95%;
+  /*width: 95%;*/
   background-size: cover;
   border-radius: 10px;
   border: 2px solid blue;
+
 }
 
 /*这个没用啦，哈哈哈，用background自适应咯 哦也*/
@@ -178,7 +183,7 @@ body {
   /*transform:scale(0.3)*/
 }
 
-.loader img{
+.loader-info img{
   height: 18rem;
 }
 
@@ -344,6 +349,7 @@ body {
   margin: .1rem;
   /*重写md，自己适应*/
   width: 98%;
+  padding: .1rem
 }
 
 .chapter-item a{

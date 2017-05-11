@@ -31,6 +31,7 @@ body {
   background-attachment: fixed;
   background-blend-mode: multiply;
   /*background-color: #3498db;*/
+  /*background-color: black;*/
 
 }
 
@@ -99,7 +100,7 @@ p{
 }
 .mast__title {
   font-family: "Cutive Mono", monospace;
-  font-size: 1.5em;
+  font-size: 1.3em;
   font-weight: 400;
   letter-spacing: 0.5em;
   text-transform: uppercase;

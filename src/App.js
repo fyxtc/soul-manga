@@ -64,7 +64,7 @@ class SearchBar extends React.Component {
     return (
       <Router>
         <Form className="search-bar" >
-            <Col md={3} mdOffset={2} style={{left:'4.5rem', height:'5rem'}} >
+            <Col md={3} mdOffset={2} style={{left:'1.5rem', height:'5rem', whiteSpace:'nowrap'}} >
               <Col md={11} mdOffset={0}>
               <LogoText1 />
               </Col>
@@ -85,7 +85,7 @@ class SearchBar extends React.Component {
                   bsStyle="primary"
                   className="hvr-buzz"
                   /*bsSize="lg"*/ onClick={this.props.handleSearch}
-                  style={{ height: '3rem', width: '8rem', float: 'left' }}>
+                  style={{ height: '3rem', width: '8rem', float: 'left', }}>
                   <Glyphicon glyph="search" />
                   <span> 来一发</span>
                 </Button>

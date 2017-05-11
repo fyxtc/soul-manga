@@ -269,7 +269,7 @@ class Loader extends React.Component{
 
   render(){
     return(
-      <div className="loader">
+      <div className="loader-info">
         <Image src="/images/loader.png" />
         <span>
           服务器君已经在加油了，请等一等，就等一哈，お願いします.....
