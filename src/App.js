@@ -27,7 +27,6 @@ import Radium from 'radium'
 import $ from 'jquery'
 import jQuery from 'jquery'
 
-
 export const SERVER_SETTING = {
   url: 'http://localhost:5000',
   // image: 'http://localhost:5000/static/image'
@@ -63,53 +62,92 @@ class SearchBar extends React.Component {
     }
     return (
       <Router>
-        <Form className="search-bar" >
-            <Col className="ft1" md={2} >
-              <Image src="/images/ft.png" />
-            </Col>
-              <LogoText1 />
-            <Col className="ft2" md={2} >
-              <Image src="/images/ft.png" />
-            </Col>
-            <Col md={4} mdOffset={0} className="input-control" >
-              <FormControl
-                className="input-text"
-                type="text"
-                placeholder="search here"
-                value={this.state.searchKey}
-                onChange={this.handleInput.bind(this)}
-                onKeyPress={this.handleKeyPress.bind(this)}
-              />
-            </Col>
-            <Col className="button-control " >
-              <Link to={'/search/' + this.state.searchKey} target="_self">
-                <Button
-                  bsStyle="primary"
-                  className="hvr-buzz"
-                  /*bsSize="lg"*/ onClick={this.props.handleSearch}
-                  style={{ height: '3rem', width: '8rem', float: 'left', }}>
-                  <Glyphicon glyph="search" />
-                  <span> 来一发</span>
-                </Button>
-              </Link>
-            </Col>
+        <Form className="search-bar">
+          <Col className="ft1" md={2}>
+            <Image src="/images/ft.png" />
+          </Col>
+          <LogoText1 />
+          <Col className="ft2" md={2}>
+            <Image src="/images/ft.png" />
+          </Col>
+          <Col md={4} mdOffset={0} className="input-control">
+            <FormControl
+              className="input-text"
+              type="text"
+              placeholder="search here"
+              value={this.state.searchKey}
+              onChange={this.handleInput.bind(this)}
+              onKeyPress={this.handleKeyPress.bind(this)}
+            />
+          </Col>
+          <Col className="button-control ">
+            <Link to={'/search/' + this.state.searchKey} target="_self">
+              <Button
+                bsStyle="primary"
+                className="hvr-buzz"
+                /*bsSize="lg"*/ onClick={this.props.handleSearch}
+                style={{ height: '3rem', width: '8rem', float: 'left' }}>
+                <Glyphicon glyph="search" />
+                <span> 来一发</span>
+              </Button>
+            </Link>
+          </Col>
         </Form>
       </Router>
     )
   }
 }
 
-
-class CategoryItem extends React.Component{
-  constructor(props){
+class CategoryItem extends React.Component {
+  constructor(props) {
     super(props)
+    this.state = {
+      addSpace: true
+    }
+    this.spaceWith = 1380
   }
 
-  render(){
-    return(
-      <div className="category-item" >
+  /**
+   * Calculate & Update state of new dimensions
+   */
+  updateDimensions() {
+    // console.log(window.innerWidth)
+    if (window.innerWidth < this.spaceWith && this.state.addSpace) {
+      this.setState({ addSpace: false })
+    }
+
+    if (window.innerWidth >= this.spaceWith && !this.state.addSpace) {
+      this.setState({ addSpace: true })
+    }
+  }
+
+  /**
+   * Add event listener
+   */
+  componentDidMount() {
+    this.updateDimensions()
+    window.addEventListener('resize', this.updateDimensions.bind(this))
+  }
+
+  /**
+   * Remove event listener
+   */
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions.bind(this))
+  }
+
+  render() {
+    let text
+    if (!this.state.addSpace) {
+      text = `${this.props.text[0]}${this.props.text[1]}`
+    } else {
+      text = `${this.props.text[0]} ${this.props.text[1]}`
+    }
+    // console.log(text)
+    return (
+      <div className="category-item">
         <div>
-        <span>{`${this.props.text[0]} ${this.props.text[1]}`}</span>
+          <span>{text}</span>
         </div>
         <Image src="/images/scroll.png" />
       </div>
@@ -191,6 +229,7 @@ class CategoryBar extends React.Component {
   }*/
 
   render() {
+    // console.log("fuck width" + $(window).innerWidth())
     return (
       <Router>
         <div className="category-bar">
@@ -263,13 +302,21 @@ class MangaItem extends React.Component {
 
   render() {
     // target='_self'必须要。。为啥？
-    // todo 图片转换为320*240不然怎么办啊。。。我日，好他妈奇怪啊，为啥百分比就适配不了, overflow也失效了，你麻痹。。，用background解决了,nice 
+    // todo 图片转换为320*240不然怎么办啊。。。我日，好他妈奇怪啊，为啥百分比就适配不了, overflow也失效了，你麻痹。。，用background解决了,nice
     return (
       <Router>
-        <Col className="manga-item hvr-pulse-grow " md={2} style={{ textAlign: 'center' }}>
+        <Col
+          className="manga-item hvr-pulse-grow "
+          md={2}
+          style={{ textAlign: 'center' }}>
           <Link to={`/info/${this.props.data.mid}`} target="_self">
-            <div className="manga-item-content" >
-              <div className="manga-item-image" style={{backgroundImage: `url(${this.props.data.cover_image}`}} />
+            <div className="manga-item-content">
+              <div
+                className="manga-item-image"
+                style={{
+                  backgroundImage: `url(${this.props.data.cover_image}`
+                }}
+              />
               <span>{this.props.data.name}</span>
             </div>
           </Link>
@@ -351,12 +398,14 @@ class MangaView extends React.Component {
         }
       })
     }
-  console.log('load page ' + page + ': current item: ' + this.state.items.length)  
-}
+    console.log(
+      'load page ' + page + ': current item: ' + this.state.items.length
+    )
+  }
 
-  printCurAllItems(){
+  printCurAllItems() {
     let res = this.state.items
-    for(let i = 0; i < res.length; i++){
+    for (let i = 0; i < res.length; i++) {
       // console.log(res[i])
       // console.log('fuck ' + res[i].key)
     }
@@ -367,7 +416,6 @@ class MangaView extends React.Component {
     let res = this.state.items
     // console.log('load ' + detail.mid)
     res.push(<MangaItem key={detail.mid} data={detail} />)
-
   }
 
   render() {
@@ -383,7 +431,9 @@ class MangaView extends React.Component {
           loadMore={this.loadItems.bind(this)}
           hasMore={this.state.hasMoreItems}
           // loader={<Loader />} // 用自己的，特么直接进入载入所有数据。。。我服
-          loader={<div className="loader"><img src="/images/loading3.gif" /></div>}
+          loader={
+            <div className="loader"><img src="/images/loading3.gif" /></div>
+          }
           threshold={250}
           style={{ margin: '10px auto' }}
           initialLoad={true}>
@@ -394,14 +444,10 @@ class MangaView extends React.Component {
   }
 }
 
-
-
 export class Footer extends React.Component {
   render() {
     return (
-      <Col
-        md={12}
-        mdOffset={0} className="footer">
+      <Col md={12} mdOffset={0} className="footer">
         <span>Copyright © 2017 By ShindouHikaru All Rights Reserve</span>
       </Col>
     )
@@ -467,9 +513,9 @@ export default class SoulManga extends React.Component {
 }
 
 class LogoFluid extends React.Component {
-  render(){
-    return(
-      <Image src="/images/sasuke_left.png" className="animated fadeInLeft"  />
+  render() {
+    return (
+      <Image src="/images/sasuke_left.png" className="animated fadeInLeft" />
     )
   }
 
@@ -477,7 +523,7 @@ class LogoFluid extends React.Component {
     const text = '魂'
     return (
       <div className="logo-fluid">
-        <svg viewBox="0 0 100 20" className="animated fadeInLeft" >
+        <svg viewBox="0 0 100 20" className="animated fadeInLeft">
           <defs>
             <linearGradient id="gradient1" x1="0" x2="0" y1="0" y2="1">
               <stop offset="5%" stopColor="#F0F8FF" />
@@ -531,7 +577,7 @@ class LogoFluid extends React.Component {
             {text}
           </text>
         </svg>
-        <Image src="/images/sasuke_left.png" className="animated fadeInLeft"  />
+        <Image src="/images/sasuke_left.png" className="animated fadeInLeft" />
       </div>
     )
   }
@@ -542,8 +588,11 @@ class LogoFluid2 extends React.Component {
     const text = '漫'
     return (
       <div className="logo-fluid">
-        <Image src="/images/naruto_right.png" className="animated fadeInRight"  />
-        <svg viewBox="0 0 100 20" className="animated fadeInRight"  >
+        <Image
+          src="/images/naruto_right.png"
+          className="animated fadeInRight"
+        />
+        <svg viewBox="0 0 100 20" className="animated fadeInRight">
           {/*<defs>
             <linearGradient id="gradient2" x1="0" x2="0" y1="0" y2="1">
               <stop offset="5%" stopColor="F0F8FF" />
@@ -623,7 +672,7 @@ class LogoText1 extends React.Component {
     })(jQuery)
 
     // 只能一次有效。。。嘛，一次就一次吧
-    $('.mast').hover(function () {
+    $('.mast').hover(function() {
       $(this).addClass('magictime puffIn')
     })
   }
@@ -689,12 +738,12 @@ class Logo extends React.Component {
   render() {
     return (
       <Col className="logo">
-        <Col md={9} className="logo-center" >
+        <Col md={9} className="logo-center">
           <Col md={3} mdOffset={0}>
             <LogoFluid />
           </Col>
-          <Col  md={6} mdOffset={0}>
-            <Image src="/images/logo.png" className="logo-soul "/>
+          <Col md={6} mdOffset={0}>
+            <Image src="/images/logo.png" className="logo-soul " />
           </Col>
           {/* 微调0.1rem，视觉差....鸣人头发太亮了，看着高一些*/}
           <Col md={3} mdOffset={0} style={{ top: '0.1rem' }}>
@@ -726,8 +775,6 @@ class Logo extends React.Component {
   //   )
   // }
 }
-
-
 
 class RandomImage extends React.Component {
   constructor(props) {
