@@ -64,14 +64,19 @@ body {
   position: relative;
   left: -50%;
   color: black;
+  white-space: nowrap;
 }
 
 .manga-view{
-  /*background-image: url('../public/ice2.jpg');*/
+  /*background-image: url('../public/images/black_border.png');*/
   border: 20px solid blue;
   top: .8rem;
-  /*border-image: url('../public/images/op1.jpeg') 30% round;*/
   border-image: url('../public/images/snow.png') 33% round;
+
+  /*border: 20px solid blue;*/
+  /*border-image: url('../public/images/black_border.png')  ;*/
+  /*border-image-slice: 20 20 20 20 ;*/
+
   /*background-size: cover;*/
 }
 
