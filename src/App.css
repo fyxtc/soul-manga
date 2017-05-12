@@ -176,8 +176,10 @@ body {
              "WenQuanYi Micro Hei", sans-serif;
 }
 
-.logo-text2{
 
+.logo-text{
+  padding-left: 0;
+  padding-right: 0;
 }
 
 /*原来真的有用。。。，原来用在sasuke_left上，变白了。。。 ;*/
@@ -193,8 +195,45 @@ body {
 
 }
 
+.ft1{
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 11%;
+  margin-right: 0;
+  width: 10%;
+}
+
+.ft1 img{
+  max-width: 100%;
+  height: 5rem;
+  margin-top: 1rem;
+  margin: auto;
+  float: right;
+  transform: scaleX(-1);
+  filter: FlipH;
+  margin-right: 20%;
+}
+
+.ft2{
+  padding-left: 0;
+  padding-right: 0;
+  width: 10%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.ft2 img{
+  max-width: 100%;
+  height: 5rem;
+  margin-top: 1rem;
+  margin: auto;
+  float: left;
+  margin-left: 20%;
+}
+
 .input-control{
   top: 1rem;
+  width: 34.5%;
 }
 
 .button-control{

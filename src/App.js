@@ -64,10 +64,12 @@ class SearchBar extends React.Component {
     return (
       <Router>
         <Form className="search-bar" >
-            <Col md={3} mdOffset={2} style={{left:'1.5rem', height:'5rem', whiteSpace:'nowrap'}} >
-              <Col md={11} mdOffset={0}>
+            <Col className="ft1" md={2} >
+              <Image src="/images/ft.png" />
+            </Col>
               <LogoText1 />
-              </Col>
+            <Col className="ft2" md={2} >
+              <Image src="/images/ft.png" />
             </Col>
             <Col md={4} mdOffset={0} className="input-control" >
               <FormControl
