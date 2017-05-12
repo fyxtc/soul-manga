@@ -78,6 +78,7 @@ IMAGES_STORE = "/Users/fyxtc/work/py3_workspace/manga_download"
 
 # sqlite
 SQLITE_FILE = "/Users/fyxtc/work/soul-manga/server/soul_manga.db"
+# SQLITE_FILE = "/Users/fyxtc/work/soul-manga/spider/soul_manga.db"
 SQLITE_TABLE= "soul_manga"
 
 # Enable and configure the AutoThrottle extension (disabled by default)

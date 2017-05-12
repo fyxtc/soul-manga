@@ -163,6 +163,7 @@ class SoulMangaSpider(scrapy.Spider):
     def parse_index(self, response):
         next_url = response.xpath(self.xpath.get("next_page")).extract_first()
         next_url = response.urljoin(next_url) 
+        # logging.info("next url " + next_url)
         # # for url in urls:
         # #     logging.info("fuck next ")
         # #     yield scrapy.Request(url=url, callback=self.parse_page)
@@ -188,10 +189,12 @@ class SoulMangaSpider(scrapy.Spider):
         item = self.get_sql_item(response)
         mid = item.get("mid")
         if self.is_mid_exist(mid):
+            # todo 这里有bug，不能mid存在就跳过啊。。。这样走next_url的请求了，我先全部清除了来过吧。。。这样没问题。。。不。先爬到spider文件夹下的db吧，改setting
             # logging.info("mid {0} is exist, skip ".format(mid))
             return
         url = response.xpath(self.xpath.get("chapter")).extract_first()
         if not url:
+            # todo 这里才获取vol，会导致上面的get_sql_item里面的all_chapters_pages为空数组导致list下标0越界
             url = response.xpath(self.xpath.get("vol")).extract_first()
         assert url, response.url +" is fuck" 
         first_chapter_url = response.urljoin(url)
@@ -201,6 +204,7 @@ class SoulMangaSpider(scrapy.Spider):
         url = response.xpath(self.xpath.get("image_base_url")).extract_first()
         # logging.info(response.url + ", " + str(url))
         item = response.meta.get("item")
+        # logging.info(item)
         assert item != None
         mid = item.get("mid")
         image_base_url = url[:url.find("/"+str(mid)+"/")]

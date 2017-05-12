@@ -97,6 +97,24 @@ class SearchBar extends React.Component {
   }
 }
 
+
+class CategoryItem extends React.Component{
+  constructor(props){
+    super(props)
+  }
+
+  render(){
+    return(
+      <div className="category-item" >
+        <div>
+        <span>{`${this.props.text[0]} ${this.props.text[1]}`}</span>
+        </div>
+        <Image src="/images/scroll.png" />
+      </div>
+    )
+  }
+}
+
 class CategoryBar extends React.Component {
   constructor(props) {
     super(props)
@@ -179,8 +197,8 @@ class CategoryBar extends React.Component {
               <Link
                 key={'cat' + k}
                 to={'/category/' + k}
-                className="category-item hvr-wobble-vertical ">
-                {v}
+                className="hvr-wobble-vertical ">
+                <CategoryItem text={v} />
               </Link>
             ))}
           </Col>

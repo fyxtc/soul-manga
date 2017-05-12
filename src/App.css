@@ -17,27 +17,53 @@ body {
   /*background-color: darkcyan;*/
   /*border: 10px solid blue;*/
   /*border-image: url('../public/op1.jpeg') 50% round;*/
+
+
 }
 
 .category-nav{
-  background-color: darkcyan; 
+  /*background-color: darkcyan; */
   height: 5rem;
-  /*border: 10px solid blue;*/
-  /*border-image: url('../public/op1.jpeg') 50% round;*/
-  /*background-image: url('../public/ice2.jpeg');*/
   background-size: 100% 100%;
   background-repeat: no-repeat;
   display: flex;
   align-items: center;
-  border: 2px solid darkorchid;
+  /*border: 2px solid darkorchid;*/
+
+  width: 100%;
+  margin-left: 0;
 }
 
 .category-item{
-  width: 50%; /*必须设置一个宽度，上面的align-items才有效。。什么鬼 */
+  width: 85%; /*必须设置一个宽度，上面的align-items才有效。。什么鬼 */
   font-size: 1.5rem;
   font-weight: 500;
   color: lavender;
-  border-color: #ffe484;
+  /*border-color: #ffe484;*/
+  
+
+  padding-left: 0;
+  padding-right: 0;
+  margin: auto;
+}
+
+.category-item div{
+  position: absolute;;
+  left: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.category-item img{
+  max-width: 100%;
+  /*position: absolute;*/
+}
+
+.category-item span{
+  /*position: absolute;*/
+  position: relative;
+  left: -50%;
+  color: black;
 }
 
 .manga-view{
@@ -57,7 +83,7 @@ body {
   /*height: 30%;*/
   /*width: 16.6%;*/
   white-space:nowrap; 
-  
+
   /*重写col的padding*/
   padding-left: .8%;
   padding-right: .8%;
