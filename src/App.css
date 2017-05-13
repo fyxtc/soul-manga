@@ -403,6 +403,7 @@ body {
   /*top: 4rem;*/ 
   border: 2px solid black;
   margin: 2rem auto;
+  margin-bottom: 5rem;
 }
 
 .chapter table{
@@ -439,8 +440,8 @@ body {
 .footer{
   /*top: 6rem;*/
   height: 50px;
-  background-color: rgba(255, 255, 255, 0);
-  /*border: 3px solid blue;*/
+  background-color: rgba(25, 255, 255, 128);
+  border: 1px solid ghostwhite;
   text-align: center;
   font-weight: 500;
   font-size: 12pt;
