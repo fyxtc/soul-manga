@@ -188,7 +188,7 @@ export default class MangaInfo extends React.Component {
       })
 
     $($(document)).ready(function() {
-        $('body').css('background-image', 'url(../images/op.png)')
+        $('body').css('background-image', 'url(../images/op.jpg)')
     })
   }
 
