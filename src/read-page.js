@@ -2,6 +2,7 @@ import React from 'react'
 import ImageGallery from 'react-image-gallery'
 import { SERVER_SETTING} from './App.js'
 
+
 export default class ReadPage extends React.Component {
     constructor(props) {
         super(props)
@@ -36,11 +37,20 @@ export default class ReadPage extends React.Component {
     rendImage(image) {
         // 使用自动的render方法
         return (
-            <div style={{ textAlign: 'center' /*border: '2px solid red'*/ }}>
-                <img src={image.original} alt="cover"/>
+            <div style={{ textAlign: 'center'}}>
+                <img src={image.original} alt="cover" />
             </div>
         )
     }
+
+    // renderLeftNav(onClick, disabled) {
+    //     return (
+    //       <button
+    //         className='image-gallery-custom-left-nav'
+    //         disabled={disabled}
+    //         onClick={onClick}/>
+    //     )
+    // }
 
     render() {
         // 左右箭头翻页，上下箭头滚动
@@ -59,7 +69,7 @@ export default class ReadPage extends React.Component {
                     '/' +
                     this.formatPage(i) +
                     '.jpg'
-                console.log(url + ', ' + this.state.cur_ch_pages)
+                // console.log(url + ', ' + this.state.cur_ch_pages)
                 images_arr.push(url)
                 // test
                 if (i > 10) {

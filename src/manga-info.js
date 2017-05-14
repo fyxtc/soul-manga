@@ -157,7 +157,7 @@ class ChapterItem extends React.Component {
         <Col md={2} className="chapter-item   hvr-radial-out" >
           <Link
             to={`/read/${this.props.mid}/chapter/${this.props.ch}`}
-            target="_self">{`第 ${ch} ${suffix}`}</Link>
+            target="_blank">{`第 ${ch} ${suffix}`}</Link>
         </Col>
       </Router>
       </td>
