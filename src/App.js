@@ -313,7 +313,7 @@ class MangaItem extends React.Component {
           className="manga-item hvr-pulse-grow "
           md={2}
           style={{ textAlign: 'center' }}>
-          <Link to={`/info/${this.props.data.mid}`} target="_self">
+          <Link to={`/info/${this.props.data.mid}`} target="_blank">
             <div className="manga-item-content">
               <div
                 className="manga-item-image"
