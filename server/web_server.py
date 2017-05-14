@@ -105,6 +105,7 @@ def soul_manga(cid=1, page=0):
 
 
 @app.route('/info/<int:mid>')
+@app.route('/info/<int:mid>/')
 def info(mid=1):
     print("fuck id " + str(mid))
     res = query_db("select * from soul_manga where mid = ?", [mid], True)
@@ -113,6 +114,7 @@ def info(mid=1):
 
 # @app.route('/read/<int:mid>')
 @app.route('/read/<int:mid>/chapter/<int:chapter>')
+@app.route('/read/<int:mid>/chapter/<int:chapter>/')
 def read(mid, chapter=1):
     print('read id {0} chapter {1}'.format(mid, chapter))
     chapter_images = query_db("select image_base_url, all_chapters_pages from soul_manga where mid = ?", [mid], True)

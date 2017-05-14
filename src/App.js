@@ -28,10 +28,11 @@ import $ from 'jquery'
 import jQuery from 'jquery'
 
 
-var DEBUG = false
+var DEBUG = true
 
 export const SERVER_SETTING = {
-  url: DEBUG ? 'http://localhost:5000' : 'http://localhost:8080',
+  // 8000是gunicorn, 后面的localhost
+  url: DEBUG ? 'http://localhost:8000' : 'http://103.80.29.187:8000',
   // image: 'http://localhost:5000/static/image'
   image: ''
 }
