@@ -164,6 +164,7 @@ body {
   /*用了反而svg不居中了。。。什么鬼）*/
   /*align-items: center;*/
   /*left: 20rem;*/
+  /*display: none;*/
 }
 
 /*原来height用的auto是符合文字大小的高度*/

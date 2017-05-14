@@ -67,11 +67,11 @@ class SearchBar extends React.Component {
     return (
       <Router>
         <Form className="search-bar">
-          <Col className="ft1" md={2}>
+          <Col className="ft1 animated tada" md={2}>
             <Image src="/images/ft.png" />
           </Col>
           <LogoText1 />
-          <Col className="ft2" md={2}>
+          <Col className="ft2 animated tada" md={2}>
             <Image src="/images/ft.png" />
           </Col>
           <Col md={4} mdOffset={0} className="input-control">
@@ -526,8 +526,8 @@ class LogoFluid extends React.Component {
   render() {
     const text = '魂'
     return (
-      <div className="logo-fluid">
-        <svg viewBox="0 0 100 20" className="animated fadeInLeft">
+      <div className="logo-fluid animated fadeInLeft">
+        <svg viewBox="0 0 100 20" className="">
           <defs>
             <linearGradient id="gradient1" x1="0" x2="0" y1="0" y2="1">
               <stop offset="5%" stopColor="#F0F8FF" />
@@ -581,7 +581,7 @@ class LogoFluid extends React.Component {
             {text}
           </text>
         </svg>
-        <Image src="/images/sasuke_left.png" className="animated fadeInLeft" />
+        <Image src="/images/sasuke_left.png" />
       </div>
     )
   }
@@ -591,12 +591,11 @@ class LogoFluid2 extends React.Component {
   render() {
     const text = '漫'
     return (
-      <div className="logo-fluid">
+      <div className="logo-fluid animated fadeInRight">
         <Image
           src="/images/naruto_right.png"
-          className="animated fadeInRight"
         />
-        <svg viewBox="0 0 100 20" className="animated fadeInRight">
+        <svg viewBox="0 0 100 20" >
           {/*<defs>
             <linearGradient id="gradient2" x1="0" x2="0" y1="0" y2="1">
               <stop offset="5%" stopColor="F0F8FF" />
@@ -653,8 +652,9 @@ class LogoFluid2 extends React.Component {
 }
 
 class LogoText1 extends React.Component {
-  componentDidMount() {
-    ;(function($) {
+  animated(){
+    // $('.mast').show()
+    (function($) {
       var s,
         spanizeLetters = {
           settings: {
@@ -680,6 +680,12 @@ class LogoText1 extends React.Component {
       $(this).addClass('magictime puffIn')
     })
   }
+
+  componentDidMount() {
+    // $('.mast').hide()
+    setTimeout(this.animated, 2000)
+  }
+
 
   render() {
     return (
@@ -737,6 +743,18 @@ class LogoText1 extends React.Component {
 }*/
 
 class Logo extends React.Component {
+
+  componentDidMount(){
+    // 我这里不能直接像https://coderwall.com/p/nuzcua/how-i-delayed-timed-animate-css-animations里面这样设置css为none，因为我要用flex，所以我先隐藏就好了
+    $('.logo-fluid').hide()
+    setTimeout(function () {
+        // 没必要addClass，可以直接先写好，因为show的时候自动调用动画了
+        // $('.logo-fluid').show().addClass('animated ')}, 1500
+        $('.logo-fluid').show()
+      }, 1500
+    )
+  }
+
   render() {
     return (
       <Col className="logo">
@@ -745,7 +763,7 @@ class Logo extends React.Component {
             <LogoFluid />
           </Col>
           <Col md={6} mdOffset={0}>
-            <Image src="/images/logo.png" className="logo-soul " />
+            <Image src="/images/logo.png" className="logo-soul  animated rubberBand" />
           </Col>
           {/* 微调0.1rem，视觉差....鸣人头发太亮了，看着高一些*/}
           <Col md={3} mdOffset={0} style={{ top: '0.1rem' }}>
