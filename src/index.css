@@ -62,6 +62,7 @@ p{
   /*color: #fff;*/
   float: left;
   /*background-color: #111;*/
+  top: .3rem;
 }
 .mast:after {
   z-index: 0;

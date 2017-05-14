@@ -204,6 +204,7 @@ body {
   margin-left: 11%;
   margin-right: 0;
   width: 10%;
+  top: .3rem;
 }
 
 .ft1 img{
@@ -223,6 +224,7 @@ body {
   width: 10%;
   margin-left: 0;
   margin-right: 0;
+  top: .3rem;
 }
 
 .ft2 img{
@@ -235,14 +237,15 @@ body {
 }
 
 .input-control{
-  top: 1rem;
+  top: 1.3rem;
   width: 34.5%;
 }
 
+/*button-control的padding可以整个直接移动 categorybar下移，好像他才是控制权。。*/
 .button-control{
-  top:1rem;
+  top:1rem; /*top 没用...，只能用padding*/
   height: 5rem;
-  padding: 1rem;
+  padding: 1.3rem;
 }
 
 .input-text{
