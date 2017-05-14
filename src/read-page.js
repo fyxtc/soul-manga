@@ -1,6 +1,6 @@
 import React from 'react'
 import ImageGallery from 'react-image-gallery'
-import { SERVER_SETTING, STYLES } from './App.js'
+import { SERVER_SETTING} from './App.js'
 
 export default class ReadPage extends React.Component {
     constructor(props) {
@@ -37,7 +37,7 @@ export default class ReadPage extends React.Component {
         // 使用自动的render方法
         return (
             <div style={{ textAlign: 'center' /*border: '2px solid red'*/ }}>
-                <img src={image.original} />
+                <img src={image.original} alt="cover"/>
             </div>
         )
     }

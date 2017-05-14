@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Row, Image } from 'react-bootstrap'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import { SERVER_SETTING, STYLES, Footer } from './App.js'
+import { SERVER_SETTING, Footer } from './App.js'
 import $ from 'jquery'
 
 class Cover extends React.Component {
@@ -225,7 +225,7 @@ export default class MangaInfo extends React.Component {
   }
 }
 
-class Loader extends React.Component{
+/*class Loader extends React.Component{
   constructor(props){
     super(props)
     // this.state = {timeout: false}
@@ -296,9 +296,9 @@ class Loader extends React.Component{
   //     )
   //   }
   // }
-}
+}*/
 
-class AutoType extends React.Component {
+/*class AutoType extends React.Component {
   componentDidMount() {
     var words = [
        'Hey girl ~',
@@ -383,7 +383,7 @@ class AutoType extends React.Component {
   render() {
     return <div className="auto-type" />
   }
-}
+}*/
 
 
 

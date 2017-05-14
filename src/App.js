@@ -8,8 +8,8 @@ import {
   Form,
   Col,
   Row,
-  Nav,
-  NavItem,
+  // Nav,
+  // NavItem,
   Image
 } from 'react-bootstrap'
 import InfiniteScroll from 'react-infinite-scroller'
@@ -19,11 +19,11 @@ import {
   Link,
   Redirect
 } from 'react-router-dom'
-import { LinkContainer } from 'react-router-bootstrap'
+// import { LinkContainer } from 'react-router-bootstrap'
 import MangaInfo from './manga-info' // ./必须写，不然找不到，可能去node_moudle里
 import ReadPage from './read-page'
-import ReactDOM from 'react-dom'
-import Radium from 'radium'
+// import ReactDOM from 'react-dom'
+// import Radium from 'radium'
 import $ from 'jquery'
 import jQuery from 'jquery'
 
@@ -289,7 +289,7 @@ class CategoryBar extends React.Component {
 
 // 本来推荐如果comp里面没有动态的东西的话，应该用箭头格式而不是用类...像router例子里面一样，再说吧
 // 应该还是更新MangaView，只不过sql变了
-class SearchView extends React.Component {
+/*class SearchView extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -297,7 +297,7 @@ class SearchView extends React.Component {
   render() {
     const key = this.props.match.params.key
   }
-}
+}*/
 
 class MangaItem extends React.Component {
   constructor(props) {
@@ -436,7 +436,7 @@ class MangaView extends React.Component {
           hasMore={this.state.hasMoreItems}
           // loader={<Loader />} // 用自己的，特么直接进入载入所有数据。。。我服
           loader={
-            <div className="loader"><img src="/images/loading3.gif" /></div>
+            <div className="loader"><img src="/images/loading3.gif" alt="loading" /></div>
           }
           threshold={250}
           style={{ margin: '10px auto' }}
@@ -517,11 +517,11 @@ export default class SoulManga extends React.Component {
 }
 
 class LogoFluid extends React.Component {
-  render() {
-    return (
-      <Image src="/images/sasuke_left.png" className="animated fadeInLeft" />
-    )
-  }
+  // render() {
+  //   return (
+  //     <Image src="/images/sasuke_left.png" className="animated fadeInLeft" />
+  //   )
+  // }
 
   render() {
     const text = '魂'
@@ -696,7 +696,7 @@ class LogoText1 extends React.Component {
   }
 }
 
-class LogoText2 extends React.Component {
+/*class LogoText2 extends React.Component {
   componentDidMount() {
     ;(function($) {
       var s,
@@ -722,21 +722,19 @@ class LogoText2 extends React.Component {
 
   render() {
     return (
-      // <main>
       (
         <div className="mast">
           <div className="mast__header">
-            {/*<h1 className="mast__title js-spanize">我们的童年  一直都在</h1>*/}
+            <h1 className="mast__title js-spanize">我们的童年  一直都在</h1>
             <hr className="sep" />
             <h1 className="mast__text js-spanize">僕たちの笑顔、ずっとここにいる </h1>
 
           </div>
         </div>
       )
-      // </main>
     )
   }
-}
+}*/
 
 class Logo extends React.Component {
   render() {
@@ -780,7 +778,7 @@ class Logo extends React.Component {
   // }
 }
 
-class RandomImage extends React.Component {
+/*class RandomImage extends React.Component {
   constructor(props) {
     super(props)
     // left/top 就是html里面元素的x/y
@@ -808,14 +806,14 @@ class RandomImage extends React.Component {
       (
         <Image
           src="./images/sasuke_left.png"
-          style={{ /*width:'100px',*/ position: 'absolute', left: l, top: t }}
+          style={{ width:'100px', position: 'absolute', left: l, top: t }}
         />
       )
     )
   }
-}
+}*/
 
-class Bubble extends React.Component {
+/*class Bubble extends React.Component {
   componentDidMount() {
     jQuery(document).ready(function($) {
       // Define a blank array for the effect positions. This will be populated based on width of the title.
@@ -872,7 +870,7 @@ class Bubble extends React.Component {
       </div>
     )
   }
-}
+}*/
 
 // class App extends Component {
 //   render() {
