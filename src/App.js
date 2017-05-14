@@ -27,8 +27,11 @@ import Radium from 'radium'
 import $ from 'jquery'
 import jQuery from 'jquery'
 
+
+var DEBUG = false
+
 export const SERVER_SETTING = {
-  url: 'http://localhost:5000',
+  url: DEBUG ? 'http://localhost:5000' : 'http://localhost:8080',
   // image: 'http://localhost:5000/static/image'
   image: ''
 }

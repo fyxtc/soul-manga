@@ -70,6 +70,7 @@ def home():
     #         },
     #     ]
     # }
+    print("fuck home ")
     res = query_db("select * from soul_manga")
     # print(res)
     return jsonify(res)
@@ -77,6 +78,8 @@ def home():
 @app.route('/category')
 @app.route('/category/<int:cid>')
 @app.route('/category/<int:cid>/<int:page>')
+# 这行的/是为了nginx转发过的，结尾有带/，所以py也得加
+@app.route('/category/<int:cid>/<int:page>/')
 def soul_manga(cid=1, page=0):
     # todo ，数据可以少传，只传主页显示的就可以了，现在就是用Offset的少数据了，但是还可以压缩json
     print("category {0}, page {1}, limit {2} ".format(cid, page, FIRST_PAGE_SIZE + page * PAGE_SIZE))
@@ -125,6 +128,7 @@ def read(mid, chapter=1):
         return jsonify({})
 
 @app.route("/search/<string:key>")
+@app.route("/search/<string:key>/")
 def search(key):
     if key:
         sql = "select * from soul_manga where name like '%{0}%'".format(key) 
