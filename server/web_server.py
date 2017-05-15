@@ -4,6 +4,8 @@ from flask import make_response, request, current_app
 from functools import update_wrapper
 from flask_cors import CORS, cross_origin
 import sqlite3
+from flask_compress import Compress
+
 
 PAGE_SIZE = 2 * 6 # 一行6个现在
 FIRST_PAGE_SIZE = 2 * PAGE_SIZE # 首页给四行
@@ -51,6 +53,7 @@ def crossdomain(origin=None, methods=None, headers=None,
 
 app = Flask(__name__)
 CORS(app)
+Compress(app)
 
 @app.route('/')
 @crossdomain(origin='*')
@@ -181,7 +184,7 @@ def insert_db(sql):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False,  JSONIFY_PRETTYPRINT_REGULAR=False)
 
 
 
