@@ -1,0 +1,5 @@
+daemon = True
+bind = "0.0.0.0:8000"
+pidfile = "/home/hikaru/gun.pid"
+workers = 2
+reload = True

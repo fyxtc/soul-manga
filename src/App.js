@@ -436,7 +436,7 @@ class MangaView extends React.Component {
           hasMore={this.state.hasMoreItems}
           // loader={<Loader />} // 用自己的，特么直接进入载入所有数据。。。我服
           loader={
-            <div className="loader"><img src="/images/loading3.gif" alt="loading" /></div>
+            <div className="loader"><img src="/images/loading.gif" alt="loading" /></div>
           }
           threshold={250}
           style={{ margin: '10px auto' }}
@@ -495,7 +495,7 @@ class Home extends React.Component {
 
 export default class SoulManga extends React.Component {
   // render(){
-  //   return(<div className="loader"><img src="/images/loading3.gif" /></div>)
+  //   return(<div className="loader"><img src="/images/loading.gif" /></div>)
   // }
 
   render() {

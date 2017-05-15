@@ -27,7 +27,9 @@ def deal_file(path, func):
 def compress(in_file):
     global COMPRESS_RESULT
     # gif不能转。。。
-    if in_file.find(".png") != -1 or in_file.find(".jpg") != -1:
+    # 这里还有一个问题，如果ps已经存储为web格式了，这里不能再跑了，不然有的会特么更大...
+    ps_web = ["luffy_naruto.jpg", "snow.png", "op.jpg", "logo.png"]
+    if (in_file.find(".png") != -1 or in_file.find(".jpg") != -1) and os.path.basename(in_file) not in ps_web:
         out_file = in_file.replace(IN_FOLDER, OUT_FOLDER)
         out_dir = os.path.dirname(out_file)
         if not os.path.exists(out_dir):
@@ -38,7 +40,19 @@ def compress(in_file):
         res = os.system(cmd)
         if res != 0:
             COMPRESS_RESULT += in_file + "    "
+    else:
+        copy_other(in_file)
 
+def copy_other(in_file):
+    # copy other resource
+    out_file = in_file.replace(IN_FOLDER, OUT_FOLDER)
+    path = os.path.dirname(out_file)
+    if(not os.path.exists(path)):
+        os.makedirs(path)
+
+    cmd = "cp -f " + in_file + " " + out_file
+    print(cmd)
+    os.system(cmd)
 
 
 def print_compress_result() :

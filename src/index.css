@@ -26,7 +26,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  background-image: url('../public/images/luffy_naruto_ps1.jpg');
+  background-image: url('../public/images/luffy_naruto.jpg');
   background-size: cover;
   background-attachment: fixed;
   background-blend-mode: multiply;
