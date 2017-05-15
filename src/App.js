@@ -2,14 +2,15 @@ import React, { Component } from 'react'
 import './App.css'
 // import Chinese from 'chinese-s2t'
 // 注意啊，这种导入的语法根本没用，把所有的rb里面的东西都导出来了，大小根本没有缩小，
-// 和https://react-bootstrap.github.io/getting-started.html#commonjs说得不一样，只能用直接导入lib/这样的方式，麻痹。。。这种也没变化
-import {Button, FormControl, Glyphicon, Form, Col,  Image } from 'react-bootstrap'
-// import Button from 'react-bootstrap/lib/Button'
-// import FormControl from 'react-bootstrap/lib/FormControl'
-// import Glyphicon from 'react-bootstrap/lib/Glyphicon'
-// import Form from 'react-bootstrap/lib/Form'
-// import Col from 'react-bootstrap/lib/Col'
-// import Image from 'react-bootstrap/lib/Image'
+// 和https://react-bootstrap.github.io/getting-started.html#commonjs说得不一样，只能用直接导入lib/这样的方式，麻痹。。。这种也没变化，
+// 我知道为什么没变化了，因为我在其他的js里面是这样的写法！！！！！必须都改过来！！！！
+// import {Button, FormControl, Glyphicon, Form, Col,  Image } from 'react-bootstrap'
+import Button from 'react-bootstrap/lib/Button'
+import FormControl from 'react-bootstrap/lib/FormControl'
+import Glyphicon from 'react-bootstrap/lib/Glyphicon'
+import Form from 'react-bootstrap/lib/Form'
+import Col from 'react-bootstrap/lib/Col'
+import Image from 'react-bootstrap/lib/Image'
 
 import InfiniteScroll from 'react-infinite-scroller'
 import {

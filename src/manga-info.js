@@ -1,5 +1,8 @@
 import React from 'react'
-import { Col, Row, Image } from 'react-bootstrap'
+// import { Col, Row, Image } from 'react-bootstrap'
+import Col from 'react-bootstrap/lib/Col'
+import Image from 'react-bootstrap/lib/Image'
+
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import { SERVER_SETTING, Footer } from './App.js'
 import $ from 'jquery'
