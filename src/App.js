@@ -13,12 +13,12 @@ import Col from 'react-bootstrap/lib/Col'
 import Image from 'react-bootstrap/lib/Image'
 
 import InfiniteScroll from 'react-infinite-scroller'
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect
-} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom'
+// 下面这样写也能减少8KB
+// import {BrowserRouter from 'react-router-dom/BrowserRouter'
+// import Route from 'react-router-dom/Route'
+// import Link from 'react-router-dom/Link'
+
 // import { LinkContainer } from 'react-router-bootstrap'
 import MangaInfo from './manga-info' // ./必须写，不然找不到，可能去node_moudle里
 import ReadPage from './read-page'

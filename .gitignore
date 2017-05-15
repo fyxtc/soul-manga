@@ -26,3 +26,4 @@ server/.python-version
 .python-version
 /public/temp-images
 !/public/images
+gun.pid
