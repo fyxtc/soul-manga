@@ -18,16 +18,20 @@ def zip():
     local("zip -qr build.zip build server/web_server.py server/soul_manga.db")
 
 def local_build():
-    # npm_build()
-    # clean_build_useless_images()
+    npm_build()
+    clean_build_useless_images()
     zip()
 
 def upload_to_remote():
     put("build.zip", use_sudo=True)
-    # run("rm -rf soul_manga")
-    run("unzip -q build.zip")
+    # 为了mv 的非空目录....
+    run("rm -rf soul_manga")
+    # run("mkdir soul_manga")
+
+    run("unzip -qo build.zip")
+    # 这一步也是创建目录
     run("mv build soul_manga")
-    run("mv server/* soul_manga/")
+    run("mv -f server/* soul_manga/")
     run("rm -rf server")
 
 def start_server():
@@ -46,11 +50,9 @@ def deploy():
 
 def restart_gun():
     # todo 如果没起来。。需要启动。。。nginx也一样
-    with cd("soul_manga"):
-        # run("pwd")
-        pid = run("cat gun.pid")
-        cmd = "kill -HUP " + pid
-        run(cmd)
+    pid = run("cat gun.pid")
+    cmd = "kill -HUP " + pid
+    run(cmd)
 
 def restart_nginx():
     run("nre")
