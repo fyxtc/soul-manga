@@ -81,6 +81,8 @@ body {
   /*border-image-slice: 20 20 20 20 ;*/
 
   /*background-size: cover;*/
+
+  margin-bottom: 6rem;
 }
 
 .manga-item{
@@ -463,8 +465,8 @@ body {
 .footer{
   /*top: 6rem;*/
   height: 50px;
-  background-color: rgba(25, 255, 255, 128);
-  border: 1px solid ghostwhite;
+  /*background-color: rgba(25, 255, 255, 128);*/
+  /*border: 1px solid ghostwhite;*/
   text-align: center;
   font-weight: 500;
   font-size: 12pt;

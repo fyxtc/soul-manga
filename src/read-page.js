@@ -1,6 +1,6 @@
 import React from 'react'
 import ImageGallery from 'react-image-gallery'
-import { SERVER_SETTING} from './App.js'
+import { SERVER_SETTING, DEBUG} from './App.js'
 
 
 export default class ReadPage extends React.Component {
@@ -58,6 +58,7 @@ export default class ReadPage extends React.Component {
         if (!this.state.image_base_url) {
             return <h1>待ってください、Loading.....</h1>
         } else {
+            console.log("page length " + this.state.cur_ch_pages)
             const images_arr = []
             for (let i = 1; i <= this.state.cur_ch_pages; i++) {
                 const url =
@@ -71,10 +72,11 @@ export default class ReadPage extends React.Component {
                     '.jpg'
                 // console.log(url + ', ' + this.state.cur_ch_pages)
                 images_arr.push(url)
+
                 // test
-                if (i > 10) {
-                    break
-                }
+                // if(DEBUG && i > 10){
+                //     break
+                // }
             }
             const images = images_arr.map(image => ({
                 original: image,

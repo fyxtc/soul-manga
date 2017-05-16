@@ -28,7 +28,7 @@ import $ from 'jquery'
 import jQuery from 'jquery'
 
 
-var DEBUG = true 
+export const DEBUG = true 
 
 export const SERVER_SETTING = {
   // 8000是gunicorn, 后面的localhost
@@ -553,6 +553,7 @@ class Home extends React.Component {
           />
         </Col>
         <CategoryBar />
+        <Footer />
       </div>
     )
   }
