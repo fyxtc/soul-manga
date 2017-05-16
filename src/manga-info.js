@@ -258,6 +258,14 @@ export default class MangaInfo extends React.Component {
       return <loader />
     } else {
       const info = this.state.info
+      let volView
+      if(info.all_vols_len){
+        volView = <Vol all_vols_len={info.all_vols_len} mid={info.mid} vol_or_ch={info.vol_or_ch} />
+      }
+      let chView
+      if(info.all_chapters_len){
+        chView = <Chapter all_chapters_len={info.all_chapters_len} mid={info.mid} vol_or_ch={info.vol_or_ch} chapter_start_index={info.chapter_start_index} />
+      }
       return (
         <div >
           <Col md={6} mdOffset={3} className="info-page" >
@@ -270,8 +278,8 @@ export default class MangaInfo extends React.Component {
               </Col>
             </Col>
             <Summary summary={info.summary} name={info.name} />
-            <Vol all_vols_len={info.all_vols_len} mid={info.mid} vol_or_ch={info.vol_or_ch} />
-            <Chapter all_chapters_len={info.all_chapters_len} mid={info.mid} vol_or_ch={info.vol_or_ch} chapter_start_index={info.chapter_start_index} />
+            {volView}
+            {chView}
           </Col>
           <Col>
               <Footer />
