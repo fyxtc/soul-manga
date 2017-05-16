@@ -72,7 +72,7 @@ class SearchBar extends React.Component {
       this.enter = false
       re = <Redirect push to={'/search/' + this.state.searchKey} target="_blank" />
     }
-    
+
     return (
       <Router>
         <Form className="search-bar">
@@ -316,7 +316,7 @@ class MangaItem extends React.Component {
 
   render() {
     // target='_self'必须要。。为啥？
-    // todo 图片转换为320*240不然怎么办啊。。。我日，好他妈奇怪啊，为啥百分比就适配不了, overflow也失效了，你麻痹。。，用background解决了,nice
+    // 图片转换为320*240不然怎么办啊。。。我日，好他妈奇怪啊，为啥百分比就适配不了, overflow也失效了，你麻痹。。，用background解决了,nice
     return (
       <Router>
         <Col
@@ -347,8 +347,10 @@ class MangaView extends React.Component {
       hasMoreItems: true,
       items: [],
       category: 1,
-      cat_page: 0
+      cat_page: 0,
     }
+    this.show_no_result = false
+    this.searchKey = ''
     console.log(this.props.route)
   }
 
@@ -367,13 +369,21 @@ class MangaView extends React.Component {
         const url = `${SERVER_SETTING.url}/category/${this.props.match.params.id}/${this.state.cat_page++}`
         fetch(url).then(resp => resp.json()).then(json => {
           // console.log("fetch data len " + json.data.length)
-          // todo 有可能延迟回来进入了其他tab，这里需要通过返回category和当前category(nav切换)来判断
+          // todo 有可能延迟回来进入了其他tab，这里需要通过返回category和当前category(nav切换)来判断，如果是搜索，则通过search key来判断，那如果在载入过程用户改了key就真的没辙了，可以在点击搜索的时候记录
+          // 真实的确定key，但是如果用的按钮，我特么连。。。哦onlick可以加。。。费劲啊 麻蛋
+
+          // 如果点了两个一样的，那可能会报key一样的警告，这个不管
+          if(json.category && json.category != parseInt(this.props.match.params.id)){
+            // console.log(this.props)
+            console.log('delay ingore catetory ' + json.category)
+            return
+          }
+
           for (let i = 0; i < json.data.length; i++) {
             this.loadItemsDetail(page, json.data[i])
           }
           // this.printCurAllItems()
           this.setState({ items: this.state.items })
-          // console.log("over " + json.over)
           if (json.over) {
             this.setState({ hasMoreItems: false })
           }
@@ -381,26 +391,48 @@ class MangaView extends React.Component {
         // test
         // this.setState({ hasMoreItems: false })
       } else {
-        // console.log('key: ' + key)
-        // search就先全部给了，不分页了
-        const url = `${SERVER_SETTING.url}/search/${key}`
-        fetch(url).then(resp => resp.json()).then(json => {
-          // console.log(json)
-          this.setState({ items: [] })
-          for (let i = 0; i < json.length; i++) {
-            this.loadItemsDetail(page, json[i])
+        console.log('key: ' + key)
+        // // search就先全部给了，不分页了
+        const newKey = key.trim()
+        if(newKey.length <= 0){
+          console.log('ingore white space key ')
+          return
+        }
+        this.searchKey = newKey
+        const url = `${SERVER_SETTING.url}/search/${newKey}`
+        fetch(url).then(resp => {
+          console.log(resp)
+          return resp.json()
+        }).then(json => {
+          if(json.data.length == 0){
+            // console.log('what the fuck search ' + newKey)
+            this.show_no_result = true
+          }else{
+            this.show_no_result = false
+            this.setState({ items: [] })
+            for (let i = 0; i < json.data.length; i++) {
+              this.loadItemsDetail(page, json.data[i])
+            }
+            // 一次性返回全部的结果了
+            // this.printCurAllItems()
           }
-          // 一次性返回全部的结果了
-          // this.printCurAllItems()
           this.setState({ items: this.state.items, hasMoreItems: false })
         })
       }
     } else {
       // 根路径,用棋魂还是全部呢...
-      const url = `${SERVER_SETTING.url}/category/15/${this.state.cat_page++}`
+      const indexCategory = 15
+      const url = `${SERVER_SETTING.url}/${indexCategory}/15/${this.state.cat_page++}`
       fetch(url).then(resp => resp.json()).then(json => {
         // console.log("fetch data len " + json.data.length)
-        // todo 有可能延迟回来进入了其他tab，这里需要通过返回category和当前category(nav切换)来判断
+
+        // 根路径没想到好的解决方法。。。先不管吧
+        // if(json.category && json.category == indexCategory){
+        //   console.log('delay index ingore ' + json.category)
+        //   return
+        // }
+
+
         for (let i = 0; i < json.data.length; i++) {
           this.loadItemsDetail(page, json.data[i])
         }
@@ -435,11 +467,34 @@ class MangaView extends React.Component {
   render() {
     // console.log('mangaview render')
     // console.log('MangaView render ' + (tis.props.route ? this.props.route.searchKey : "null"))
+
+    let view
+    if(this.show_no_result){
+      view = (
+        <div className="no-result">
+          <Col md={3}>
+            <Image src="/images/loader.png" />
+          </Col>
+          <Col className="no-result-txt">
+            <p>
+              {'  呜呜，服务器君丧心病狂地搜索...然而并没有到 "' + this.searchKey + '" 的结果 😭'}
+            </p>
+            <br />
+            <p>
+              {'  but，大丈夫，可以联系小光的邮箱反馈哟，光君尽力补上 👻'}
+            </p>
+          </Col>
+        </div>
+      )    
+    }else{
+      view = this.state.items
+    }
+
     return (
       <Col
         md={8}
         mdOffset={2}
-        /*style={STYLES.mangaItem}*/ className="manga-view">
+        className="manga-view">
         <InfiniteScroll
           pageStart={0}
           loadMore={this.loadItems.bind(this)}
@@ -451,7 +506,7 @@ class MangaView extends React.Component {
           threshold={250}
           style={{ margin: '10px auto' }}
           initialLoad={true}>
-          {this.state.items}
+          {view}
         </InfiniteScroll>
       </Col>
     )

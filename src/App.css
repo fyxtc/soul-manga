@@ -124,6 +124,25 @@ body {
   color: black;
 }
 
+.no-result {
+  font-size: 2rem;
+}
+
+.no-result img{
+  width: 14rem;
+  float: right;
+}
+
+.no-result p{
+  float: left;
+}
+
+.no-result-txt{
+  float: left;
+  margin: 5rem;
+  margin-left: 3rem;
+}
+
 .logo{
   /*border: 2px solid red;*/
   background-color: currentColor;

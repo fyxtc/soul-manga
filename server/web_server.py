@@ -84,7 +84,6 @@ def home():
 # 这行的/是为了nginx转发过的，结尾有带/，所以py也得加
 @app.route('/category/<int:cid>/<int:page>/')
 def soul_manga(cid=1, page=0):
-    # todo ，数据可以少传，只传主页显示的就可以了，现在就是用Offset的少数据了，但是还可以压缩json
     print("category {0}, page {1}, limit {2} ".format(cid, page, FIRST_PAGE_SIZE + page * PAGE_SIZE))
     sql = "select * from soul_manga where category = ? limit ? offset ?"
     # target_count = FIRST_PAGE_SIZE + page * PAGE_SIZE #这个计算不对吧。。这是全部了...
@@ -101,6 +100,7 @@ def soul_manga(cid=1, page=0):
     res = {}
     res["data"] = query_db(sql, params)
     res["over"] = len(res.get("data")) < target_count 
+    res["category"] = cid
     # print(res.get("data"))
     print("over: " + str(res.get("over")) + " " + str(len(res.get("data"))) + " & " + str(target_count))
     return jsonify(res)
@@ -138,10 +138,13 @@ def search(key):
     if key:
         sql = "select * from soul_manga where name like '%{0}%'".format(key) 
         print("search key: " + key + ", sql: " + sql)
-        res = query_db(sql)
+        res = {}
+        # res = query_db(sql)
+        res["data"] = query_db(sql)
+        res["key"] = key
         return jsonify(res)
-    else:
-        return jsonify({})
+    # else:
+    #     return jsonify({})
 
 DATABASE = './soul_manga.db'
 

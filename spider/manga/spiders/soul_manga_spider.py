@@ -189,7 +189,9 @@ class SoulMangaSpider(scrapy.Spider):
         item = self.get_sql_item(response)
         mid = item.get("mid")
         if self.is_mid_exist(mid):
-            # todo 这里有bug，不能mid存在就跳过啊。。。这样走next_url的请求了，我先全部清除了来过吧。。。这样没问题。。。不。先爬到spider文件夹下的db吧，改setting
+            # todo 这里有bug，不能mid存在就跳过啊。。。这样走不了next_url的请求了，我先全部清除了来过吧。。。这样没问题。。。不。先爬到spider文件夹下的db吧，改setting
+            # 但是增量更新这里是绕不开的，必须想办法，判断最后更新日期是否一样，如果不一样就update chapter字段
+            # 然后每天的计划应该是0点爬“最新上架”页面的头几页，头两页基本上能保证当天的更新度了，其实应该一页就行了。。保守起见吧
             # logging.info("mid {0} is exist, skip ".format(mid))
             return
         url = response.xpath(self.xpath.get("chapter")).extract_first()
@@ -206,6 +208,7 @@ class SoulMangaSpider(scrapy.Spider):
         item = response.meta.get("item")
         # logging.info(item)
         assert item != None
+        assert url != None
         mid = item.get("mid")
         image_base_url = url[:url.find("/"+str(mid)+"/")]
         item["image_base_url"] = image_base_url
