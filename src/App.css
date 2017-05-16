@@ -124,6 +124,22 @@ body {
 
 .manga-item span{
   color: black;
+  /*position: absolute;*/
+  /*bottom: 5rem;*/
+}
+
+.manga-item p{
+  color: black;
+  font-size: medium;
+}
+
+.last-update{
+  background-color: aliceblue;
+  height: 1.9rem;
+  position: absolute;
+  bottom: 2.2rem;
+  width: 88%;
+  border-radius: 2px;
 }
 
 .no-result {

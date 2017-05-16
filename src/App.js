@@ -330,9 +330,10 @@ class MangaItem extends React.Component {
                 style={{
                   backgroundImage: `url(${this.props.data.cover_image}`
                 }}
-              />
-              <span>{'更新到 ' + this.props.data.last_update_chapter + ' 话'}</span>
-              <span>{this.props.data.name}</span>
+              >
+              <div className="last-update" ><span>{'更新到 ' + this.props.data.last_update_chapter + ' 话'}</span></div>
+              </div>
+              <p>{this.props.data.name}</p>
             </div>
           </Link>
         </Col>
