@@ -422,6 +422,24 @@ body {
  text-align: left; 
 }
 
+.vol{
+  padding: 1rem;
+  /*因为summary用了top，所以下面的所有div都要top至少2rem*/
+  /*top: 4rem;*/ 
+  border: 2px solid black;
+  margin: 2rem auto;
+  /*margin-bottom: 5rem;*/
+}
+
+.vol table{
+  margin: auto;
+}
+
+.vol td{
+  /*迷之1%....好像自适应了*/
+  width: 1%;
+}
+
 .chapter{
   padding: 1rem;
   /*因为summary用了top，所以下面的所有div都要top至少2rem*/
@@ -439,6 +457,7 @@ body {
   /*迷之1%....好像自适应了*/
   width: 1%;
 }
+
 
 .chapter-item{
   top: 0; 

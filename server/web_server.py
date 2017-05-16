@@ -118,7 +118,7 @@ def info(mid=1):
 # @app.route('/read/<int:mid>')
 @app.route('/read/<int:mid>/chapter/<int:chapter>')
 @app.route('/read/<int:mid>/chapter/<int:chapter>/')
-def read(mid, chapter=1):
+def read_chapter(mid, chapter=1):
     print('read id {0} chapter {1}'.format(mid, chapter))
     chapter_images = query_db("select image_base_url, all_chapters_pages from soul_manga where mid = ?", [mid], True)
     # print(chapter_images)
@@ -127,6 +127,22 @@ def read(mid, chapter=1):
         res = {}
         res["image_base_url"] = chapter_images.get("image_base_url")
         res["cur_ch_pages"] = chapter_images.get('all_chapters_pages').split(",")[chapter-1]
+        # print(res)
+        return jsonify(res)
+    else:
+        return jsonify({})
+
+@app.route('/read/<int:mid>/vol/<int:vol>')
+@app.route('/read/<int:mid>/vol/<int:vol>/')
+def read_vol(mid, vol=1):
+    print('read id {0} vol {1}'.format(mid, vol))
+    vol_images = query_db("select image_base_url, all_vols_pages from soul_manga where mid = ?", [mid], True)
+    # print(vol_images)
+    if vol_images:
+        # todo check
+        res = {}
+        res["image_base_url"] = vol_images.get("image_base_url")
+        res["cur_ch_pages"] = vol_images.get('all_vols_pages').split(",")[vol-1]
         # print(res)
         return jsonify(res)
     else:

@@ -10,6 +10,7 @@ from hanziconv import HanziConv
 class SoulMangaSpider(scrapy.Spider):
     name = "soul_manga"
     xpath = {
+        "op_urls": ["http://www.cartoonmad.com/comic/1152.html"],
         "index_urls": ["http://www.cartoonmad.com/comic99.html"],
         "next_page": "//a[contains(., '下一頁')]/@href",
         "page_urls": [
@@ -52,18 +53,24 @@ class SoulMangaSpider(scrapy.Spider):
         "last_update_date":"/html/body/table/tr[1]/td[2]/table/tr[4]/td/table/tr[1]/td[2]/b/font/text()",
         "status":"/html/body/table/tr[1]/td[2]/table/tr[4]/td/table/tr[2]/td[2]/table[1]/tr[7]/td/img[2]/@src", #chap9.gif
         "pop":"/html/body/table/tr[1]/td[2]/table/tr[4]/td/table/tr[2]/td[2]/table[1]/tr[11]/td/text()",
-        "tags":"/html/body/table/tr[1]/td[2]/table/tr[4]/td/table/tr[2]/td[2]/table[1]/tr[13]/td/text()",
+        "tags":"//td[contains(., '漫畫標籤')]/./a/text()",
         "chapters":"/html/body/table/tr[1]/td[2]/table/tr[4]/td/table/tr[2]/td[2]/table[1]/tr[7]/td/font/text()", 
         "chapter_images":"",
-        "vol_or_ch":"", #通过chapter/vol设置，优先话
+        # "vol_or_ch":"",
 
         "all_chapters": "//a[contains(., '話')]/../a/text()",
         "all_chapters_pages": "//a[contains(., '話') and contains(., '第')]/../font/text()",
         "all_vols": "//a[contains(., '卷')]/../a/text()",
         "all_vols_pages": "//a[contains(., '卷')]/../font/text()",
-        "image_base_url": "/html/body/table/tr[5]/td/a/img/@src"
+        # "image_base_url": "/html/body/table/tr[5]/td/a/img/@src"
+        "image_base_url": "//img[contains(@src, 'cartoonmad.com')]/@src", #这一话的图片
     }
     sql_item = {}
+
+    def get_chapter(self, ch):
+        index1 = ch.find("第")
+        index2 = ch.find("話")
+        return int(str.strip(ch[index1+1: index2]))
 
     def get_sql_item(self, response):
         # 异步代码，不能通过self获取，要直接传递下去，通过meta
@@ -78,17 +85,17 @@ class SoulMangaSpider(scrapy.Spider):
         sql_item["last_update_date"] = response.xpath(self.xpath.get("last_update_date")).extract()[1]
         sql_item["status"] = response.xpath(self.xpath.get("status")).extract_first()
         sql_item["pop"] = response.xpath(self.xpath.get("pop")).extract_first()
-        sql_item["tags"] = response.xpath(self.xpath.get("tags")).extract_first()
+        sql_item["tags"] = response.xpath(self.xpath.get("tags")).extract()
 
-        chapters_len = len(response.xpath(self.xpath.get("all_chapters")).extract())
-        if(chapters_len != 0):
-            sql_item["all_chapters_len"] = chapters_len
-            sql_item["all_chapters_pages"] = response.xpath(self.xpath.get("all_chapters_pages")).extract()
-            sql_item["vol_or_ch"] = 0
-        else:
-            sql_item["all_chapters_len"] = len(response.xpath(self.xpath.get("all_vols")).extract())
-            sql_item["all_chapters_pages"] = response.xpath(self.xpath.get("all_vols_pages")).extract()
-            sql_item["vol_or_ch"] = 1
+        chapters = response.xpath(self.xpath.get("all_chapters")).extract()
+        sql_item["all_chapters_len"] = len(chapters)
+        sql_item["all_chapters_pages"] = response.xpath(self.xpath.get("all_chapters_pages")).extract()
+        sql_item["chapter_start_index"] = self.get_chapter(chapters[0])
+        sql_item["last_update_chapter"] = self.get_chapter(chapters[-1])
+
+        vols = response.xpath(self.xpath.get("all_vols")).extract()
+        sql_item["all_vols_len"] = len(vols)
+        sql_item["all_vols_pages"] = response.xpath(self.xpath.get("all_vols_pages")).extract()
 
         for k, v in sql_item.items():
             if isinstance(v, str) and k != "last_update_date":
@@ -98,7 +105,7 @@ class SoulMangaSpider(scrapy.Spider):
 
             if k == "mid":
                 v = int(v[v.rfind("/")+1:v.rfind(".")])
-            elif k in ["author", "tags", "pop"]:
+            elif k in ["author", "pop"]:
                 v = v[v.find("：")+1:]
             elif k == "category":
                 v = self.get_category(v) # remove 系列
@@ -107,9 +114,11 @@ class SoulMangaSpider(scrapy.Spider):
                 v = temp[temp.find(" ")+1:]
             elif k == "status":
                 v = "已完结" if v.find("chap9.gif") != -1 else "连载中"
-            elif k == "all_chapters_pages":
+            elif k == "all_chapters_pages" or k == "all_vols_pages":
                 temp = [re.findall(r"\d+", x)[0] for x in v]
                 v = ','.join(temp)
+            elif k == "tags":
+                v = ','.join(v)
             sql_item[k] = v
 
         # for k, v in sql_item.items():
@@ -146,9 +155,9 @@ class SoulMangaSpider(scrapy.Spider):
         self.cur = self.conn.cursor()
 
         # 获取全部漫画
-        urls = self.xpath.get("index_urls")
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse_index)
+        # urls = self.xpath.get("index_urls")
+        # for url in urls:
+        #     yield scrapy.Request(url=url, callback=self.parse_index)
 
         # 获取全页漫画
         # urls = self.xpath.get("page_urls")
@@ -156,14 +165,14 @@ class SoulMangaSpider(scrapy.Spider):
         #     yield scrapy.Request(url=url, callback=self.parse_page)
 
         # 获取单个漫画
-        # urls = self.xpath.get("urls")
-        # for url in urls:
-        #     yield scrapy.Request(url=url, callback=self.parse)
+        urls = self.xpath.get("op_urls")
+        for url in urls:
+            yield scrapy.Request(url=url, callback=self.parse)
 
     def parse_index(self, response):
         next_url = response.xpath(self.xpath.get("next_page")).extract_first()
         next_url = response.urljoin(next_url) 
-        # logging.info("next url " + next_url)
+        logging.info("next url " + next_url)
         # # for url in urls:
         # #     logging.info("fuck next ")
         # #     yield scrapy.Request(url=url, callback=self.parse_page)
@@ -187,12 +196,14 @@ class SoulMangaSpider(scrapy.Spider):
     def parse(self, response):
         # 其实这里本来每个漫画的url也就走一次吧。。。简直完美
         item = self.get_sql_item(response)
+        # logging.info(item)
+        
         mid = item.get("mid")
         if self.is_mid_exist(mid):
             # todo 这里有bug，不能mid存在就跳过啊。。。这样走不了next_url的请求了，我先全部清除了来过吧。。。这样没问题。。。不。先爬到spider文件夹下的db吧，改setting
             # 但是增量更新这里是绕不开的，必须想办法，判断最后更新日期是否一样，如果不一样就update chapter字段
             # 然后每天的计划应该是0点爬“最新上架”页面的头几页，头两页基本上能保证当天的更新度了，其实应该一页就行了。。保守起见吧
-            # logging.info("mid {0} is exist, skip ".format(mid))
+            logging.info("mid {0} is exist, skip ".format(mid))
             return
         url = response.xpath(self.xpath.get("chapter")).extract_first()
         if not url:
@@ -203,6 +214,8 @@ class SoulMangaSpider(scrapy.Spider):
         yield scrapy.Request(url=first_chapter_url, callback=self.parse_image_base_url, meta={"item": item, "next_url": response.meta.get("next_url")})
 
     def parse_image_base_url(self, response):
+        logging.info(response)
+        logging.info(response.xpath(self.xpath.get("image_base_url")))
         url = response.xpath(self.xpath.get("image_base_url")).extract_first()
         # logging.info(response.url + ", " + str(url))
         item = response.meta.get("item")
@@ -213,10 +226,12 @@ class SoulMangaSpider(scrapy.Spider):
         image_base_url = url[:url.find("/"+str(mid)+"/")]
         item["image_base_url"] = image_base_url
         # self.log(image_base_url)
+        logging.info(item)
         self.write_database(item)
         next_url = response.meta.get("next_url")
-        logging.info("next url: " + next_url)
-        yield scrapy.Request(url=next_url, callback=self.parse_index)
+        if next_url:
+            logging.info("next url: " + next_url)
+            yield scrapy.Request(url=next_url, callback=self.parse_index)
 
         # 解析一个完成了之后，加入next_page_url，可以这样每一个item解析完都会请求这个，虽然scrapy自己去重了，但是毕竟多一步判断，先这样写吧
 

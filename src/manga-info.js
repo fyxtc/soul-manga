@@ -60,7 +60,7 @@ class Info extends React.Component {
           <h5>{'连载状态: ' + info.status}</h5>
           <h5>{'人气指数: ' + info.pop}</h5>
           <h5>{'漫画分类: ' + self.categorys[info.category]}</h5>
-          <h5>{'漫画标签: ' + info.tags}</h5>
+          <h5>{'漫画标签: ' + info.tags.split(',').join(' ')}</h5>
           <h5>
             {'收录漫画: ' + info.cover_update_info}
           </h5>
@@ -96,6 +96,43 @@ class Summary extends React.Component {
   }
 }
 
+class Vol extends React.Component{
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    let vols = []
+    let volLine = []
+    const lineCount = 6
+    for (let i = 0; i < this.props.all_vols_len; i++) {
+      vols.push(
+        <ChapterItem
+          key={this.props.mid + '-' + i}
+          ch={i}
+          chapter_start_index={this.props.chapter_start_index}
+          mid={this.props.mid}
+          vol_or_ch={1}
+        />
+      )
+
+      if(i % lineCount === 0){
+        volLine.push(<tr key={i}>{vols.slice(i-lineCount, i)}</tr>)
+      }
+    }
+
+    return (
+      <Col md={12} mdOffset={0} className="vol" >
+        <table>
+          <tbody>
+            {volLine}
+          </tbody>
+        </table>
+      </Col>
+    )
+  }  
+}
+
 class Chapter extends React.Component {
   constructor(props) {
     super(props)
@@ -105,20 +142,28 @@ class Chapter extends React.Component {
     let chapters = []
     let chapterLine = []
     const lineCount = 6
-    for (let i = 1; i <= this.props.all_chapters_len; i++) {
+    let len = this.props.all_chapters_len
+    // len = 5
+    console.log('chapter start ' + this.props.chapter_start_index + ' len ' + len)
+    for (let i = 0; i < len; i++) {
       chapters.push(
         <ChapterItem
           key={this.props.mid + '-' + i}
           ch={i}
           mid={this.props.mid}
-          vol_or_ch={this.props.vol_or_ch}
+          chapter_start_index={this.props.chapter_start_index}
+          vol_or_ch={0}
         />
       )
 
-      if(i % lineCount === 0){
-        chapterLine.push(<tr key={i}>{chapters.slice(i-lineCount, i)}</tr>)
+      // 这里有bug...非6整数。。漏了。。比如5就显示0了，i==0也会进。。。
+      if(i > 0 && i % lineCount === 0){
+        chapterLine.push(<tr key={chapterLine.length}>{chapters.slice(i-lineCount, i)}</tr>)
       }
     }
+
+    const leftIndex = len - chapterLine.length * lineCount
+    chapterLine.push(<tr key={chapterLine.length}>{chapters.slice(chapters.length - leftIndex)}</tr> )
 
     // const chapters = this.props.chapters.split(',')
     // const items = chapters.map(ch => (
@@ -153,13 +198,17 @@ class ChapterItem extends React.Component {
 
   render() {
     const suffix = this.props.vol_or_ch ? '卷' : '话'
-    const ch = this.paddingZero(this.props.ch)
+    const vol_ch = this.props.vol_or_ch ? 'vol' : 'chapter'
+    let ch = this.paddingZero(this.props.ch + 1)
+    if(!this.props.vol_or_ch){
+      ch = this.paddingZero(this.props.ch + this.props.chapter_start_index )
+    }
     return (
       <td>
       <Router>
         <Col md={2} className="chapter-item   hvr-radial-out" >
           <Link
-            to={`/read/${this.props.mid}/chapter/${this.props.ch}`}
+            to={`/read/${this.props.mid}/${vol_ch}/${this.props.ch}`}
             target="_blank">{`第 ${ch} ${suffix}`}</Link>
         </Col>
       </Router>
@@ -217,7 +266,8 @@ export default class MangaInfo extends React.Component {
               </Col>
             </Col>
             <Summary summary={info.summary} name={info.name} />
-            <Chapter all_chapters_len={info.all_chapters_len} mid={info.mid} vol_or_ch={info.vol_or_ch} />
+            <Vol all_vols_len={info.all_vols_len} mid={info.mid} vol_or_ch={info.vol_or_ch} />
+            <Chapter all_chapters_len={info.all_chapters_len} mid={info.mid} vol_or_ch={info.vol_or_ch} chapter_start_index={info.chapter_start_index} />
           </Col>
           <Col>
               <Footer />
