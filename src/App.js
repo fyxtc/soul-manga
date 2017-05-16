@@ -28,7 +28,7 @@ import $ from 'jquery'
 import jQuery from 'jquery'
 
 
-var DEBUG = false
+var DEBUG = true 
 
 export const SERVER_SETTING = {
   // 8000是gunicorn, 后面的localhost
@@ -44,6 +44,7 @@ class SearchBar extends React.Component {
       searchKey: '',
       redirect: false
     }
+    this.enter = false
   }
 
   handleInput(e) {
@@ -55,18 +56,27 @@ class SearchBar extends React.Component {
   handleKeyPress(e) {
     if (e.key === 'Enter') {
       console.log('enter')
+      this.enter = true
       this.setState({ redirect: true })
     }
   }
 
   render() {
-    if (this.state.redirect) {
-      console.log('redirect')
-      return <Redirect push to={'/search/' + this.state.searchKey} />
+    // if (this.state.redirect) {
+    //   console.log('redirect')
+    //   return <Redirect push to={'/search/' + this.state.searchKey} target="_blank" />
+    // }
+    // console.log("search render")
+    let re = null
+    if(this.enter){
+      this.enter = false
+      re = <Redirect push to={'/search/' + this.state.searchKey} target="_blank" />
     }
+    
     return (
       <Router>
         <Form className="search-bar">
+          {re}
           <Col className="ft1 animated tada" md={2}>
             <Image src="/images/ft.png" />
           </Col>
@@ -78,7 +88,7 @@ class SearchBar extends React.Component {
             <FormControl
               className="input-text"
               type="text"
-              placeholder="search here"
+              placeholder="哟，少年 不来一发吗 😃"
               value={this.state.searchKey}
               onChange={this.handleInput.bind(this)}
               onKeyPress={this.handleKeyPress.bind(this)}
@@ -375,7 +385,7 @@ class MangaView extends React.Component {
         // search就先全部给了，不分页了
         const url = `${SERVER_SETTING.url}/search/${key}`
         fetch(url).then(resp => resp.json()).then(json => {
-          console.log(json)
+          // console.log(json)
           this.setState({ items: [] })
           for (let i = 0; i < json.length; i++) {
             this.loadItemsDetail(page, json[i])
@@ -763,7 +773,9 @@ class Logo extends React.Component {
             <LogoFluid />
           </Col>
           <Col md={6} mdOffset={0}>
+            <Link to="/" target="_self">
             <Image src="/images/logo.png" className="logo-soul  animated rubberBand" />
+            </Link>
           </Col>
           {/* 微调0.1rem，视觉差....鸣人头发太亮了，看着高一些*/}
           <Col md={3} mdOffset={0} style={{ top: '0.1rem' }}>
