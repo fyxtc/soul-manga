@@ -10,7 +10,7 @@ from hanziconv import HanziConv
 class SoulMangaSpider(scrapy.Spider):
     name = "soul_manga"
     xpath = {
-        "op_urls": ["http://www.cartoonmad.com/comic/1174.html"],
+        "op_urls": ["http://www.cartoonmad.com/comic/1090.html"],
         "index_urls": ["http://www.cartoonmad.com/comic99.html"],
         "next_page": "//a[contains(., '下一頁')]/@href",
         "page_urls": [
@@ -48,7 +48,9 @@ class SoulMangaSpider(scrapy.Spider):
         "cover_update_info":"/html/body/table/tr[1]/td[2]/table/tr[4]/td/table/tr[2]/td[2]/table[1]/tr[7]/td/font/text()",
         "category":"/html/body/table/tr[1]/td[2]/table/tr[4]/td/table/tr[2]/td[2]/table[1]/tr[3]/td/a[1]/text()",
         # todo: 嵌套的<p>没有实现，比如棋魂...
-        "summary":"//legend[contains(., '簡介')]/../table/tr/td/text()",
+        # "summary":"//legend[contains(., '簡介')]/../table/tr/td/text()",
+        # string抓取嵌套文本
+        "summary":"string(//legend[contains(., '簡介')]/../table/tr/td)",
 
         "last_update_date":"/html/body/table/tr[1]/td[2]/table/tr[4]/td/table/tr[1]/td[2]/b/font/text()",
         "status":"/html/body/table/tr[1]/td[2]/table/tr[4]/td/table/tr[2]/td[2]/table[1]/tr[7]/td/img[2]/@src", #chap9.gif
@@ -81,7 +83,7 @@ class SoulMangaSpider(scrapy.Spider):
         sql_item["cover_image"] = response.xpath(self.xpath.get("cover_image")).extract_first()
         sql_item["cover_update_info"] = response.xpath(self.xpath.get("cover_update_info")).extract_first()
         sql_item["category"] = response.xpath(self.xpath.get("category")).extract_first()
-        sql_item["summary"] = response.xpath(self.xpath.get("summary")).extract()[0]
+        sql_item["summary"] = response.xpath(self.xpath.get("summary")).extract_first()
         sql_item["last_update_date"] = response.xpath(self.xpath.get("last_update_date")).extract()[1]
         sql_item["status"] = response.xpath(self.xpath.get("status")).extract_first()
         sql_item["pop"] = response.xpath(self.xpath.get("pop")).extract_first()
@@ -90,8 +92,9 @@ class SoulMangaSpider(scrapy.Spider):
         chapters = response.xpath(self.xpath.get("all_chapters")).extract()
         sql_item["all_chapters_len"] = len(chapters)
         sql_item["all_chapters_pages"] = response.xpath(self.xpath.get("all_chapters_pages")).extract()
-        sql_item["chapter_start_index"] = self.get_chapter(chapters[0])
-        sql_item["last_update_chapter"] = self.get_chapter(chapters[-1])
+        sql_item["chapter_start_index"] = 1 if len(chapters) == 0 else self.get_chapter(chapters[0])
+        sql_item["last_update_chapter"] = 0 if len(chapters) == 0 else self.get_chapter(chapters[-1])
+        sql_item["last_update_vol_or_ch"] = 1 if len(chapters) == 0 else 0
 
         vols = response.xpath(self.xpath.get("all_vols")).extract()
         sql_item["all_vols_len"] = len(vols)
@@ -119,6 +122,8 @@ class SoulMangaSpider(scrapy.Spider):
                 v = ','.join(temp)
             elif k == "tags":
                 v = ','.join(v)
+            elif k == "summary":
+                v = str.strip(v)
             sql_item[k] = v
 
         # for k, v in sql_item.items():
@@ -238,6 +243,7 @@ class SoulMangaSpider(scrapy.Spider):
     def write_database(self, item):
         # 这个写法确实吊，但是要注意.values()2/3表现好像不一样，3会有dictvalue之类的字符串，所以和keys一样用join连接吧，但是。。。int就跪了握草，这怎么整，转tunple就好了
         sql = 'insert into {0} ({1}) values ({2})'.format(self.sqlite_table, ', '.join(item.keys()), ', '.join(['?'] * len(item.keys())))
+        # logging.info(sql)
         logging.info("insert mid " + str(item.get("mid")) + ": " + item.get("name") + " category: " + str(item.get("category")))
         values = tuple(item.values())
         # self.log(values)

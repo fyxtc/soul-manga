@@ -317,6 +317,13 @@ class MangaItem extends React.Component {
   render() {
     // target='_self'必须要。。为啥？
     // 图片转换为320*240不然怎么办啊。。。我日，好他妈奇怪啊，为啥百分比就适配不了, overflow也失效了，你麻痹。。，用background解决了,nice
+    console.log(this.props)
+    let str = ""
+    if(this.props.data.last_update_chapter){
+      str = '更新到 ' + this.props.data.last_update_chapter + ' 话'
+    }else{
+      str = '更新到 ' + this.props.data.all_vols_len + ' 卷'
+    }
     return (
       <Router>
         <Col
@@ -331,7 +338,7 @@ class MangaItem extends React.Component {
                   backgroundImage: `url(${this.props.data.cover_image}`
                 }}
               >
-              <div className="last-update" ><p>{'更新到 ' + this.props.data.last_update_chapter + ' 话'}</p></div>
+              <div className="last-update" ><p>{str}</p></div>
               </div>
               <span>{this.props.data.name}</span>
             </div>
