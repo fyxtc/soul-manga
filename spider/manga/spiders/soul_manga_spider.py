@@ -58,10 +58,10 @@ class SoulMangaSpider(scrapy.Spider):
         "chapter_images":"",
         # "vol_or_ch":"",
 
-        "all_chapters": "//a[contains(., '話')]/../a/text()",
+        "all_chapters": "//a[contains(., '話') and contains(., '第')]/text()",
         "all_chapters_pages": "//a[contains(., '話') and contains(., '第')]/../font/text()",
-        "all_vols": "//a[contains(., '卷')]/../a/text()",
-        "all_vols_pages": "//a[contains(., '卷')]/../font/text()",
+        "all_vols": "//a[contains(., '卷') and contains(., '第')]/text()",
+        "all_vols_pages": "//a[contains(., '卷') and contains(., '第')]/../font/text()",
         # "image_base_url": "/html/body/table/tr[5]/td/a/img/@src"
         "image_base_url": "//img[contains(@src, 'cartoonmad.com')]/@src", #这一话的图片
     }
@@ -172,7 +172,7 @@ class SoulMangaSpider(scrapy.Spider):
     def parse_index(self, response):
         next_url = response.xpath(self.xpath.get("next_page")).extract_first()
         next_url = response.urljoin(next_url) 
-        logging.info("next url " + next_url)
+        # logging.info("next url " + next_url)
         # # for url in urls:
         # #     logging.info("fuck next ")
         # #     yield scrapy.Request(url=url, callback=self.parse_page)
@@ -214,8 +214,8 @@ class SoulMangaSpider(scrapy.Spider):
         yield scrapy.Request(url=first_chapter_url, callback=self.parse_image_base_url, meta={"item": item, "next_url": response.meta.get("next_url")})
 
     def parse_image_base_url(self, response):
-        logging.info(response)
-        logging.info(response.xpath(self.xpath.get("image_base_url")))
+        # logging.info(response)
+        # logging.info(response.xpath(self.xpath.get("image_base_url")))
         url = response.xpath(self.xpath.get("image_base_url")).extract_first()
         # logging.info(response.url + ", " + str(url))
         item = response.meta.get("item")
@@ -226,11 +226,11 @@ class SoulMangaSpider(scrapy.Spider):
         image_base_url = url[:url.find("/"+str(mid)+"/")]
         item["image_base_url"] = image_base_url
         # self.log(image_base_url)
-        logging.info(item)
+        # logging.info(item)
         self.write_database(item)
         next_url = response.meta.get("next_url")
         if next_url:
-            logging.info("next url: " + next_url)
+            # logging.info("next url: " + next_url)
             yield scrapy.Request(url=next_url, callback=self.parse_index)
 
         # 解析一个完成了之后，加入next_page_url，可以这样每一个item解析完都会请求这个，虽然scrapy自己去重了，但是毕竟多一步判断，先这样写吧

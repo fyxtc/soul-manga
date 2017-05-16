@@ -331,9 +331,9 @@ class MangaItem extends React.Component {
                   backgroundImage: `url(${this.props.data.cover_image}`
                 }}
               >
-              <div className="last-update" ><span>{'更新到 ' + this.props.data.last_update_chapter + ' 话'}</span></div>
+              <div className="last-update" ><p>{'更新到 ' + this.props.data.last_update_chapter + ' 话'}</p></div>
               </div>
-              <p>{this.props.data.name}</p>
+              <span>{this.props.data.name}</span>
             </div>
           </Link>
         </Col>
@@ -591,7 +591,7 @@ export default class SoulManga extends React.Component {
           <Route path="/search/:key" component={Home} />
           <Route path="/fuck" component={Home} />
           <Route path="/info/:id" component={MangaInfo} />
-          <Route path="/read/:id/chapter/:chapter" component={ReadPage} />
+          <Route path="/read/:id/:chapter" component={ReadPage} />
         </div>
       </Router>
     )

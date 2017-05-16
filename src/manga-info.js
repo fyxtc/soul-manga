@@ -105,12 +105,12 @@ class Vol extends React.Component{
     let vols = []
     let volLine = []
     const lineCount = 6
-    for (let i = 0; i < this.props.all_vols_len; i++) {
+    for (let i = 1; i <= this.props.all_vols_len; i++) {
       vols.push(
         <ChapterItem
           key={this.props.mid + '-' + i}
-          ch={i}
-          chapter_start_index={this.props.chapter_start_index}
+          ch={1 + i - 1}
+          // chapter_start_index={this.props.chapter_start_index}
           mid={this.props.mid}
           vol_or_ch={1}
         />
@@ -120,6 +120,10 @@ class Vol extends React.Component{
         volLine.push(<tr key={i}>{vols.slice(i-lineCount, i)}</tr>)
       }
     }
+
+    // 补上不满足lineCount一行的剩下的内容
+    const leftIndex = this.props.all_vols_len - volLine.length * lineCount
+    volLine.push(<tr key={volLine.length}>{vols.slice(vols.length - leftIndex)}</tr> )
 
     return (
       <Col md={12} mdOffset={0} className="vol" >
@@ -145,23 +149,23 @@ class Chapter extends React.Component {
     let len = this.props.all_chapters_len
     // len = 5
     console.log('chapter start ' + this.props.chapter_start_index + ' len ' + len)
-    for (let i = 0; i < len; i++) {
+    for (let i = 1; i <= len; i++) {
       chapters.push(
         <ChapterItem
           key={this.props.mid + '-' + i}
-          ch={i}
+          ch={this.props.chapter_start_index + i - 1}
           mid={this.props.mid}
-          chapter_start_index={this.props.chapter_start_index}
+          // chapter_start_index={this.props.chapter_start_index}
           vol_or_ch={0}
         />
       )
 
-      // 这里有bug...非6整数。。漏了。。比如5就显示0了，i==0也会进。。。
       if(i > 0 && i % lineCount === 0){
         chapterLine.push(<tr key={chapterLine.length}>{chapters.slice(i-lineCount, i)}</tr>)
       }
     }
 
+    // 补上不满足lineCount一行的剩下的内容
     const leftIndex = len - chapterLine.length * lineCount
     chapterLine.push(<tr key={chapterLine.length}>{chapters.slice(chapters.length - leftIndex)}</tr> )
 
@@ -199,16 +203,16 @@ class ChapterItem extends React.Component {
   render() {
     const suffix = this.props.vol_or_ch ? '卷' : '话'
     const vol_ch = this.props.vol_or_ch ? 'vol' : 'chapter'
-    let ch = this.paddingZero(this.props.ch + 1)
-    if(!this.props.vol_or_ch){
-      ch = this.paddingZero(this.props.ch + this.props.chapter_start_index )
-    }
+    let ch = this.paddingZero(this.props.ch)
+    // if(!this.props.vol_or_ch){
+    //   ch = this.paddingZero(this.props.ch)
+    // }
     return (
       <td>
       <Router>
         <Col md={2} className="chapter-item   hvr-radial-out" >
           <Link
-            to={`/read/${this.props.mid}/${vol_ch}/${this.props.ch}`}
+            to={`/read/${this.props.mid}/${this.props.ch}`}
             target="_blank">{`第 ${ch} ${suffix}`}</Link>
         </Col>
       </Router>

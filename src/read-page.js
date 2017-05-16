@@ -10,7 +10,7 @@ export default class ReadPage extends React.Component {
     }
 
     componentDidMount() {
-        const url = `${SERVER_SETTING.url}/read/${this.props.match.params.id}/chapter/${this.props.match.params.chapter}`
+        const url = `${SERVER_SETTING.url}/read/${this.props.match.params.id}/${this.props.match.params.chapter}`
         // 必须这种分两步的写法。。。why???
         fetch(url)
             .then(resp => {

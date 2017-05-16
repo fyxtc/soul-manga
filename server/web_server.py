@@ -115,38 +115,29 @@ def info(mid=1):
     print(res)
     return jsonify(res)
 
-# @app.route('/read/<int:mid>')
-@app.route('/read/<int:mid>/chapter/<int:chapter>')
-@app.route('/read/<int:mid>/chapter/<int:chapter>/')
+# chapter和vol都是走一个路由即可，因为第一卷访问的是 001/001.jpg，第659话访问的是659/001.jpg，一样的方式，所以也不要什么chapter/vol这样的路由了，直接接收值
+@app.route('/read/<int:mid>/<int:chapter>')
+@app.route('/read/<int:mid>/<int:chapter>/')
 def read_chapter(mid, chapter=1):
     print('read id {0} chapter {1}'.format(mid, chapter))
-    chapter_images = query_db("select image_base_url, all_chapters_pages from soul_manga where mid = ?", [mid], True)
+    chapter_images = query_db("select image_base_url, all_chapters_pages, chapter_start_index, all_vols_pages from soul_manga where mid = ?", [mid], True)
     # print(chapter_images)
+    ch_index = chapter_images.get("chapter_start_index")
     if chapter_images:
         # todo check
         res = {}
         res["image_base_url"] = chapter_images.get("image_base_url")
-        res["cur_ch_pages"] = chapter_images.get('all_chapters_pages').split(",")[chapter-1]
+        if chapter >= ch_index:
+            # 这样我就认为是话
+            res["cur_ch_pages"] = chapter_images.get('all_chapters_pages').split(",")[chapter - ch_index]
+        else:
+            # 这样则是卷，依赖于话的其实数一定大于卷的结尾数，逻辑上就是这样的，但是如果同时提供了完整的话和卷的情况，这就有问题....看了几个高人气的，不会这样，那就先这样写了
+            res["cur_ch_pages"] = chapter_images.get('all_vols_pages').split(",")[chapter - 1]
         # print(res)
         return jsonify(res)
     else:
         return jsonify({})
 
-@app.route('/read/<int:mid>/vol/<int:vol>')
-@app.route('/read/<int:mid>/vol/<int:vol>/')
-def read_vol(mid, vol=1):
-    print('read id {0} vol {1}'.format(mid, vol))
-    vol_images = query_db("select image_base_url, all_vols_pages from soul_manga where mid = ?", [mid], True)
-    # print(vol_images)
-    if vol_images:
-        # todo check
-        res = {}
-        res["image_base_url"] = vol_images.get("image_base_url")
-        res["cur_ch_pages"] = vol_images.get('all_vols_pages').split(",")[vol-1]
-        # print(res)
-        return jsonify(res)
-    else:
-        return jsonify({})
 
 @app.route("/search/<string:key>")
 @app.route("/search/<string:key>/")
