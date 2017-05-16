@@ -43,13 +43,19 @@ export default class ReadPage extends React.Component {
         )
     }
 
+    // 自定义的话。。。不支持图片的::before动画。。。没法玩了
     // renderLeftNav(onClick, disabled) {
-    //     return (
-    //       <button
-    //         className='image-gallery-custom-left-nav'
-    //         disabled={disabled}
-    //         onClick={onClick}/>
-    //     )
+    //   return (
+    //     <a
+    //       // type='button'
+    //       className='image-gallery-left-nav'
+    //       disabled={disabled}
+    //       onClick={onClick}
+    //       // aria-label='Previous Slide'
+    //     >
+    //     <img src="/images/gallery_nav.png" />
+    //     </a>
+    //   );
     // }
 
     render() {
@@ -94,10 +100,11 @@ export default class ReadPage extends React.Component {
                     infinite={false}
                     lazyLoad={true}
                     onImageLoad={null}
-                    /*showFullscreenButton={false}*/
+                    showFullscreenButton={false} //全屏先关了。。不能滚是bug...
                     showPlayButton={false}
                     // showIndex={false}
                     showThumbnails={false}
+                    renderLeftNav={this.renderLeftNav}
                 />
             )
         }
