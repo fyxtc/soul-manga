@@ -1,6 +1,7 @@
 /*@import "../node_modules/react-image-gallery/styles/scss/image-gallery.scss";*/
-/*妈的这个，css必须这里引入，不然根本不能看 。。。*/
-@import "../node_modules/react-image-gallery/styles/css/image-gallery.css";
+/*妈的这个，css必须这里引入，不然根本不能看 。。。我修改了源码，现在改为导入自己的*/
+/*@import "../node_modules/react-image-gallery/styles/css/image-gallery.css";*/
+@import "./image-gallery.css";
 
 body {
   margin: 0;

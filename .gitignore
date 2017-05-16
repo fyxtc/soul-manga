@@ -1,7 +1,7 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-# 这里我改了image-gallery.css（改为图片不缩放并居中）和image-gallery.js（翻页的时候滚动条重置）搜'hikaru'
+# 这里我改了image-gallery.css（改为图片不缩放并居中）和image-gallery.js（翻页的时候滚动条重置）bullets/nav 固定位置 搜'hikaru'
 /node_modules
 
 # testing
@@ -29,3 +29,4 @@ server/.python-version
 gun.pid
 
 *.zip
+!image-gallery.css

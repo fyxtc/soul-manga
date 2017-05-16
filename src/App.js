@@ -397,7 +397,7 @@ class MangaView extends React.Component {
         // test
         // this.setState({ hasMoreItems: false })
       } else {
-        console.log('key: ' + key)
+        // console.log('key: ' + key)
         // // search就先全部给了，不分页了
         const newKey = key.trim()
         if(newKey.length <= 0){
@@ -407,7 +407,7 @@ class MangaView extends React.Component {
         this.searchKey = newKey
         const url = `${SERVER_SETTING.url}/search/${newKey}`
         fetch(url).then(resp => {
-          console.log(resp)
+          // console.log(resp)
           return resp.json()
         }).then(json => {
           if(json.data.length == 0){

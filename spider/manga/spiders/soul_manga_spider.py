@@ -10,7 +10,7 @@ from hanziconv import HanziConv
 class SoulMangaSpider(scrapy.Spider):
     name = "soul_manga"
     xpath = {
-        "op_urls": ["http://www.cartoonmad.com/comic/1152.html"],
+        "op_urls": ["http://www.cartoonmad.com/comic/1174.html"],
         "index_urls": ["http://www.cartoonmad.com/comic99.html"],
         "next_page": "//a[contains(., '下一頁')]/@href",
         "page_urls": [
