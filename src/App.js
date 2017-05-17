@@ -28,7 +28,13 @@ import $ from 'jquery'
 import jQuery from 'jquery'
 
 
+// export const DEBUG = false 
 export const DEBUG = true 
+
+if(!DEBUG){
+    console.log=function(){
+    }
+}
 
 export const SERVER_SETTING = {
   // 8000是gunicorn, 后面的localhost
@@ -139,6 +145,7 @@ class CategoryItem extends React.Component {
    * Add event listener
    */
   componentDidMount() {
+    document.title = '魂漫 - 我们的童年，一直都在'
     this.updateDimensions()
     window.addEventListener('resize', this.updateDimensions.bind(this))
   }
@@ -317,7 +324,7 @@ class MangaItem extends React.Component {
   render() {
     // target='_self'必须要。。为啥？
     // 图片转换为320*240不然怎么办啊。。。我日，好他妈奇怪啊，为啥百分比就适配不了, overflow也失效了，你麻痹。。，用background解决了,nice
-    console.log(this.props)
+    // console.log(this.props)
     let str = ""
     if(this.props.data.last_update_chapter){
       str = '更新到 ' + this.props.data.last_update_chapter + ' 话'

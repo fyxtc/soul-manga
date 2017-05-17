@@ -239,6 +239,7 @@ export default class MangaInfo extends React.Component {
         return resp.json()
       })
       .then(json => {
+        document.title = json.name ? (`${json.name} - 魂漫`) : '魂漫 - 我们的童年，一直都在'
         console.log(json)
         this.setState({ info: json })
       })
