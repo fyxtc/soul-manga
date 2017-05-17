@@ -75,7 +75,11 @@ body {
   /*background-image: url('../public/images/black_border.png');*/
   border: 20px solid blue;
   top: .8rem;
-  border-image: url('../public/images/snow.png') 33% round;
+  /*原来雪花是33%。。好像20效果更好也*/
+  border-image: url('../public/images/snow.png') 20 20 20 20 round;
+
+  /*border: 40px solid blue;*/
+  /*border-image: url('../public/images/yugioh.png') 140 140 140 140 round;*/
 
   /*border: 20px solid blue;*/
   /*border-image: url('../public/images/black_border.png')  ;*/
@@ -112,6 +116,7 @@ body {
   background-size: cover;
   border-radius: 10px;
   border: 2px solid blue;
+  border-color: darkmagenta;
 
 }
 
@@ -317,7 +322,10 @@ body {
   background: rgba(240, 248, 255, 0.8);
   /*border-image: url('../public/images/fire_border.png') 50% repeat ;*/
   min-height: 800px;
+  /*border-width: 20px;*/
   /*border-image: url('../public/images/snow.png') 33% repeat;*/
+  /*border-bottom-color: transparent;*/
+  margin-bottom: 5rem;
 }
 
 .info{

@@ -243,9 +243,9 @@ export default class MangaInfo extends React.Component {
         this.setState({ info: json })
       })
 
-    $($(document)).ready(function() {
-        $('body').css('background-image', 'url(../images/op.jpg)')
-    })
+    // $($(document)).ready(function() {
+    //     $('body').css('background-image', 'url(../images/op.jpg)')
+    // })
   }
 
   // render(){
@@ -255,7 +255,8 @@ export default class MangaInfo extends React.Component {
   render() {
     if (!this.state.info) {
       // return <h1>待ってください、Loading.....</h1>
-      return <loader />
+      // return <loader />
+      return <div className="loader"><img src="/images/loading.gif" alt="loading" /></div>
     } else {
       const info = this.state.info
       let volView
