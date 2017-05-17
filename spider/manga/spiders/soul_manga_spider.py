@@ -160,9 +160,9 @@ class SoulMangaSpider(scrapy.Spider):
         self.cur = self.conn.cursor()
 
         # 获取全部漫画
-        # urls = self.xpath.get("index_urls")
-        # for url in urls:
-        #     yield scrapy.Request(url=url, callback=self.parse_index)
+        urls = self.xpath.get("index_urls")
+        for url in urls:
+            yield scrapy.Request(url=url, callback=self.parse_index)
 
         # 获取全页漫画
         # urls = self.xpath.get("page_urls")
@@ -170,9 +170,9 @@ class SoulMangaSpider(scrapy.Spider):
         #     yield scrapy.Request(url=url, callback=self.parse_page)
 
         # 获取单个漫画
-        urls = self.xpath.get("op_urls")
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
+        # urls = self.xpath.get("op_urls")
+        # for url in urls:
+        #     yield scrapy.Request(url=url, callback=self.parse)
 
     def parse_index(self, response):
         next_url = response.xpath(self.xpath.get("next_page")).extract_first()

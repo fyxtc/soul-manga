@@ -316,14 +316,15 @@ body {
 
 .info-page{
   height: auto;
-  top: 1rem;
+  top: 30px;
   border: 4px solid #3d3d3d;
   /*background-color: darkgray;*/
   background: rgba(240, 248, 255, 0.8);
   /*border-image: url('../public/images/fire_border.png') 50% repeat ;*/
   min-height: 800px;
-  /*border-width: 20px;*/
-  /*border-image: url('../public/images/snow.png') 33% repeat;*/
+  border-width: 20px;
+  border-image: url('../public/images/snow.png') 20 20 20 20 round;
+  border-image-outset: 1;
   /*border-bottom-color: transparent;*/
   margin-bottom: 5rem;
 }
