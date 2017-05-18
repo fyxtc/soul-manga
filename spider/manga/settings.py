@@ -72,7 +72,7 @@ DEFAULT_REQUEST_HEADERS = {
 
 # LOG_LEVEL = 'DEBUG'
 LOG_LEVEL = 'INFO'
-# LOG_FILE = "manga.log"
+LOG_FILE = "manga.log"
 # ITEM_PIPELINES = {'scrapy.pipelines.images.MyImagesPipeline': 1}
 IMAGES_STORE = "/Users/fyxtc/work/py3_workspace/manga_download"
 
@@ -80,6 +80,20 @@ IMAGES_STORE = "/Users/fyxtc/work/py3_workspace/manga_download"
 SQLITE_FILE = "/Users/fyxtc/work/soul-manga/server/soul_manga.db"
 # SQLITE_FILE = "/Users/fyxtc/work/soul-manga/spider/soul_manga.db"
 SQLITE_TABLE= "soul_manga"
+
+# vps >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.vps >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+# SQLITE_FILE = "/home/hikaru/soul_manga/soul_manga.db"
+# vps crontab config >>>>
+# HELL=/bin/sh
+# PATH=/home/hikaru/.pyenv/versions/3.5.2/bin/:/home/hikaru/.pyenv:/home/hikaru/.pyenv/shims:/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+# # */1 * * * * python -V > /Users/fyxtc/work/soul-manga/spider/cron_out.log 2>/Users/fyxtc/work/soul-manga/spider/cron_err.log
+# 这里很奇怪啊，不能像官网指定一样调用日志，所以只能手动在setting里面改了....写成自定义参数然后代码里改也可以，太麻烦。。算了
+# * */12 * * * cd /home/hikaru/soul_manga/spider && scrapy crawl soul_manga -a is_update=1 
+
+# vps >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.vps >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html

@@ -69,6 +69,10 @@ class SoulMangaSpider(scrapy.Spider):
         "image_base_url": "//img[contains(@src, 'cartoonmad.com')]/@src", #这一话的图片
     }
     sql_item = {}
+    is_update = "0"
+
+    # def __init__(self, is_update, *args, **kwargs):
+    #     super(SoulMangaSpider, self).__init__(*args, **kwargs)
 
     def get_chapter(self, ch):
         index1 = ch.find("第")
@@ -160,26 +164,38 @@ class SoulMangaSpider(scrapy.Spider):
         self.conn = sqlite3.connect(self.sqlite_file)
         self.cur = self.conn.cursor()
 
-        # 获取全部漫画
-        # urls = self.xpath.get("index_urls")
-        # for url in urls:
-        #     yield scrapy.Request(url=url, callback=self.parse_index)
+        # logging.info("is_update " + str(self.is_update))
+        # return
 
-        # 获取全页漫画
-        # urls = self.xpath.get("page_urls")
-        # for url in urls:
-        #     yield scrapy.Request(url=url, callback=self.parse_page)
+        # 本地跑吧。。。。vps crontab各种命令找不到，好烦= =
+        # 本地的话需要cron爬取然后接着运行fab deploy，可以写个fab update，然后让cron调取fab update => fab deployj
+        if self.is_update != "0":
+            # 抓取更新  更新其实最好是另外放在别的脚本里，然后定时任务去调用才是最好的，先手动注释打开吧。或者传命令行参数也可以哦，机智如我
+            logging.info("start update crawl >>>>>>>>>>>> ")
+            urls = self.xpath.get("update_urls")
+            for url in urls:
+                yield scrapy.Request(url=url, callback=self.parse_update)
+        else:
+            # 获取全部漫画
+            # urls = self.xpath.get("index_urls")
+            # for url in urls:
+            #     yield scrapy.Request(url=url, callback=self.parse_index)
 
-        # 获取单个漫画
-        # urls = self.xpath.get("op_urls")
-        # for url in urls:
-        #     yield scrapy.Request(url=url, callback=self.parse)
+            # 获取全页漫画
+            # urls = self.xpath.get("page_urls")
+            # for url in urls:
+            #     yield scrapy.Request(url=url, callback=self.parse_page)
 
-        # 抓取更新  更新其实最好是另外放在别的脚本里，然后定时任务去调用才是最好的，先手动注释打开吧。或者传命令行参数也可以哦，机智如我
-        urls = self.xpath.get("update_urls")
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse_update)
+            # 获取单个漫画
+            # urls = self.xpath.get("op_urls")
+            # for url in urls:
+            #     yield scrapy.Request(url=url, callback=self.parse)
+            logging.info("what you want man, please specify one crawl format all or page or single")
+            pass
 
+
+    # 在vps上用cron起了定时任务去爬取更新了，也就是说本地如果改了db之后，那必须是完全重新抓取，或者设置爬取前几个页面才是最新的
+    # 爬虫脚本我就没有放到fab deploy里面去了，直接上传这个作为更新版本就行了
     def parse_update(self, response):
         # 抓取更新和抓取普通的页面并没有很大区别，只是要注意写入数据库的时候不能仅仅通过mid判断，还要有update_time
         mangas = re.findall(r"comic/\d{4}.html", str(response.body))#[:20]
