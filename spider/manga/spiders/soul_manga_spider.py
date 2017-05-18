@@ -12,6 +12,7 @@ class SoulMangaSpider(scrapy.Spider):
     xpath = {
         "op_urls": ["http://www.cartoonmad.com/comic/1152.html"],
         "index_urls": ["http://www.cartoonmad.com/comic99.html"],
+        "update_urls": ["http://www.cartoonmad.com/newcm.html"],
         "next_page": "//a[contains(., '下一頁')]/@href",
         "page_urls": [
             "http://www.cartoonmad.com/comic01.html",
@@ -160,9 +161,9 @@ class SoulMangaSpider(scrapy.Spider):
         self.cur = self.conn.cursor()
 
         # 获取全部漫画
-        urls = self.xpath.get("index_urls")
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse_index)
+        # urls = self.xpath.get("index_urls")
+        # for url in urls:
+        #     yield scrapy.Request(url=url, callback=self.parse_index)
 
         # 获取全页漫画
         # urls = self.xpath.get("page_urls")
@@ -173,6 +174,23 @@ class SoulMangaSpider(scrapy.Spider):
         # urls = self.xpath.get("op_urls")
         # for url in urls:
         #     yield scrapy.Request(url=url, callback=self.parse)
+
+        # 抓取更新  更新其实最好是另外放在别的脚本里，然后定时任务去调用才是最好的，先手动注释打开吧。或者传命令行参数也可以哦，机智如我
+        urls = self.xpath.get("update_urls")
+        for url in urls:
+            yield scrapy.Request(url=url, callback=self.parse_update)
+
+    def parse_update(self, response):
+        # 抓取更新和抓取普通的页面并没有很大区别，只是要注意写入数据库的时候不能仅仅通过mid判断，还要有update_time
+        mangas = re.findall(r"comic/\d{4}.html", str(response.body))#[:20]
+        if response.url.find("/comic/") != -1:
+            mangas = [x[6:] for x in mangas]
+        urls = {response.urljoin(x) for x in mangas}
+        # logging.info(urls)
+
+        # # 这样就把当前页(page_urls)包含的所有漫画都爬了😯
+        for url in urls:
+            yield scrapy.Request(url=url, callback=self.parse, meta={"is_update": True})
 
     def parse_index(self, response):
         next_url = response.xpath(self.xpath.get("next_page")).extract_first()
@@ -204,15 +222,16 @@ class SoulMangaSpider(scrapy.Spider):
         # logging.info(item)
         
         mid = item.get("mid")
-        if self.is_mid_exist(mid):
+        last_update_date = item.get("last_update_date")
+        if not self.is_need_insert_or_update(mid, last_update_date):
             # todo 这里有bug，不能mid存在就跳过啊。。。这样走不了next_url的请求了，我先全部清除了来过吧。。。这样没问题。。。不。先爬到spider文件夹下的db吧，改setting
             # 但是增量更新这里是绕不开的，必须想办法，判断最后更新日期是否一样，如果不一样就update chapter字段
             # 然后每天的计划应该是0点爬“最新上架”页面的头几页，头两页基本上能保证当天的更新度了，其实应该一页就行了。。保守起见吧
-            logging.info("mid {0} is exist, skip ".format(mid))
+            logging.info("mid {0} is exist and last_update_date is same, skip ".format(mid))
             return
         url = response.xpath(self.xpath.get("chapter")).extract_first()
         if not url:
-            # todo 这里才获取vol，会导致上面的get_sql_item里面的all_chapters_pages为空数组导致list下标0越界
+            # 这里好奇怪啊。。。我这样写明明只能获取一个，要么是vol要么是chapter....怎么没问题呢
             url = response.xpath(self.xpath.get("vol")).extract_first()
         assert url, response.url +" is fuck" 
         first_chapter_url = response.urljoin(url)
@@ -242,19 +261,32 @@ class SoulMangaSpider(scrapy.Spider):
 
     def write_database(self, item):
         # 这个写法确实吊，但是要注意.values()2/3表现好像不一样，3会有dictvalue之类的字符串，所以和keys一样用join连接吧，但是。。。int就跪了握草，这怎么整，转tunple就好了
-        sql = 'insert into {0} ({1}) values ({2})'.format(self.sqlite_table, ', '.join(item.keys()), ', '.join(['?'] * len(item.keys())))
+        sql = 'insert or replace into {0} ({1}) values ({2})'.format(self.sqlite_table, ', '.join(item.keys()), ', '.join(['?'] * len(item.keys())))
         # logging.info(sql)
-        logging.info("insert mid " + str(item.get("mid")) + ": " + item.get("name") + " category: " + str(item.get("category")))
+        logging.info("insert or replace mid " + str(item.get("mid")) + ": " + item.get("name") + " category: " + str(item.get("category")))
         values = tuple(item.values())
         # self.log(values)
         self.cur.execute(sql, values)
         self.conn.commit()
 
-    def is_mid_exist(self, mid):
-        sql = "select mid from {0} where mid = ? ".format(self.sqlite_table)
+    def is_need_insert_or_update(self, mid, last_update_date):
+        # mid不用取了，取时间一样的，就能知道在不在了 
+        sql = "select last_update_date from {0} where mid = ? ".format(self.sqlite_table)
         # 逗号是必须的，不然会被解析成括号，而不是tunple
         cursor = self.cur.execute(sql, (mid, ))
-        return cursor.fetchone() != None
+        res = cursor.fetchone()
+        # logging.info(res)
+        if res == None:
+            # 没有的话，肯定要插入
+            logging.info(mid + " is not exist, insert it ")
+            return True
+        else:
+            # 如果有的话，看更新日期是否一样，注意，这个无论是否是更新调用过来的都需要走
+            db_last_update_date = res[0]
+            if last_update_date != db_last_update_date:
+                logging.info("update mid old date " + db_last_update_date + " ==> " + last_update_date)
+                return True
+        return False
         # 查询应该不用commit，save的操作才需要
         # self.conn.commit()
 

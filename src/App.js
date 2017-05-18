@@ -28,13 +28,14 @@ import $ from 'jquery'
 import jQuery from 'jquery'
 
 
-// export const DEBUG = false 
-export const DEBUG = true 
+export const DEBUG = true
+// export const DEBUG = true 
 
 if(!DEBUG){
     console.log=function(){
     }
 }
+console.log('DEBUG MODE IS ' + DEBUG + ' !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 
 export const SERVER_SETTING = {
   // 8000是gunicorn, 后面的localhost
