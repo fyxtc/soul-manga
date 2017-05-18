@@ -451,7 +451,9 @@ class MangaView extends React.Component {
       //   this.needIgnore = true
       // }
 
-      const indexCategory = 15
+      // const indexCategory = 15
+      // 0-12, 后面三个不太好...
+      const indexCategory = Math.floor(Math.random()*13)
       const url = `${SERVER_SETTING.url}/category/${indexCategory}/${this.state.cat_page++}`
       fetch(url).then(resp => resp.json()).then(json => {
         // console.log("fetch data len " + json.data.length)
