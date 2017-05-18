@@ -508,11 +508,13 @@ class MangaView extends React.Component {
           </Col>
           <Col className="no-result-txt">
             <p>
-              {'  呜呜，服务器君丧心病狂地搜索...然而并没有到 "' + this.searchKey + '" 的结果 😭'}
+              {'  呜呜，服务器君丧心病狂地搜索...然而并没有到 "' + this.searchKey + '" 的结果 😭 '}
             </p>
             <br />
+            <p>{'  由于大陆/台湾/香港译名不一样，可以换个其他译名或者搜搜作者试试哦 '}</p>
+            <br />
             <p>
-              {'  but，大丈夫，可以联系小光的邮箱反馈哟，小光尽力补上 👻'}
+              {'  如果还没有，大丈夫，可以联系小光的邮箱反馈哟，小光会尽力补上的 👻'}
             </p>
           </Col>
         </div>

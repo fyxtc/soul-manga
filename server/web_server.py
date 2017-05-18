@@ -146,7 +146,7 @@ def read_chapter(mid, chapter=1):
 @app.route("/search/<string:key>/")
 def search(key):
     if key:
-        sql = "select * from soul_manga where name like '%{0}%'".format(key) 
+        sql = "select * from soul_manga where name like '%{0}%' or author like '%{1}%' ".format(key, key) 
         print("search key: " + key + ", sql: " + sql)
         res = {}
         # res = query_db(sql)
@@ -155,6 +155,7 @@ def search(key):
         return jsonify(res)
     # else:
     #     return jsonify({})
+
 
 DATABASE = './soul_manga.db'
 

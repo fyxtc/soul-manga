@@ -51,12 +51,13 @@ class Info extends React.Component {
     // console.log("fuck " + infoHeight)
     // $('.info').css('height',infoHeight+'px')
     // console.log($('.info'))
+    // 本来想做了author路由去匹配作者的超链接，然后发现直接用search过去得了...反正名字
     const info = this.props.info
     return (
       <Col md={12} mdOffset={0} className="info" >
         <div>
           <h5>{'最后更新: ' + info.last_update_date}</h5>
-          <h5>{'原创作者: ' + info.author}</h5>
+          <h5>{'原创作者: '}<Link to={'/search/' + info.author} target="_blank"> {info.author}</Link></h5>
           <h5>{'连载状态: ' + info.status}</h5>
           <h5>{'人气指数: ' + info.pop}</h5>
           <h5>{'漫画分类: ' + self.categorys[info.category]}</h5>
