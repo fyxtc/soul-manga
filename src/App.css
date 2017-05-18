@@ -530,6 +530,15 @@ body {
   
 }
 
+.hint{
+  position: absolute;
+  top: 12rem;
+  left: 4rem;
+  z-index: 10;
+}
+
+
+
 circle { mix-blend-mode: multiply; }
 
 ul, li {

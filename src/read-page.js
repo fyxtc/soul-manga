@@ -1,7 +1,17 @@
 import React from 'react'
 import ImageGallery from 'react-image-gallery'
-import { SERVER_SETTING, DEBUG} from './App.js'
+import { SERVER_SETTING, DEBUG } from './App.js'
 
+class Hint extends React.Component{
+    render(){
+        return(
+            <div className="hint">
+                <img src="/images/hint.png"/>
+                <span>{` 空格键可以滚动，←/→左右箭头可以翻页哦`}</span>
+            </div>
+        )
+    }
+}
 
 export default class ReadPage extends React.Component {
     constructor(props) {
@@ -17,7 +27,9 @@ export default class ReadPage extends React.Component {
                 return resp.json()
             })
             .then(json => {
-                document.title = json.name ? (`${json.name} 第 ${this.props.match.params.chapter} ${json.suffix} - 魂漫`) : '魂漫 - 我们的童年，一直都在'
+                document.title = json.name
+                    ? `${json.name} 第 ${this.props.match.params.chapter} ${json.suffix} - 魂漫`
+                    : '魂漫 - 我们的童年，一直都在'
                 this.setState({
                     image_base_url: json.image_base_url,
                     cur_ch_pages: json.cur_ch_pages
@@ -38,7 +50,7 @@ export default class ReadPage extends React.Component {
     rendImage(image) {
         // 使用自动的render方法
         return (
-            <div style={{ textAlign: 'center'}}>
+            <div style={{ textAlign: 'center' }}>
                 <img src={image.original} alt="cover" />
             </div>
         )
@@ -61,11 +73,11 @@ export default class ReadPage extends React.Component {
 
     render() {
         // 左右箭头翻页，上下箭头滚动
-        // todo: 两个问题，一个是翻页之后滚动条没有重置，还一个是图片应该显示源大小即可，不要缩放
+        // fixed: 两个问题，一个是翻页之后滚动条没有重置，还一个是图片应该显示源大小即可，不要缩放
         if (!this.state.image_base_url) {
-            return <h1>待ってください、Loading.....</h1>
+            return <div><h2>待ってください、Loading.....</h2><img src="/images/loading.gif" alt="loading" /></div>
         } else {
-            console.log("page length " + this.state.cur_ch_pages)
+            console.log('page length ' + this.state.cur_ch_pages)
             const images_arr = []
             for (let i = 1; i <= this.state.cur_ch_pages; i++) {
                 const url =
@@ -94,19 +106,22 @@ export default class ReadPage extends React.Component {
                 show = false
             }
             return (
-                <ImageGallery
-                    items={images}
-                    slideInterval={2000}
-                    showBullets={show}
-                    infinite={false}
-                    lazyLoad={true}
-                    onImageLoad={null}
-                    showFullscreenButton={false} //全屏先关了。。不能滚是bug...
-                    showPlayButton={false}
-                    // showIndex={false}
-                    showThumbnails={false}
-                    renderLeftNav={this.renderLeftNav}
-                />
+                <div>
+                    <ImageGallery
+                        items={images}
+                        slideInterval={2000}
+                        showBullets={show}
+                        infinite={false}
+                        lazyLoad={true}
+                        onImageLoad={null}
+                        showFullscreenButton={false} //全屏先关了。。不能滚是bug...
+                        showPlayButton={false}
+                        // showIndex={false}
+                        showThumbnails={false}
+                        renderLeftNav={this.renderLeftNav}
+                    />
+                    <Hint/>
+                </div>
             )
         }
     }

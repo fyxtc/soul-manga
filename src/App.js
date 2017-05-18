@@ -512,7 +512,7 @@ class MangaView extends React.Component {
             </p>
             <br />
             <p>
-              {'  but，大丈夫，可以联系小光的邮箱反馈哟，光君尽力补上 👻'}
+              {'  but，大丈夫，可以联系小光的邮箱反馈哟，小光尽力补上 👻'}
             </p>
           </Col>
         </div>
