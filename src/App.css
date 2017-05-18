@@ -88,6 +88,7 @@ body {
   /*background-size: cover;*/
 
   margin-bottom: 6rem;
+  padding-bottom: 1.2rem;
 }
 
 .manga-item{
@@ -102,11 +103,14 @@ body {
   /*重写col的padding*/
   padding-left: .8%;
   padding-right: .8%;
+  /*margin-bottom: .5rem;*/
 }
 
 .manga-item-content{
   object-fit: fill;
   margin-top: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .manga-item-image{
@@ -154,16 +158,21 @@ body {
 .no-result img{
   width: 16rem;
   float: right;
+  margin-right: 1rem
 }
 
 .no-result p{
   float: left;
+  text-align: left;
 }
 
 .no-result-txt{
   float: left;
-  margin: 5rem;
-  margin-left: 3rem;
+  margin-top: 4.5rem;
+  /*margin-left: 3rem;*/
+  margin-right: 0;
+  margin-bottom: 2rem;
+
 }
 
 .logo{
