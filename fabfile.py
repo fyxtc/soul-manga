@@ -8,7 +8,7 @@ env.hosts=['hikaru@103.80.29.187']
 env.password="123123"
 
 
-KEEP_DB_AND_GUN_CONFIG = True
+KEEP_DB_AND_GUN_CONFIG_AND_SITEMAP = True
 
 def npm_build():
     local("npm run build")
@@ -23,10 +23,10 @@ def zip():
     # todo 卧槽！！！这里有大问题，如果下面是用rm -rf soul_manga的话，这两个文件都得跪，要不先在vps rm之前先保存到~然后再移动回去？
     # local("zip -qr build.zip build server/web_server.py server/soul_manga.db server/gun_config.py")
 
-    if KEEP_DB_AND_GUN_CONFIG:
+    if KEEP_DB_AND_GUN_CONFIG_AND_SITEMAP:
         local("zip -qr build.zip build server/web_server.py ")
     else:
-        local("zip -qr build.zip build server/web_server.py server/soul_manga.db server/gun_config.py")
+        local("zip -qr build.zip build server/web_server.py server/soul_manga.db server/gun_config.py sitemap.txt")
 
 
 def local_build():
@@ -37,8 +37,8 @@ def local_build():
 def upload_to_remote():
     put("build.zip", use_sudo=True)
     # 为了mv 的非空目录....
-    if KEEP_DB_AND_GUN_CONFIG:
-        run("cp -f soul_manga/soul_manga.db soul_manga/gun_config.py ~/")
+    if KEEP_DB_AND_GUN_CONFIG_AND_SITEMAP:
+        run("cp -f soul_manga/soul_manga.db soul_manga/gun_config.py soul_manga/sitemap.txt ~/")
     run("rm -rf soul_manga")
     # run("mkdir soul_manga")
 
@@ -48,8 +48,8 @@ def upload_to_remote():
     run("mv -f server/* soul_manga/")
     run("rm -rf server")
 
-    if KEEP_DB_AND_GUN_CONFIG:
-        run("mv soul_manga.db gun_config.py ~/soul_manga")
+    if KEEP_DB_AND_GUN_CONFIG_AND_SITEMAP:
+        run("mv soul_manga.db gun_config.py sitemap.txt ~/soul_manga")
 
 def start_gunicorn():
     run("gun")

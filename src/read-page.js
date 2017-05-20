@@ -29,7 +29,7 @@ export default class ReadPage extends React.Component {
             .then(json => {
                 document.title = json.name
                     ? `${json.name} 第 ${this.props.match.params.chapter} ${json.suffix} - 魂漫`
-                    : '魂漫 - 我们的童年，一直都在'
+                    : '魂漫 - 我们的童年 一直都在'
                 this.setState({
                     image_base_url: json.image_base_url,
                     cur_ch_pages: json.cur_ch_pages

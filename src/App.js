@@ -26,10 +26,12 @@ import ReadPage from './read-page'
 // import Radium from 'radium'
 import $ from 'jquery'
 import jQuery from 'jquery'
+// import {Helmet} from "react-helmet"
 
 
-export const DEBUG = true
-// export const DEBUG = true 
+
+// export const DEBUG = true
+export const DEBUG = false
 
 if(!DEBUG){
     console.log=function(){
@@ -43,6 +45,11 @@ export const SERVER_SETTING = {
   // image: 'http://localhost:5000/static/image'
   image: ''
 }
+
+// export var CUR_MANGA_NAME = '魂漫'
+// if(!window.name){
+//   window.name = '魂漫a'
+// }
 
 class SearchBar extends React.Component {
   constructor(props) {
@@ -146,7 +153,7 @@ class CategoryItem extends React.Component {
    * Add event listener
    */
   componentDidMount() {
-    document.title = '魂漫 - 我们的童年，一直都在'
+    // document.title = '魂漫 - 连载的是漫画 永不完结的是童年 - Soul Comic'
     this.updateDimensions()
     window.addEventListener('resize', this.updateDimensions.bind(this))
   }
@@ -167,7 +174,7 @@ class CategoryItem extends React.Component {
     }
     // console.log(text)
     return (
-      <div className="category-item">
+      <div className="category-item" /*title={text}*/ >
         <div>
           <span>{text}</span>
         </div>
@@ -261,7 +268,7 @@ class CategoryBar extends React.Component {
                 key={'cat' + k}
                 to={'/category/' + k}
                 className="hvr-wobble-vertical ">
-                <CategoryItem text={v} />
+                <CategoryItem text={v}/>
               </Link>
             ))}
           </Col>
@@ -317,28 +324,39 @@ class CategoryBar extends React.Component {
   }
 }*/
 
+
+
 class MangaItem extends React.Component {
   constructor(props) {
     super(props)
+  }
+
+  handleClick(){
+    // CUR_MANGA_NAME = this.props.data.name
+    // window.MY.name = this.props.data.name
+    // console.log('change manga name to ' + CUR_MANGA_NAME)
+    // document.title = CUR_MANGA_NAME + ' 高清在线漫画-免费漫画 魂漫 ' 
   }
 
   render() {
     // target='_self'必须要。。为啥？
     // 图片转换为320*240不然怎么办啊。。。我日，好他妈奇怪啊，为啥百分比就适配不了, overflow也失效了，你麻痹。。，用background解决了,nice
     // console.log(this.props)
-    let str = ""
+    let str = ''
     if(this.props.data.last_update_chapter){
       str = '更新到 ' + this.props.data.last_update_chapter + ' 话'
     }else{
       str = '更新到 ' + this.props.data.all_vols_len + ' 卷'
     }
     return (
+      // backgroundImage当然没有alt，但是可以给所在的div加上title即可，简直6
+      // info改为传入name了，算是为seo的一个妥协吧。。不然出了服务器渲染外真心没办法。。。。
       <Router>
         <Col
           className="manga-item hvr-pulse-grow "
           md={2}
           style={{ textAlign: 'center' }}>
-          <Link to={`/info/${this.props.data.mid}`} target="_blank">
+          <Link to={`/info/${this.props.data.name}`} target="_blank" title={this.props.data.name} onClick={this.handleClick.bind(this)} >
             <div className="manga-item-content">
               <div
                 className="manga-item-image"
@@ -511,7 +529,7 @@ class MangaView extends React.Component {
           <Col md={9}>
           <Col className="no-result-txt">
             <p>
-              {'  呜呜，服务器君丧心病狂地搜索...然而并没有到 "' + this.searchKey + '" 的结果 すみません 😭  ' + '由于大陆/台湾/香港译名不一样，可以换个其他译名或者搜搜作者试试哦 😏'
+              {'  呜呜，服务器君丧心病狂地搜索...然而并没有到 "' + this.searchKey + '" 的结果 すみません 😭  ' + '由于大陆/台湾/香港译名不一样，可以换个其他译名或者搜索某个词，也可以试试搜搜作者哦 😏'
               + '  如果还没有，大丈夫，可以联系小光的邮箱反馈哟，小光会尽力补上的 😃'}
             </p>
           </Col>
@@ -556,13 +574,53 @@ export class Footer extends React.Component {
 }
 
 class Home extends React.Component {
-  componentDidMount() {}
 
   constructor(props) {
     super(props)
     this.state = {
       searchKey: ''
     }
+    document.title = '魂漫 - 连载的是漫画 永不完结的是童年 - Soul Comic'
+  }
+
+  componentDidMount() {
+    // document.title = "home page"
+    // window.addEventListener('load', function() {
+    //   // does the actual opening
+    //   function openWindow(event) {
+    //     console.log('open window')
+    //     event = event || window.event
+
+    //     // find the url and title to set
+    //     var href = this.getAttribute('href')
+    //     var newTitle = this.getAttribute('data-title')
+    //     // or if you work the title out some other way...
+    //     // var newTitle = "Some constant string";
+
+    //     // open the window
+    //     var newWin = window.open(href, '_blank')
+
+    //     // add a load listener to the window so that the title gets changed on page load
+    //     newWin.addEventListener('load', function() {
+    //       console.log("set fuck title")
+    //       newWin.document.title = "fuck"
+    //     })
+
+    //     // stop the default `a` link or you will get 2 new windows!
+    //     // event.returnValue = false
+    //     event.returnValue = true
+    //   }
+
+    //   // find all a tags opening in a new window
+    //   var links = document.querySelectorAll('a[target=_blank][data-title]')
+    //   // or this if you don't want to store custom titles with each link
+    //   //var links = document.querySelectorAll("a[target=_blank]");
+
+    //   // add a click event for each so we can do our own thing
+    //   for (var i = 0; i < links.length; i++) {
+    //     links[i].addEventListener('click', openWindow.bind(links[i]))
+    //   }
+    // })
   }
 
   handleSearch() {
@@ -596,8 +654,24 @@ export default class SoulManga extends React.Component {
   //   return(<div className="loader"><img src="/images/loading.gif" /></div>)
   // }
 
+  constructor(props){
+    super(props)
+    // this.setMeta()
+    // document.title = '魂漫 - 连载的是漫画 永不完结的是童年 - Soul Comic'
+  }
+
+
+  setMeta(){
+    // const title = '魂漫 - 连载的是漫画 永不完结的是童年 - Soul Comic'
+    // $('title').text(title)
+    // $('meta[name=keywords]').attr('content', `魂漫 热门连载漫画 免费漫画 高清漫画 在线漫画`)
+    // $('meta[name=description]').attr('content', `魂漫是一个专注分享漫画的平台，这里有免费的高清在线漫画，希望每个喜爱看漫画的孩子都能保持一颗看漫画时候的纯真的心。连载的是漫画，永不完结的是童年，永远不变的是初心。`)
+  }
+
   render() {
     // 这就是说这里的出了category之外，其他都是通过target="_self"，来触发的，因为这些Route没有和Link写在一起
+    // 神迹了：使用render的写法直接传入属性：https://github.com/ReactTraining/react-router/issues/4105
+    // console.log('app name ' + CUR_MANGA_NAME)
     return (
       <Router>
         <div>
@@ -606,11 +680,13 @@ export default class SoulManga extends React.Component {
           <Route path="/category/*" component={Home} />
           <Route path="/search/:key" component={Home} />
           <Route path="/fuck" component={Home} />
-          <Route path="/info/:id" component={MangaInfo} />
+          <Route path="/info/:name" component={MangaInfo} />
           <Route path="/read/:id/:chapter" component={ReadPage} />
         </div>
       </Router>
     )
+          // <Route path="/info/:id" component={MangaInfo} />
+          // <Route path="/info/:id"  render={props => <MangaInfo name={CUR_MANGA_NAME} {...props} />} />
   }
 }
 

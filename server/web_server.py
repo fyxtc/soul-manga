@@ -107,11 +107,14 @@ def soul_manga(cid=1, page=0):
 
 
 
-@app.route('/info/<int:mid>')
-@app.route('/info/<int:mid>/')
-def info(mid=1):
-    print("fuck id " + str(mid))
-    res = query_db("select * from soul_manga where mid = ?", [mid], True)
+@app.route('/info/<string:name>')
+@app.route('/info/<string:name>/')
+def info(name='棋灵王'):
+    # print("fuck id " + str(mid))
+    # res = query_db("select * from soul_manga where mid = ?", [mid], True)
+    # 改为传name了。。。为了seo
+    print("info name " + name)
+    res = query_db("select * from soul_manga where name = ?", [name], True)
     print(res)
     return jsonify(res)
 

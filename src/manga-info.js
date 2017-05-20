@@ -4,8 +4,18 @@ import Col from 'react-bootstrap/lib/Col'
 import Image from 'react-bootstrap/lib/Image'
 
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import { SERVER_SETTING, Footer } from './App.js'
+import { SERVER_SETTING, Footer, CUR_MANGA_NAME } from './App.js'
 import $ from 'jquery'
+// import {Helmet} from "react-helmet"
+
+// $(document).ready(function(){
+//   const url = window.location.pathname.split( '/' )
+//   const name = url[url.length-1]
+//   const title = `${name} - 热门连载漫画_高清在线漫画_免费漫画 - 魂漫 - Soul Comic` 
+//   $('title').text(title)
+//   $('meta[name=description]').attr('content', `${name} 描述`)
+//   $('meta[name=keywords]').attr('content', `${name} 漫画`)
+// })
 
 class Cover extends React.Component {
   constructor(props) {
@@ -124,7 +134,7 @@ class Vol extends React.Component{
 
     // 补上不满足lineCount一行的剩下的内容
     const leftIndex = this.props.all_vols_len - volLine.length * lineCount
-    volLine.push(<tr key={volLine.length}>{vols.slice(vols.length - leftIndex)}</tr> )
+    volLine.push(<tr key={volLine.length+1}>{vols.slice(vols.length - leftIndex)}</tr> )
 
     return (
       <Col md={12} mdOffset={0} className="vol" >
@@ -229,18 +239,35 @@ export default class MangaInfo extends React.Component {
     this.state = {
       info: null
     }
-    console.log('info ctor')
+    // console.log('info ctor')
+    console.log(CUR_MANGA_NAME)
+    console.log(this.props)
+    document.title = `${this.props.match.params.name} - 热门连载漫画_高清在线漫画_免费漫画 - 魂漫 - Soul Comic` 
+
+    // this.setMeta()
   }
 
+  setMeta(){
+    // 额 没抓取到啊。。。是html一定要有meta，还是说还是不能用jquery....
+    // document.title = `${this.props.match.params.name} - 热门连载漫画_高清在线漫画_免费漫画 - 魂漫 - Soul Comic` 
+    // const name = this.props.match.params.name
+    // const title = `${name} - 热门连载漫画_高清在线漫画_免费漫画 - 魂漫 - Soul Comic` 
+    // $('title').text(title)
+    // $('meta[name=keywords]').attr('content', `${name} 漫画 在线观看`)
+    // $('meta[name=description]').attr('content', `${name}高清漫画在线观看 最新热门连载漫画尽在魂漫  魂漫是一个专注分享漫画的平台，这里有免费的高清在线漫画，希望每个喜爱看漫画的孩子都能保持一颗看漫画时候的纯真的心。`)
+  }
+
+
   componentDidMount() {
-    const url = `${SERVER_SETTING.url}/info/${this.props.match.params.id}`
+    // console.log('manga name: ' + this.props.route.name)
+    const url = `${SERVER_SETTING.url}/info/${this.props.match.params.name}`
 
     fetch(url)
       .then(resp => {
         return resp.json()
       })
       .then(json => {
-        document.title = json.name ? (`${json.name} - 魂漫`) : '魂漫 - 我们的童年，一直都在'
+        // document.title = json.name ? (`${json.name} - 高清在线漫画_免费漫画 - 魂漫`) : '魂漫 - 我们的童年 一直都在'
         console.log(json)
         this.setState({ info: json })
       })
@@ -270,6 +297,7 @@ export default class MangaInfo extends React.Component {
         chView = <Chapter all_chapters_len={info.all_chapters_len} mid={info.mid} vol_or_ch={info.vol_or_ch} chapter_start_index={info.chapter_start_index} />
       }
       return (
+
         <div >
           <Col md={6} mdOffset={3} className="info-page" >
             <Col >

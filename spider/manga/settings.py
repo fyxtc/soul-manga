@@ -89,7 +89,8 @@ SQLITE_TABLE= "soul_manga"
 # PATH=/home/hikaru/.pyenv/versions/3.5.2/bin/:/home/hikaru/.pyenv:/home/hikaru/.pyenv/shims:/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 # # */1 * * * * python -V > /Users/fyxtc/work/soul-manga/spider/cron_out.log 2>/Users/fyxtc/work/soul-manga/spider/cron_err.log
 # 这里很奇怪啊，不能像官网指定一样调用日志，所以只能手动在setting里面改了....写成自定义参数然后代码里改也可以，太麻烦。。算了
-# * */12 * * * cd /home/hikaru/soul_manga/spider && scrapy crawl soul_manga -a is_update=1 
+# 把spider移动到~路径下，这样就不用处理fab里的删除问题 
+# * */12 * * * cd /home/hikaru/spider && scrapy crawl soul_manga -a is_update=1
 
 # vps >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.vps >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
