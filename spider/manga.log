@@ -644,3 +644,228 @@ Traceback (most recent call last):
   File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/crawler.py", line 73, in crawl
     start_requests = iter(self.spider.start_requests())
 TypeError: 'NoneType' object is not iterable
+2017-06-02 12:26:50 [scrapy.utils.log] INFO: Scrapy 1.3.3 started (bot: manga)
+2017-06-02 12:26:50 [scrapy.utils.log] INFO: Overridden settings: {'SPIDER_MODULES': ['manga.spiders'], 'BOT_NAME': 'manga', 'LOG_LEVEL': 'INFO', 'NEWSPIDER_MODULE': 'manga.spiders', 'LOG_FILE': 'manga.log'}
+2017-06-02 12:26:50 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.logstats.LogStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats']
+2017-06-02 12:26:50 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2017-06-02 12:26:50 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2017-06-02 12:26:50 [scrapy.middleware] INFO: Enabled item pipelines:
+[]
+2017-06-02 12:26:50 [scrapy.core.engine] INFO: Spider opened
+2017-06-02 12:26:50 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2017-06-02 12:26:50 [root] INFO: start update crawl >>>>>>>>>>>> 
+2017-06-02 12:26:54 [root] INFO: update mid old date 5/3/2017 9:02:42 PM ==> 5/31/2017 2:41:52 PM
+2017-06-02 12:26:54 [root] INFO: update mid old date 5/15/2017 10:15:41 PM ==> 6/1/2017 9:57:13 PM
+2017-06-02 12:26:54 [root] INFO: update mid old date 12/20/2016 11:57:04 AM ==> 6/2/2017 10:42:09 AM
+2017-06-02 12:26:54 [root] INFO: update mid old date 5/11/2017 11:22:56 AM ==> 6/1/2017 2:14:10 PM
+2017-06-02 12:26:54 [root] INFO: update mid old date 4/21/2017 10:47:38 PM ==> 5/31/2017 2:57:45 PM
+2017-06-02 12:26:54 [root] INFO: update mid old date 5/17/2017 4:59:24 PM ==> 5/31/2017 1:55:51 PM
+2017-06-02 12:26:55 [root] INFO: update mid old date 5/14/2017 1:37:11 PM ==> 5/31/2017 9:59:23 PM
+2017-06-02 12:26:55 [root] INFO: update mid old date 5/6/2017 6:39:44 PM ==> 5/31/2017 9:07:58 PM
+2017-06-02 12:26:55 [root] INFO: update mid old date 5/9/2017 5:22:47 PM ==> 5/31/2017 2:53:15 PM
+2017-06-02 12:26:55 [root] INFO: update mid old date 5/9/2017 1:07:00 AM ==> 6/1/2017 4:59:59 PM
+2017-06-02 12:26:55 [root] INFO: update mid old date 5/2/2017 6:43:39 PM ==> 5/31/2017 6:23:43 PM
+2017-06-02 12:26:56 [scrapy.core.scraper] ERROR: Spider error processing <GET http://www.cartoonmad.com/comic/5632.html> (referer: http://www.cartoonmad.com/newcm.html)
+Traceback (most recent call last):
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/utils/defer.py", line 102, in iter_errback
+    yield next(it)
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/offsite.py", line 29, in process_spider_output
+    for x in result:
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/referer.py", line 22, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "/Users/fyxtc/work/soul-manga/spider/manga/spiders/soul_manga_spider.py", line 242, in parse
+    if not self.is_need_insert_or_update(mid, last_update_date):
+  File "/Users/fyxtc/work/soul-manga/spider/manga/spiders/soul_manga_spider.py", line 297, in is_need_insert_or_update
+    logging.info(mid + " is not exist, insert it ")
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+2017-06-02 12:26:56 [scrapy.core.scraper] ERROR: Spider error processing <GET http://www.cartoonmad.com/comic/5608.html> (referer: http://www.cartoonmad.com/newcm.html)
+Traceback (most recent call last):
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/utils/defer.py", line 102, in iter_errback
+    yield next(it)
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/offsite.py", line 29, in process_spider_output
+    for x in result:
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/referer.py", line 22, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "/Users/fyxtc/work/soul-manga/spider/manga/spiders/soul_manga_spider.py", line 242, in parse
+    if not self.is_need_insert_or_update(mid, last_update_date):
+  File "/Users/fyxtc/work/soul-manga/spider/manga/spiders/soul_manga_spider.py", line 297, in is_need_insert_or_update
+    logging.info(mid + " is not exist, insert it ")
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+2017-06-02 12:26:56 [root] INFO: update mid old date 5/10/2017 9:52:22 AM ==> 6/1/2017 9:42:31 AM
+2017-06-02 12:26:56 [root] INFO: update mid old date 4/5/2017 10:12:06 PM ==> 5/31/2017 1:49:31 PM
+2017-06-02 12:26:56 [root] INFO: update mid old date 3/29/2017 9:23:59 AM ==> 6/1/2017 1:54:40 PM
+2017-06-02 12:26:57 [root] INFO: update mid old date 4/1/2017 9:40:30 PM ==> 5/31/2017 3:04:39 PM
+2017-06-02 12:26:57 [root] INFO: update mid old date 4/24/2017 7:17:22 PM ==> 6/1/2017 4:54:25 PM
+2017-06-02 12:26:57 [root] INFO: update mid old date 3/11/2016 11:53:03 AM ==> 5/31/2017 9:48:27 PM
+2017-06-02 12:26:57 [root] INFO: insert or replace mid 4872: 制服的吸血鬼女王 category: 8
+2017-06-02 12:26:57 [root] INFO: insert or replace mid 4246: 恋爱禁止的世界 category: 10
+2017-06-02 12:26:58 [root] INFO: insert or replace mid 1500: 无法逃离的背叛 category: 12
+2017-06-02 12:26:58 [root] INFO: update mid old date 11/25/2016 6:50:17 PM ==> 5/31/2017 1:41:24 PM
+2017-06-02 12:26:58 [root] INFO: insert or replace mid 1610: 破坏兽 category: 4
+2017-06-02 12:26:58 [root] INFO: insert or replace mid 5105: 左门君是召唤术士 category: 9
+2017-06-02 12:26:58 [root] INFO: insert or replace mid 5427: 破坏双亡亭 category: 6
+2017-06-02 12:26:58 [root] INFO: insert or replace mid 4773: 妄想高校教员森下 category: 9
+2017-06-02 12:26:58 [root] INFO: insert or replace mid 4741: TheNewGate category: 7
+2017-06-02 12:26:58 [root] INFO: insert or replace mid 5566: 你遇到的妖怪都是我 category: 10
+2017-06-02 12:26:58 [root] INFO: insert or replace mid 1387: 赌博堕天录和也篇 category: 3
+2017-06-02 12:26:58 [root] INFO: insert or replace mid 5177: 极乐町DEADEND category: 6
+2017-06-02 12:26:58 [root] INFO: insert or replace mid 5121: 白衣的国王 category: 4
+2017-06-02 12:26:59 [root] INFO: insert or replace mid 4754: 见面之后5秒开始战斗 category: 0
+2017-06-02 12:26:59 [scrapy.core.scraper] ERROR: Spider error processing <GET http://www.cartoonmad.com/comic/5586.html> (referer: http://www.cartoonmad.com/newcm.html)
+Traceback (most recent call last):
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/utils/defer.py", line 102, in iter_errback
+    yield next(it)
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/offsite.py", line 29, in process_spider_output
+    for x in result:
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/referer.py", line 22, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "/Users/fyxtc/work/soul-manga/spider/manga/spiders/soul_manga_spider.py", line 242, in parse
+    if not self.is_need_insert_or_update(mid, last_update_date):
+  File "/Users/fyxtc/work/soul-manga/spider/manga/spiders/soul_manga_spider.py", line 297, in is_need_insert_or_update
+    logging.info(mid + " is not exist, insert it ")
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+2017-06-02 12:26:59 [root] INFO: update mid old date 5/14/2017 1:11:36 AM ==> 5/31/2017 6:27:04 PM
+2017-06-02 12:26:59 [root] INFO: insert or replace mid 5228: 尖帽子的魔法工房 category: 7
+2017-06-02 12:26:59 [root] INFO: update mid old date 5/12/2017 11:13:19 AM ==> 6/1/2017 4:48:48 PM
+2017-06-02 12:26:59 [root] INFO: insert or replace mid 4645: 异界魔王与召唤少女的隶属魔术 category: 11
+2017-06-02 12:26:59 [root] INFO: insert or replace mid 5159: Liar category: 10
+2017-06-02 12:26:59 [root] INFO: insert or replace mid 1604: 不良妹控的桃色日常 category: 9
+2017-06-02 12:26:59 [root] INFO: update mid old date 4/24/2017 10:40:31 AM ==> 5/31/2017 2:48:03 PM
+2017-06-02 12:26:59 [root] INFO: insert or replace mid 3701: 魔物娘的(相伴)日常 category: 9
+2017-06-02 12:27:00 [root] INFO: update mid old date 5/12/2017 12:52:47 AM ==> 6/1/2017 11:05:45 PM
+2017-06-02 12:27:00 [root] INFO: update mid old date 3/14/2017 2:01:48 PM ==> 6/1/2017 9:39:33 AM
+2017-06-02 12:27:00 [root] INFO: update mid old date 2/10/2017 2:22:16 PM ==> 5/31/2017 10:10:11 PM
+2017-06-02 12:27:00 [scrapy.core.scraper] ERROR: Spider error processing <GET http://www.cartoonmad.com/comic/5614.html> (referer: http://www.cartoonmad.com/newcm.html)
+Traceback (most recent call last):
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/utils/defer.py", line 102, in iter_errback
+    yield next(it)
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/offsite.py", line 29, in process_spider_output
+    for x in result:
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/referer.py", line 22, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "/Users/fyxtc/work/soul-manga/spider/manga/spiders/soul_manga_spider.py", line 242, in parse
+    if not self.is_need_insert_or_update(mid, last_update_date):
+  File "/Users/fyxtc/work/soul-manga/spider/manga/spiders/soul_manga_spider.py", line 297, in is_need_insert_or_update
+    logging.info(mid + " is not exist, insert it ")
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+2017-06-02 12:27:00 [root] INFO: update mid old date 11/7/2016 4:07:19 PM ==> 5/31/2017 9:15:04 PM
+2017-06-02 12:27:00 [root] INFO: update mid old date 5/15/2017 11:41:12 AM ==> 5/31/2017 2:27:42 PM
+2017-06-02 12:27:00 [root] INFO: update mid old date 4/16/2017 5:45:24 PM ==> 6/1/2017 5:26:39 PM
+2017-06-02 12:27:00 [root] INFO: update mid old date 4/27/2017 10:44:18 AM ==> 6/1/2017 11:37:33 PM
+2017-06-02 12:27:01 [root] INFO: update mid old date 5/12/2017 1:11:18 AM ==> 6/2/2017 12:38:13 AM
+2017-06-02 12:27:01 [root] INFO: update mid old date 5/13/2017 9:44:52 PM ==> 5/31/2017 6:42:00 PM
+2017-06-02 12:27:01 [root] INFO: update mid old date 4/27/2017 1:33:15 PM ==> 6/1/2017 9:45:18 AM
+2017-06-02 12:27:01 [root] INFO: update mid old date 5/7/2017 8:51:10 PM ==> 6/1/2017 9:48:35 AM
+2017-06-02 12:27:01 [root] INFO: insert or replace mid 4573: 恋如雨止 category: 10
+2017-06-02 12:27:01 [root] INFO: insert or replace mid 4694: 大小姐和东云 category: 10
+2017-06-02 12:27:01 [root] INFO: update mid old date 5/12/2017 12:31:33 AM ==> 6/1/2017 9:38:08 PM
+2017-06-02 12:27:01 [root] INFO: insert or replace mid 1204: 行尸走肉 category: 4
+2017-06-02 12:27:02 [root] INFO: update mid old date 5/12/2017 2:30:51 AM ==> 5/31/2017 2:07:06 PM
+2017-06-02 12:27:02 [root] INFO: insert or replace mid 5416: 我立于百万生命之上 category: 11
+2017-06-02 12:27:02 [root] INFO: insert or replace mid 5054: 光人 category: 12
+2017-06-02 12:27:02 [root] INFO: insert or replace mid 2504: 七原罪 category: 7
+2017-06-02 12:27:02 [root] INFO: insert or replace mid 5240: 杀爱 category: 0
+2017-06-02 12:27:02 [root] INFO: insert or replace mid 5142: 烦人可爱地底人 category: 11
+2017-06-02 12:27:02 [root] INFO: insert or replace mid 4806: 被束缚的芬尼尔 category: 7
+2017-06-02 12:27:02 [root] INFO: insert or replace mid 1878: 排球 category: 3
+2017-06-02 12:27:02 [root] INFO: update mid old date 5/14/2017 9:11:50 PM ==> 5/31/2017 10:05:19 PM
+2017-06-02 12:27:02 [root] INFO: insert or replace mid 2415: 人马小姐不迷茫 category: 9
+2017-06-02 12:27:02 [scrapy.core.scraper] ERROR: Spider error processing <GET http://www.cartoonmad.com/comic/5589.html> (referer: http://www.cartoonmad.com/newcm.html)
+Traceback (most recent call last):
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/utils/defer.py", line 102, in iter_errback
+    yield next(it)
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/offsite.py", line 29, in process_spider_output
+    for x in result:
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/referer.py", line 22, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "/Users/fyxtc/.pyenv/versions/3.5.2/lib/python3.5/site-packages/scrapy/spidermiddlewares/depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "/Users/fyxtc/work/soul-manga/spider/manga/spiders/soul_manga_spider.py", line 242, in parse
+    if not self.is_need_insert_or_update(mid, last_update_date):
+  File "/Users/fyxtc/work/soul-manga/spider/manga/spiders/soul_manga_spider.py", line 297, in is_need_insert_or_update
+    logging.info(mid + " is not exist, insert it ")
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+2017-06-02 12:27:02 [root] INFO: insert or replace mid 1103: 银魂 category: 5
+2017-06-02 12:27:02 [root] INFO: insert or replace mid 5381: 冥土之恋听阎魔的! category: 10
+2017-06-02 12:27:02 [root] INFO: insert or replace mid 5438: 劫火之教典 category: 12
+2017-06-02 12:27:03 [root] INFO: update mid old date 5/14/2017 2:59:10 AM ==> 5/31/2017 6:29:34 PM
+2017-06-02 12:27:03 [root] INFO: update mid old date 5/17/2017 5:56:24 PM ==> 5/31/2017 11:59:59 AM
+2017-06-02 12:27:03 [root] INFO: update mid old date 4/28/2017 11:12:33 AM ==> 6/1/2017 9:51:54 AM
+2017-06-02 12:27:03 [root] INFO: update mid old date 5/3/2017 9:21:30 AM ==> 5/31/2017 1:52:17 PM
+2017-06-02 12:27:03 [root] INFO: insert or replace mid 1152: 海贼王 category: 7
+2017-06-02 12:27:03 [root] INFO: update mid old date 5/8/2017 5:48:36 PM ==> 5/31/2017 6:34:30 PM
+2017-06-02 12:27:04 [root] INFO: update mid old date 5/15/2017 11:16:44 AM ==> 5/31/2017 2:12:23 PM
+2017-06-02 12:27:04 [root] INFO: insert or replace mid 3358: 谎言男友 category: 10
+2017-06-02 12:27:04 [root] INFO: insert or replace mid 5576: 第三犹太勇士 category: 11
+2017-06-02 12:27:04 [root] INFO: insert or replace mid 4336: 最后一局 category: 3
+2017-06-02 12:27:05 [root] INFO: insert or replace mid 2278: 咖菲侦探部 category: 9
+2017-06-02 12:27:05 [root] INFO: insert or replace mid 5556: 雏子的笔记 category: 9
+2017-06-02 12:27:05 [root] INFO: insert or replace mid 4964: 喰姬 category: 4
+2017-06-02 12:27:05 [root] INFO: update mid old date 3/28/2017 11:21:24 AM ==> 6/1/2017 9:48:06 PM
+2017-06-02 12:27:05 [root] INFO: update mid old date 5/4/2017 6:42:18 PM ==> 6/1/2017 5:08:15 PM
+2017-06-02 12:27:05 [root] INFO: insert or replace mid 1037: 新着龙虎门 category: 0
+2017-06-02 12:27:05 [root] INFO: insert or replace mid 1205: 逆转监督 category: 9
+2017-06-02 12:27:05 [root] INFO: update mid old date 4/19/2017 10:35:58 AM ==> 6/1/2017 9:55:02 AM
+2017-06-02 12:27:05 [root] INFO: insert or replace mid 3257: 只身一人的地球侵略 category: 11
+2017-06-02 12:27:05 [root] INFO: insert or replace mid 4397: HAPPINESS category: 4
+2017-06-02 12:27:06 [root] INFO: update mid old date 5/3/2017 7:38:55 PM ==> 6/1/2017 9:57:17 AM
+2017-06-02 12:27:06 [root] INFO: insert or replace mid 1066: 名侦探柯南 category: 2
+2017-06-02 12:27:09 [root] INFO: insert or replace mid 3470: NewGame category: 10
+2017-06-02 12:27:09 [scrapy.core.engine] INFO: Closing spider (finished)
+2017-06-02 12:27:09 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 66964,
+ 'downloader/request_count': 141,
+ 'downloader/request_method_count/GET': 141,
+ 'downloader/response_bytes': 4822208,
+ 'downloader/response_count': 141,
+ 'downloader/response_status_count/200': 96,
+ 'downloader/response_status_count/302': 45,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2017, 6, 2, 5, 27, 9, 140628),
+ 'log_count/ERROR': 5,
+ 'log_count/INFO': 98,
+ 'request_depth_max': 2,
+ 'response_received_count': 96,
+ 'scheduler/dequeued': 141,
+ 'scheduler/dequeued/memory': 141,
+ 'scheduler/enqueued': 141,
+ 'scheduler/enqueued/memory': 141,
+ 'spider_exceptions/TypeError': 5,
+ 'start_time': datetime.datetime(2017, 6, 2, 5, 26, 50, 181367)}
+2017-06-02 12:27:09 [scrapy.core.engine] INFO: Spider closed (finished)
