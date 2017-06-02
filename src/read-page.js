@@ -118,7 +118,7 @@ export default class ReadPage extends React.Component {
                         showPlayButton={false}
                         // showIndex={false}
                         showThumbnails={false}
-                        renderLeftNav={this.renderLeftNav}
+                        // renderLeftNav={this.renderLeftNav}
                     />
                     <Hint/>
                 </div>

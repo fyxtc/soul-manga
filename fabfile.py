@@ -4,11 +4,12 @@ from fabric.api import *
 from fabric.contrib.console import confirm
 from fabric.contrib.files import exists
 
-env.hosts=['hikaru@103.80.29.187']
+env.hosts=['root@103.80.29.187']
 env.password="123123"
 
 
 KEEP_DB_AND_GUN_CONFIG_AND_SITEMAP = True
+# KEEP_DB_AND_GUN_CONFIG_AND_SITEMAP = False
 
 def npm_build():
     local("npm run build")
@@ -26,7 +27,7 @@ def zip():
     if KEEP_DB_AND_GUN_CONFIG_AND_SITEMAP:
         local("zip -qr build.zip build server/web_server.py ")
     else:
-        local("zip -qr build.zip build server/web_server.py server/soul_manga.db server/gun_config.py sitemap.txt")
+        local("zip -qr build.zip build server/web_server.py server/soul_manga.db server/gun_config.py server/sitemap.txt")
 
 
 def local_build():

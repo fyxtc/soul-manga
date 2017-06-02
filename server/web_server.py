@@ -131,7 +131,8 @@ def read_chapter(mid, chapter=1):
         res = {}
         res["image_base_url"] = chapter_images.get("image_base_url")
         res["name"] = chapter_images.get("name")
-        if chapter >= ch_index:
+        # 不能用>=，没有话的情况，第一卷就bug了，需要再加一个是否有chapter的判断
+        if chapter >= ch_index and len(chapter_images.get("all_chapters_pages")) > 0:
             # 这样我就认为是话
             res["cur_ch_pages"] = chapter_images.get('all_chapters_pages').split(",")[chapter - ch_index]
             res["suffix"] = "话"
