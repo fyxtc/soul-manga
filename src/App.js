@@ -416,7 +416,7 @@ class MangaView extends React.Component {
           }
 
           // 这里不能这样写，还要加上本地是否items为空作为因素之一，其实就是因为发的协议发了两次。。。scroll bug啊。。唉，搞事情
-          this.show_no_result = json.data.length == 0 && this.state.items.length == 0
+          this.show_no_result = json.data.length === 0 && this.state.items.length === 0
 
           for (let i = 0; i < json.data.length; i++) {
             this.loadItemsDetail(page, json.data[i])
@@ -443,7 +443,7 @@ class MangaView extends React.Component {
           // console.log(resp)
           return resp.json()
         }).then(json => {
-          if(json.data.length == 0){
+          if(json.data.length === 0){
             // console.log('what the fuck search ' + newKey)
             this.show_no_result = true
           }else{
@@ -462,7 +462,7 @@ class MangaView extends React.Component {
       // 根路径,用棋魂还是全部呢...
       // 这里有一个bug，infinite-scroll的bug，第一次引入的时候回调用两次，我应该判断，如果是有数据的，可以，直接往里加，没问题，增量的，如果第二次没有那就不行，所以判断一下hasMore false就不发了
       // 我曹，不行，因为false是在then回调里面，所以只能强行判断了
-      // 最后，我还是觉得依赖 this.show_no_result = json.data.length == 0 && this.state.items.length == 0 判断，和上面普通的路由结果保持一致吧
+      // 最后，我还是觉得依赖 this.show_no_result = json.data.length === 0 && this.state.items.length === 0 判断，和上面普通的路由结果保持一致吧
       // if(this.needIgnore){
       //   return
       // }else{
@@ -477,11 +477,11 @@ class MangaView extends React.Component {
         // console.log("fetch data len " + json.data.length)
 
         // 根路径没想到好的解决方法。。。先不管吧
-        // if(json.category && json.category == indexCategory){
+        // if(json.category && json.category === indexCategory){
         //   console.log('delay index ingore ' + json.category)
         //   return
         // }
-        this.show_no_result = json.data.length == 0 && this.state.items.length == 0
+        this.show_no_result = json.data.length === 0 && this.state.items.length === 0
 
 
         for (let i = 0; i < json.data.length; i++) {
