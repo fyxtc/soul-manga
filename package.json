@@ -12,7 +12,7 @@
     "react-bootstrap": "^0.31.0",
     "react-dom": "^15.5.4",
     "react-helmet": "^5.1.3",
-    "react-image-gallery": "^0.7.15",
+    "react-image-gallery": "^0.8.7",
     "react-infinite-scroller": "^1.0.9",
     "react-router": "^4.1.1",
     "react-router-bootstrap": "^0.24.2",

@@ -6,30 +6,41 @@ from manga.items import MangaItem
 from manga.items import SqliteItem
 import sqlite3
 from hanziconv import HanziConv
+import os
+
+# 抓取的类型: 整个网站，当个类型页面(比如冒险)，单个漫画。可见参照对应的urls
+# 此时的all有问题，因为http://www.cartoonmad.com/comic99.100的数据和99.01是一样的，cardtonnmad的bug
+# 可以使用REQ_PAGE，然后打开page_urls的所有注释达到同样的效果
+REQ_DEFAULT, REQ_ALL, REQ_PAGE, REQ_SINGLE = -1, 0, 1, 2
+# 默认不更新，且不抓取任何页面，使用项目自带的soul_manga.db
+IS_UPDATE = False 
+REQ_TYPE = REQ_DEFAULT
+REQ_TYPE = REQ_PAGE
 
 class SoulMangaSpider(scrapy.Spider):
     name = "soul_manga"
     xpath = {
-        "op_urls": ["http://www.cartoonmad.com/comic/1152.html"],
+        "single_urls": ["http://www.cartoonmad.com/comic/1152.html"],
         "index_urls": ["http://www.cartoonmad.com/comic99.html"],
         "update_urls": ["http://www.cartoonmad.com/newcm.html"],
         "next_page": "//a[contains(., '下一頁')]/@href",
+        # 所有列别的urls
         "page_urls": [
             "http://www.cartoonmad.com/comic01.html",
-            # "http://www.cartoonmad.com/comic02.html",
-            # "http://www.cartoonmad.com/comic03.html",
-            # "http://www.cartoonmad.com/comic04.html",
-            # "http://www.cartoonmad.com/comic07.html",
-            # "http://www.cartoonmad.com/comic08.html",
-            # "http://www.cartoonmad.com/comic09.html",
-            # "http://www.cartoonmad.com/comic10.html",
-            # "http://www.cartoonmad.com/comic13.html",
-            # "http://www.cartoonmad.com/comic14.html",
-            # "http://www.cartoonmad.com/comic16.html",
-            # "http://www.cartoonmad.com/comic17.html",
-            # "http://www.cartoonmad.com/comic18.html",
-            # "http://www.cartoonmad.com/comic21.html",
-            # "http://www.cartoonmad.com/comic22.html",
+            "http://www.cartoonmad.com/comic02.html",
+            "http://www.cartoonmad.com/comic03.html",
+            "http://www.cartoonmad.com/comic04.html",
+            "http://www.cartoonmad.com/comic07.html",
+            "http://www.cartoonmad.com/comic08.html",
+            "http://www.cartoonmad.com/comic09.html",
+            "http://www.cartoonmad.com/comic10.html",
+            "http://www.cartoonmad.com/comic13.html",
+            "http://www.cartoonmad.com/comic14.html",
+            "http://www.cartoonmad.com/comic16.html",
+            "http://www.cartoonmad.com/comic17.html",
+            "http://www.cartoonmad.com/comic18.html",
+            "http://www.cartoonmad.com/comic21.html",
+            "http://www.cartoonmad.com/comic22.html",
         ],  
         "urls": ["http://www.cartoonmad.com/comic/1090.html"],
         "chapter": "//a[contains(., '話') and contains(., '第')]/@href",  # 默认下载话
@@ -69,7 +80,7 @@ class SoulMangaSpider(scrapy.Spider):
         "image_base_url": "//img[contains(@src, 'cartoonmad.com')]/@src", #这一话的图片
     }
     sql_item = {}
-    is_update = "0"
+
 
     # def __init__(self, is_update, *args, **kwargs):
     #     super(SoulMangaSpider, self).__init__(*args, **kwargs)
@@ -158,40 +169,53 @@ class SoulMangaSpider(scrapy.Spider):
         return category_map.index(cat)
 
     def start_requests(self):
+        self.sql = None
+        self.values = []
         self.sqlite_file = self.settings.get("SQLITE_FILE")
         self.sqlite_table = self.settings.get("SQLITE_TABLE")
+
         # self.log("fuck " + self.sqlite_file + ", " + self.sqlite_table)
         self.conn = sqlite3.connect(self.sqlite_file)
         self.cur = self.conn.cursor()
+        exist = self.cur.execute("pragma table_info('soul_manga')").fetchone()
+        logging.info("exist table soul_mange? ------- " + str(exist))
+        if not exist:
+            # print(os.system("pwd"))
+            os.system('sqlite3 ../server/soul_manga.db ".read ../server/soul_manga.sql"')
 
-        # logging.info("is_update " + str(self.is_update))
-        # return
+        logging.info("IS_UPDATE >>>>>>>>>>>>>>>>>>> " + str(IS_UPDATE))
 
         # 本地跑吧。。。。vps crontab各种命令找不到，好烦= =
         # 本地的话需要cron爬取然后接着运行fab deploy，可以写个fab update，然后让cron调取fab update => fab deployj
-        if self.is_update != "0":
+        if IS_UPDATE:
             # 抓取更新  更新其实最好是另外放在别的脚本里，然后定时任务去调用才是最好的，先手动注释打开吧。或者传命令行参数也可以哦，机智如我
             logging.info("start update crawl >>>>>>>>>>>> ")
+            # 注意这里只抓取每日的更新页，所以如果隔了一天没更新，然后想更新全部的话，还是还是得走全量哦
             urls = self.xpath.get("update_urls")
             for url in urls:
                 yield scrapy.Request(url=url, callback=self.parse_update)
         else:
-            # 获取全部漫画
-            # urls = self.xpath.get("index_urls")
-            # for url in urls:
-            #     yield scrapy.Request(url=url, callback=self.parse_index)
+            # 自己按需要打开，并且根据需要调整page_urls和single_urls
 
-            # 获取全页漫画
-            # urls = self.xpath.get("page_urls")
-            # for url in urls:
-            #     yield scrapy.Request(url=url, callback=self.parse_page)
-
-            # 获取单个漫画
-            # urls = self.xpath.get("op_urls")
-            # for url in urls:
-            #     yield scrapy.Request(url=url, callback=self.parse)
-            logging.info("what you want man, please specify one crawl format all or page or single")
-            pass
+            if REQ_TYPE == REQ_ALL:
+                # 获取全部漫画
+                urls = self.xpath.get("index_urls")
+                for url in urls:
+                    yield scrapy.Request(url=url, callback=self.parse_index)
+            elif REQ_TYPE == REQ_PAGE:
+                # 获取全页漫画
+                urls = self.xpath.get("page_urls")
+                # 是否只获取当前page，还是要获取这个类别下的所有下一页
+                only_cur_page = False
+                for url in urls:
+                    yield scrapy.Request(url=url, callback=self.parse_page if only_cur_page else self.parse_index)
+            elif REQ_TYPE == REQ_SINGLE:
+                # 获取单个漫画
+                urls = self.xpath.get("single_urls")
+                for url in urls:
+                    yield scrapy.Request(url=url, callback=self.parse)
+            else:
+                logging.error("\n\n <<<<<<<<<<<<<<<<< WHAT YOU WANT MAN, PLEASE SPECIFY ONE CRAWL FORMAT： ALL OR PAGE OR SINGLE !!!!!!!!!!!! >>>>>>>>>>>>> \n")
 
 
     # 在vps上用cron起了定时任务去爬取更新了，也就是说本地如果改了db之后，那必须是完全重新抓取，或者设置爬取前几个页面才是最新的
@@ -210,6 +234,7 @@ class SoulMangaSpider(scrapy.Spider):
 
     def parse_index(self, response):
         next_url = response.xpath(self.xpath.get("next_page")).extract_first()
+        # print("parse_index next_url " + str(next_url))
         next_url = response.urljoin(next_url) 
         # logging.info("next url " + next_url)
         # # for url in urls:
@@ -218,7 +243,8 @@ class SoulMangaSpider(scrapy.Spider):
         return self.parse_page(response, next_url)
 
 
-    def parse_page(self, response, next_url):
+    def parse_page(self, response, next_url=None):
+        # print("parse_page next_url " + str(next_url))
         mangas = re.findall(r"comic/\d{4}.html", str(response.body))#[:20]
         if response.url.find("/comic/") != -1:
             mangas = [x[6:] for x in mangas]
@@ -228,6 +254,7 @@ class SoulMangaSpider(scrapy.Spider):
         # self.log(urls)
 
         # # 这样就把当前页(page_urls)包含的所有漫画都爬了😯
+        # print(urls)
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse, meta={"next_url": next_url})
 
@@ -253,6 +280,7 @@ class SoulMangaSpider(scrapy.Spider):
         first_chapter_url = response.urljoin(url)
         yield scrapy.Request(url=first_chapter_url, callback=self.parse_image_base_url, meta={"item": item, "next_url": response.meta.get("next_url")})
 
+    # todo: 如果当前页全部skip了的话，这里进不来，那么next_url就失效了
     def parse_image_base_url(self, response):
         # logging.info(response)
         # logging.info(response.xpath(self.xpath.get("image_base_url")))
@@ -267,7 +295,10 @@ class SoulMangaSpider(scrapy.Spider):
         item["image_base_url"] = image_base_url
         # self.log(image_base_url)
         # logging.info(item)
+
         self.write_database(item)
+
+
         next_url = response.meta.get("next_url")
         if next_url:
             # logging.info("next url: " + next_url)
@@ -278,10 +309,17 @@ class SoulMangaSpider(scrapy.Spider):
     def write_database(self, item):
         # 这个写法确实吊，但是要注意.values()2/3表现好像不一样，3会有dictvalue之类的字符串，所以和keys一样用join连接吧，但是。。。int就跪了握草，这怎么整，转tunple就好了
         sql = 'insert or replace into {0} ({1}) values ({2})'.format(self.sqlite_table, ', '.join(item.keys()), ', '.join(['?'] * len(item.keys())))
+        if not self.sql:
+            self.sql = sql
         # logging.info(sql)
         logging.info("insert or replace mid " + str(item.get("mid")) + ": " + item.get("name") + " category: " + str(item.get("category")))
         values = tuple(item.values())
         # self.log(values)
+
+        # 空间换时间，先存sql最后统一调用。还能优化为一次插入，因为每次sql的stat都是一样的
+        # 没有卵用，因为这不是瓶颈。。。还是获取resp耗时间,4000条写入的优化也就几秒的时间
+        # self.values.append(values)
+
         self.cur.execute(sql, values)
         self.conn.commit()
 
@@ -294,20 +332,34 @@ class SoulMangaSpider(scrapy.Spider):
         # logging.info(res)
         if res == None:
             # 没有的话，肯定要插入
-            logging.info(mid + " is not exist, insert it ")
+            # logging.info(str(mid) + " is not exist, insert it ")
             return True
         else:
             # 如果有的话，看更新日期是否一样，注意，这个无论是否是更新调用过来的都需要走
             db_last_update_date = res[0]
             if last_update_date != db_last_update_date:
-                logging.info("update mid old date " + db_last_update_date + " ==> " + last_update_date)
+                logging.info("update mid " + mid " old date " + db_last_update_date + " ==> " + last_update_date)
                 return True
         return False
-        # 查询应该不用commit，save的操作才需要
+        # 查询不用commit，save的操作才需要
         # self.conn.commit()
+
+    def write_all_sqls(self):
+        assert self.cur
+        logging.info("write all sqls/manga count >>>>>>>>>>>>>>> " + str(len(self.values)))
+        # print("write all sqls/manga count >>>>>>>>>>>>>>> " + str(len(self.values)))
+        import time
+        t1 = time.time()
+        for v in self.values:
+            self.cur.execute(self.sql, v)
+        self.conn.commit() 
+        t2 = time.time()
+        print("cost time " + str(t2-t1))
+
 
     def closed(self, reason):
         if self.conn:
+            # self.write_all_sqls()
             self.conn.close()
 
 

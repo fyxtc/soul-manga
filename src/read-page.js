@@ -7,7 +7,7 @@ class Hint extends React.Component{
         return(
             <div className="hint">
                 <img src="/images/hint.png"/>
-                <span>{` 空格键可以滚动，←/→左右箭头可以翻页哦`}</span>
+                <span>{` 空格键可以滚动，←/→左右箭头可以翻页哦😃`}</span>
             </div>
         )
     }

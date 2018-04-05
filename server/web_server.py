@@ -202,7 +202,8 @@ def insert_db(sql):
 
 
 if __name__ == '__main__':
-    app.run(debug=False,  JSONIFY_PRETTYPRINT_REGULAR=False)
+    # app.run(debug=False,  JSONIFY_PRETTYPRINT_REGULAR=False)
+    app.run(debug=True)
 
 
 

@@ -72,13 +72,13 @@ DEFAULT_REQUEST_HEADERS = {
 
 # LOG_LEVEL = 'DEBUG'
 LOG_LEVEL = 'INFO'
-LOG_FILE = "manga.log"
+# LOG_FILE = "manga.log"
+
 # ITEM_PIPELINES = {'scrapy.pipelines.images.MyImagesPipeline': 1}
-IMAGES_STORE = "/Users/fyxtc/work/py3_workspace/manga_download"
+IMAGES_STORE = "~/work/py3_workspace/manga_download"
 
 # sqlite
-SQLITE_FILE = "/Users/fyxtc/work/soul-manga/server/soul_manga.db"
-# SQLITE_FILE = "/Users/fyxtc/work/soul-manga/spider/soul_manga.db"
+SQLITE_FILE = "../server/soul_manga.db"
 SQLITE_TABLE= "soul_manga"
 
 # vps >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.vps >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

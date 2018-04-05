@@ -30,8 +30,8 @@ import jQuery from 'jquery'
 
 
 
-// export const DEBUG = true
-export const DEBUG = false
+export const DEBUG = true
+// export const DEBUG = false
 
 if(!DEBUG){
     console.log=function(){
@@ -41,7 +41,7 @@ console.log('DEBUG MODE IS ' + DEBUG + ' !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 
 export const SERVER_SETTING = {
   // 8000是gunicorn, 后面的localhost
-  url: DEBUG ? 'http://localhost:8000' : 'http://103.80.29.187:8000',
+  url: DEBUG ? 'http://localhost:5000' : 'http://103.80.29.187:8000',
   // image: 'http://localhost:5000/static/image'
   image: ''
 }
