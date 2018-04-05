@@ -4,15 +4,15 @@
 ### 安装
 前置条件 [node.js](https://nodejs.org/) , [python3](https://www.python.org)
 
-###### 安装js依赖
+##### 安装js依赖
   `npm install`
-###### 安装python依赖
+##### 安装python依赖
   `pip install -r requirements.txt` 
 
-###### 开启flask服务器  
+##### 开启flask服务器  
   `cd server`
   `python web_server.py`
-###### 启动react
+##### 启动react
   `npm start`
 
 访问localhost:3000
