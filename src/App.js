@@ -580,7 +580,8 @@ class Home extends React.Component {
     this.state = {
       searchKey: ''
     }
-    document.title = `魂漫 - 连载的是漫画 永不完结的是童年 - Soul Comic`
+    // document.title = `魂漫 - 连载的是漫画 永不完结的是童年 - Soul Comic`
+    document.title = `魂漫 - Soul Comic`
   }
 
   componentDidMount() {
