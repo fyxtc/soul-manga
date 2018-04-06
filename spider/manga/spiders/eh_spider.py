@@ -14,6 +14,7 @@ class EhSpider(scrapy.Spider):
     }
 
     def start_requests(self):
+        print("???")
         urls = self.xpath.get("urls")
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)

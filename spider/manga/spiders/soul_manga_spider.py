@@ -15,17 +15,14 @@ REQ_DEFAULT, REQ_ALL, REQ_PAGE, REQ_SINGLE = -1, 0, 1, 2
 # 默认不更新，且不抓取任何页面，使用项目自带的soul_manga.db
 IS_UPDATE = False 
 REQ_TYPE = REQ_DEFAULT
-REQ_TYPE = REQ_PAGE
+# REQ_TYPE = REQ_ALL
 
 class SoulMangaSpider(scrapy.Spider):
     name = "soul_manga"
     xpath = {
         "single_urls": ["http://www.cartoonmad.com/comic/1152.html"],
-        "index_urls": ["http://www.cartoonmad.com/comic99.html"],
-        "update_urls": ["http://www.cartoonmad.com/newcm.html"],
-        "next_page": "//a[contains(., '下一頁')]/@href",
-        # 所有列别的urls
-        "page_urls": [
+        # "index_urls": ["http://www.cartoonmad.com/comic99.html"],
+        "index_urls": [
             "http://www.cartoonmad.com/comic01.html",
             "http://www.cartoonmad.com/comic02.html",
             "http://www.cartoonmad.com/comic03.html",
@@ -41,6 +38,27 @@ class SoulMangaSpider(scrapy.Spider):
             "http://www.cartoonmad.com/comic18.html",
             "http://www.cartoonmad.com/comic21.html",
             "http://www.cartoonmad.com/comic22.html",
+        ],  
+
+        "update_urls": ["http://www.cartoonmad.com/newcm.html"],
+        "next_page": "//a[contains(., '下一頁')]/@href",
+        # 所有列别的urls
+        "page_urls": [
+            "http://www.cartoonmad.com/comic01.html",
+            # "http://www.cartoonmad.com/comic02.html",
+            # "http://www.cartoonmad.com/comic03.html",
+            # "http://www.cartoonmad.com/comic04.html",
+            # "http://www.cartoonmad.com/comic07.html",
+            # "http://www.cartoonmad.com/comic08.html",
+            # "http://www.cartoonmad.com/comic09.html",
+            # "http://www.cartoonmad.com/comic10.html",
+            # "http://www.cartoonmad.com/comic13.html",
+            # "http://www.cartoonmad.com/comic14.html",
+            # "http://www.cartoonmad.com/comic16.html",
+            # "http://www.cartoonmad.com/comic17.html",
+            # "http://www.cartoonmad.com/comic18.html",
+            # "http://www.cartoonmad.com/comic21.html",
+            # "http://www.cartoonmad.com/comic22.html",
         ],  
         "urls": ["http://www.cartoonmad.com/comic/1090.html"],
         "chapter": "//a[contains(., '話') and contains(., '第')]/@href",  # 默认下载话
@@ -206,7 +224,7 @@ class SoulMangaSpider(scrapy.Spider):
                 # 获取全页漫画
                 urls = self.xpath.get("page_urls")
                 # 是否只获取当前page，还是要获取这个类别下的所有下一页
-                only_cur_page = False
+                only_cur_page = True
                 for url in urls:
                     yield scrapy.Request(url=url, callback=self.parse_page if only_cur_page else self.parse_index)
             elif REQ_TYPE == REQ_SINGLE:
@@ -338,7 +356,7 @@ class SoulMangaSpider(scrapy.Spider):
             # 如果有的话，看更新日期是否一样，注意，这个无论是否是更新调用过来的都需要走
             db_last_update_date = res[0]
             if last_update_date != db_last_update_date:
-                logging.info("update mid " + mid " old date " + db_last_update_date + " ==> " + last_update_date)
+                logging.info("update mid " + str(mid) + " old date " + db_last_update_date + " ==> " + last_update_date)
                 return True
         return False
         # 查询不用commit，save的操作才需要

@@ -75,7 +75,7 @@ LOG_LEVEL = 'INFO'
 # LOG_FILE = "manga.log"
 
 # ITEM_PIPELINES = {'scrapy.pipelines.images.MyImagesPipeline': 1}
-IMAGES_STORE = "~/work/py3_workspace/manga_download"
+IMAGES_STORE = "~/work/manga_download"
 
 # sqlite
 SQLITE_FILE = "../server/soul_manga.db"
