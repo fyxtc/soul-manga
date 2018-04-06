@@ -1,8 +1,10 @@
 # soul-manga
 > 使用reactjs + python/flask + sqlite + scrapy 构建的单页应用漫画站，里面还用到了gunicorn和fabric的python管理部署工具，当时自己构建自动部署的时候用的
 
-![soul1](soul_1.gif)
-![soul2](soul_2.gif)
+![soul1](soul1.gif)
+
+
+![soul2](soul2.gif)
 
 
 ### 安装
