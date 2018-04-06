@@ -3,6 +3,10 @@
 
 <br />
 
+![soul_manga](soul_manga.jpg)
+<br />
+<br />
+
 ![soul1](soul1.gif)
 <br />
 <br />
