@@ -6,6 +6,7 @@
 # 记录一下：slideToIndex 调用 window.scrollTo(0,0); _handleKeyDown 加上空格事件，window.scrollTo(0,document.body.scrollHeight);
 
 /node_modules
+/local_images
 
 # testing
 /coverage
