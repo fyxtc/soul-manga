@@ -284,45 +284,12 @@ class CategoryBar extends React.Component {
     )
   }
 
-  /*render() {
-    return (
-      <Router>
-        <div className="category-bar" >
-          <Col md={8} mdOffset={2} className='category-nav' >
-            <Nav bsStyle="pills" onSelect={this.handleCatChange} justified>
-              {self.categorys.map((v, k) => (
-                <LinkContainer key={'cat' + k} to={'/category/' + k}>
-                  <NavItem eventKey={'cat' + k} style={STYLES.navItem}>
-                    {v}
-                  </NavItem>
-                </LinkContainer>
-              ))}
-            </Nav>
-          </Col>
-          <Route exact path="/" component={MangaView} />
-          <Route path="/category/:id" component={MangaView} />
-          <Route
-            path="/search/:key"
-            component={MangaView}
-            searchKey={this.searchKey}
-          />
-        </div>
-      </Router>
-    )
-  }*/
+
 }
 
 // 本来推荐如果comp里面没有动态的东西的话，应该用箭头格式而不是用类...像router例子里面一样，再说吧
 // 应该还是更新MangaView，只不过sql变了
-/*class SearchView extends React.Component {
-  constructor(props) {
-    super(props)
-  }
 
-  render() {
-    const key = this.props.match.params.key
-  }
-}*/
 
 
 
@@ -585,43 +552,7 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    // document.title = "home page"
-    // window.addEventListener('load', function() {
-    //   // does the actual opening
-    //   function openWindow(event) {
-    //     console.log('open window')
-    //     event = event || window.event
 
-    //     // find the url and title to set
-    //     var href = this.getAttribute('href')
-    //     var newTitle = this.getAttribute('data-title')
-    //     // or if you work the title out some other way...
-    //     // var newTitle = "Some constant string";
-
-    //     // open the window
-    //     var newWin = window.open(href, '_blank')
-
-    //     // add a load listener to the window so that the title gets changed on page load
-    //     newWin.addEventListener('load', function() {
-    //       console.log("set fuck title")
-    //       newWin.document.title = "fuck"
-    //     })
-
-    //     // stop the default `a` link or you will get 2 new windows!
-    //     // event.returnValue = false
-    //     event.returnValue = true
-    //   }
-
-    //   // find all a tags opening in a new window
-    //   var links = document.querySelectorAll('a[target=_blank][data-title]')
-    //   // or this if you don't want to store custom titles with each link
-    //   //var links = document.querySelectorAll("a[target=_blank]");
-
-    //   // add a click event for each so we can do our own thing
-    //   for (var i = 0; i < links.length; i++) {
-    //     links[i].addEventListener('click', openWindow.bind(links[i]))
-    //   }
-    // })
   }
 
   handleSearch() {
@@ -877,45 +808,7 @@ class LogoText1 extends React.Component {
   }
 }
 
-/*class LogoText2 extends React.Component {
-  componentDidMount() {
-    ;(function($) {
-      var s,
-        spanizeLetters = {
-          settings: {
-            letters: $('.js-spanize')
-          },
-          init: function() {
-            s = this.settings
-            this.bindEvents()
-          },
-          bindEvents: function() {
-            s.letters.html(function(i, el) {
-              //spanizeLetters.joinChars();
-              var spanizer = $.trim(el).split('')
-              return '<span>' + spanizer.join('</span><span>') + '</span>'
-            })
-          }
-        }
-      spanizeLetters.init()
-    })(jQuery)
-  }
 
-  render() {
-    return (
-      (
-        <div className="mast">
-          <div className="mast__header">
-            <h1 className="mast__title js-spanize">我们的童年  一直都在</h1>
-            <hr className="sep" />
-            <h1 className="mast__text js-spanize">僕たちの笑顔、ずっとここにいる </h1>
-
-          </div>
-        </div>
-      )
-    )
-  }
-}*/
 
 class Logo extends React.Component {
 
@@ -951,136 +844,5 @@ class Logo extends React.Component {
     )
   }
 
-  // render() {
-  //   // 原来Col还可以指定left，这个好啊并不好，top/left/bottom/right这样的操作就把整个html扩大了，用margin-left。。。这个情况也会寄出去小数问题就解决了，一般可以用嵌套。。但有的真的嵌套也算不出来。。。
-  //   // img src 使用/路径表示的就是public目录下的绝对路径，如果用./ ../之类的是相对当前url下的，这样在read-page就跪了
-  //   return (
-  //     <Col className="logo">
-  //       <Col md={12} style={{ }}>
-  //         <Col md={2} mdOffset={1}>
-  //           <LogoFluid />
-  //         </Col>
-  //         <Col className="logo-soul" md={5} mdOffset={0}>
-  //           <Image src="/images/logo.png" />
-  //         </Col>
-  //         {/* 微调0.1rem，视觉差....鸣人头发太亮了，看着高一些*/}
-  //         <Col md={2} mdOffset={0} style={{ top: '0.1rem' }}>
-  //           <LogoFluid2 />
-  //         </Col>
-  //       </Col>
-  //     </Col>
-  //   )
-  // }
 }
 
-/*class RandomImage extends React.Component {
-  constructor(props) {
-    super(props)
-    // left/top 就是html里面元素的x/y
-    this.state = {
-      left: 0,
-      top: 0
-    }
-  }
-
-  componentDidMount() {
-    // setInterval(this.moveImage.bind(this), 3000)
-  }
-
-  moveImage() {
-    const newLeft = Math.random() * 1080
-    const newRight = Math.random() * 720
-    this.setState({ left: newLeft, right: newRight })
-  }
-
-  render() {
-    const l = this.state.left + 'px'
-    const t = this.state.right + 'px'
-    return (
-      // <div style={{backgroundImage:'./luffy.jpeg'}} > </div>
-      (
-        <Image
-          src="./images/sasuke_left.png"
-          style={{ width:'100px', position: 'absolute', left: l, top: t }}
-        />
-      )
-    )
-  }
-}*/
-
-/*class Bubble extends React.Component {
-  componentDidMount() {
-    jQuery(document).ready(function($) {
-      // Define a blank array for the effect positions. This will be populated based on width of the title.
-      var bArray = []
-      // Define a size array, this will be used to vary bubble sizes
-      var sArray = [4, 6, 8, 10]
-
-      // Push the header width values to bArray
-      for (var i = 0; i < $('.category-nav').width(); i++) {
-        bArray.push(i)
-      }
-
-      // Function to select random array element
-      // Used within the setInterval a few times
-      function randomValue(arr) {
-        return arr[Math.floor(Math.random() * arr.length)]
-      }
-      // setInterval function used to create new bubble every 350 milliseconds
-      setInterval(function() {
-        // Get a random size, defined as variable so it can be used for both width and height
-        var size = randomValue(sArray)
-        // New bubble appeneded to div with it's size and left position being set inline
-        // Left value is set through getting a random value from bArray
-        $('.category-nav').append(
-          '<div class="individual-bubble" style="left: ' +
-            randomValue(bArray) +
-            'px; width: ' +
-            size +
-            'px; height:' +
-            size +
-            'px;"></div>'
-        )
-
-        // Animate each bubble to the top (bottom 100%) and reduce opacity as it moves
-        // Callback function used to remove finsihed animations from the page
-        $('.individual-bubble').animate(
-          {
-            bottom: '100%',
-            opacity: '-=0.7'
-          },
-          3000,
-          function() {
-            $(this).remove()
-          }
-        )
-      }, 350)
-    })
-  }
-
-  render() {
-    return (
-      <div className="bubbles">
-        <h1>Bubbling Header</h1>
-      </div>
-    )
-  }
-}*/
-
-// class App extends Component {
-//   render() {
-//     return (
-//       <div className="App">
-//         <div className="App-header">
-//           <img src={logo} className="App-logo" alt="logo" />
-//           <h2>Welcome to React</h2>
-//         </div>
-//         <p className="App-intro">
-//           To get started, edit <code>src/App.js</code> and save to reload.
-//         </p>
-//       </div>
-//     );
-//   }
-// }
-
-// export default SoulManga;
